@@ -1,0 +1,1097 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		43F48AB13AD6B33E3835E9E7808A2089 /* ZohoPortalAuth */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 1628507517FF1542BD786EA5B40FB461 /* Build configuration list for PBXAggregateTarget "ZohoPortalAuth" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = ZohoPortalAuth;
+			productName = ZohoPortalAuth;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		009F096DBD2CF51E3CB09290D4FA3D58 /* URLRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4A9CFE57DE12C136F5634A8F05F06A /* URLRequestBuilder.swift */; };
+		118707E470D949D360F23864C59CEE5D /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FC8395F5C01767B0A889436FDBFCE /* HTTPMethod.swift */; };
+		14D0E25C37DD28B4244EF7207BCF8BEA /* ZCatalystColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FD67C02200B31FFF991BF83B947E22 /* ZCatalystColumn.swift */; };
+		1DFF05A0A79EEA7B10AB5EA9320A7AA9 /* ZCatalystUserDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4290F9F71668A20C53E6F567C690613 /* ZCatalystUserDelegate.swift */; };
+		228B8D98DB385D248DA83A58A46962DD /* ZCatalystRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE0D26F12655FC5952D7C96974957A6 /* ZCatalystRow.swift */; };
+		2535FEDA8235F60AA371D38183429FA8 /* Serializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1025CC11D4D69BBAB0EC2A7083DF032A /* Serializer.swift */; };
+		27E9606D1069E2DCC118480152A7329E /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8826AA84234A76612C4E2F9AB69DC9 /* Logger.swift */; };
+		30485AE0B02D7A712369AAC3D133DBE1 /* NetworkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453AD28AFC073FEC832E30BCF4F0B5C1 /* NetworkRouter.swift */; };
+		3489E889FFE695C40D95D2D6FC21D56D /* ZCatalystDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64070304B7D6ED66CC5F962474EC0FE8 /* ZCatalystDataStore.swift */; };
+		3A4C7191889F032A05C7A023DA8706C7 /* JSONParameterEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C368456EC4DF548654B15107A9A255 /* JSONParameterEncoder.swift */; };
+		426FE4465C947E5D2DC9CED4714051EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
+		4C2D131E6D1B1C671270AAF9D071C9A5 /* ZohoPortalAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B1BE251B72CA97DB935579E16C94CC4 /* ZohoPortalAuth.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		53A3F6A041AB86DD5203DCD2D3E36706 /* Parker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E2B13CEE2EE03CE3515550F803F61A /* Parker.swift */; };
+		5775F7BD25ED58BACB74920EF16D7DD7 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0730C323CDE0C8F010E2878F7BDC5A /* Router.swift */; };
+		649E78D7D4616C1144DA15385F5C0A8D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
+		64AE6319473798561F401763C2BB99C5 /* Pods-ZCatalyst_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 17BD908CCA455171220E4973E6B3472D /* Pods-ZCatalyst_Tests-dummy.m */; };
+		699B31A7D60D11BAA5E02BA44B0CC674 /* ZohoPortalAuthRequestBlocks.h in Headers */ = {isa = PBXBuildFile; fileRef = DBAEE3F49C215A59C4A2E0A7B2CBE758 /* ZohoPortalAuthRequestBlocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69ABAB665C54AC9B631D1A5184E06744 /* APIEndPointConvertable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC84F7F7F4E3287AC4B9FC4428E2EEAD /* APIEndPointConvertable.swift */; };
+		7240044C4519EFC9B7E629230DC2D307 /* ZCatalystFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA3250B2F1BFF2E99CE7B75B5922175 /* ZCatalystFile.swift */; };
+		7353E08727660B97D7CA30DF3BB1C460 /* HeaderTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6BD3713E35BD4A498B599009C62B11 /* HeaderTypes.swift */; };
+		7ACE2BF2DD50818CE1B1FA73FD56DB2C /* ZCatalystFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D393A3C89C4584D675B911A5050B71 /* ZCatalystFolder.swift */; };
+		7F722C75EB495F83CBCF082DC2CE27FF /* Pods-ZCatalyst_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 3ED8CD865C68B53ED6BC2CA4A62A4E0A /* Pods-ZCatalyst_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		80042C183E0774F54219891BD686ECC6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
+		8A99D1B02AD46CA5B3FFC415FDD4DCE2 /* ZCatalystUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F34FC3FDB096A8C44E95994EEF4375 /* ZCatalystUser.swift */; };
+		917D26997915AEB12EF65389333C21B2 /* ZCatalystAuthHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B848874769DC91A323AB04B22E2207 /* ZCatalystAuthHandler.swift */; };
+		940922E8194F6DF68B896BB8AEA5814F /* ZohoPortalAuthConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = C623D136A3343D158AF94B8C834C7A28 /* ZohoPortalAuthConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		95DA4AB7D0076B05D3862E871BD22195 /* ZCatalystAppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1643E58467375509B4E9EC69A5A3C459 /* ZCatalystAppConfiguration.swift */; };
+		9A9E80A1DE48ECF48822EA96FFF70AA8 /* Payload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC77C193A9ACF4C58F510C9E42D7E4 /* Payload.swift */; };
+		9BC41782703E7234723979A9646DA8F1 /* ZCatalyst-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E22A4EB27A541F434764B50DD965ED4F /* ZCatalyst-dummy.m */; };
+		9D20DA0D6F2165D93BA799FBECCC8D41 /* ZCatalystApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9129AFD264F68E4DF3446AE72D1E57 /* ZCatalystApp.swift */; };
+		A2A0BA67A38641AEF464AAC7464FD3B0 /* ZCatalystTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ECEE1E58C32FAFC77C6491CE4663CAF /* ZCatalystTable.swift */; };
+		ABC3373F95233A5901ED38D7173E8EC1 /* ZCatalystSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B332FFB141BE911658A03C57B76399 /* ZCatalystSearch.swift */; };
+		B003436A8E6D7579B23093FF4EA88969 /* ZCatalystFileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5710F9381006858241253DC52430BDED /* ZCatalystFileStore.swift */; };
+		B784DE360E58549F3DA01485C7523FBD /* APIHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67EF0BD852B42280177D8589FC80EF81 /* APIHandler.swift */; };
+		B943A6E2C77DD96913C9A2F09FF877A5 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B138904753628C9499AD648473F9BC /* APIManager.swift */; };
+		BC14805B9664B48C0A6BC983A38CAE1A /* ZCatalystDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B65BAA422D9F4C5EB8093B3C6AB4FA /* ZCatalystDataType.swift */; };
+		BDB0A651A533CF3A7A1CB79D3F27A899 /* ZCatalystSelectQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC56D8B4E7A8D664F395659194BDA18E /* ZCatalystSelectQuery.swift */; };
+		CE9C9037235199B7ECCF9F2751E315FE /* ZohoPortalAuthToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 62CC8224A7907CC127232A9B5D7C9BCC /* ZohoPortalAuthToken.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D19A00B6AD17F249FA1966E221F70C4A /* ZCatalystFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A523193711E6B14964B52AB57F44E0 /* ZCatalystFunction.swift */; };
+		D4BA73C0797B427381C900235FE97B10 /* PayloadFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5D3035F0BE802AC331FA86445A4DAA /* PayloadFactory.swift */; };
+		D50851032FA44885C81008FD01D735C4 /* NetworkErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38E6C35411AFA78F109E20A23C40011 /* NetworkErrors.swift */; };
+		E4F767376D2704F8DD2C159E38FBE66A /* URLParameterEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224A1FE0B6766B6E124CC963E4A4CB86 /* URLParameterEncoder.swift */; };
+		E7F1529649C9BDC0A13900E5EB988969 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16126E19154966DD34261C45B44F19BD /* Common.swift */; };
+		EA19417EEB07A1123B9E3EF18DA30CC2 /* RouterDelegateClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645C01867A739DBC2D6ADD6E1B28D866 /* RouterDelegateClass.swift */; };
+		F000849A34A2AAFE667C74A1462234E7 /* Pods-ZCatalyst_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A5074C53C9C3A727334B5A81E8635C8 /* Pods-ZCatalyst_Example-dummy.m */; };
+		F0931814A259D78E066E4BA4B6AD10A4 /* Pods-ZCatalyst_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F5DA13B64D3B008CBAE5688856EA334A /* Pods-ZCatalyst_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F15914DA2EAA141184673AF92F121DAE /* FileAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A1AE73509533DDB3316EF18E3A96F5 /* FileAPIManager.swift */; };
+		F6124E473FFF17AC03B1E7FBAE17C700 /* ZCatalyst-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 07B6EA53ECD09B030780FC6490F4DF37 /* ZCatalyst-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F6DBEFA73C93868B291E21D70997867E /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26EF0F14146B5149914DE36DF2A7FE5 /* ParameterEncoding.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7153489C2B39E308F938FB0631BF6CC8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ABD7EEB8F1A2F5CF961492F2CC264281;
+			remoteInfo = "Pods-ZCatalyst_Example";
+		};
+		98186C505C260A1DD9BAA1B6E7E0261D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 43F48AB13AD6B33E3835E9E7808A2089;
+			remoteInfo = ZohoPortalAuth;
+		};
+		BBA2C57B898C5E70F5F7320523F34B5A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4C004F03476B6EE0CD12E781D3371FA3;
+			remoteInfo = ZCatalyst;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0422B13FB99EA486B23BBF3EB0BD02D4 /* ZohoPortalAuth.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ZohoPortalAuth.release.xcconfig; sourceTree = "<group>"; };
+		05C368456EC4DF548654B15107A9A255 /* JSONParameterEncoder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = JSONParameterEncoder.swift; sourceTree = "<group>"; };
+		07B6EA53ECD09B030780FC6490F4DF37 /* ZCatalyst-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ZCatalyst-umbrella.h"; sourceTree = "<group>"; };
+		0A8826AA84234A76612C4E2F9AB69DC9 /* Logger.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		0AC9C1B48474D613A76FE55468E2ECF7 /* Pods-ZCatalyst_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-ZCatalyst_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		0B1BE251B72CA97DB935579E16C94CC4 /* ZohoPortalAuth.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ZohoPortalAuth.h; sourceTree = "<group>"; };
+		0EBF9C0A100503EE0B3A9F73AF89F26E /* Pods-ZCatalyst_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-ZCatalyst_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
+		1025CC11D4D69BBAB0EC2A7083DF032A /* Serializer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Serializer.swift; sourceTree = "<group>"; };
+		109CCE52183A7E73F1ECA5190425C0AB /* Pods-ZCatalyst_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ZCatalyst_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		16126E19154966DD34261C45B44F19BD /* Common.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
+		1643E58467375509B4E9EC69A5A3C459 /* ZCatalystAppConfiguration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ZCatalystAppConfiguration.swift; sourceTree = "<group>"; };
+		17BD908CCA455171220E4973E6B3472D /* Pods-ZCatalyst_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-ZCatalyst_Tests-dummy.m"; sourceTree = "<group>"; };
+		17F2E5AAD4CF0C855D4C5567278DF1F0 /* ZohoPortalAuthRequestBlocks.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ZohoPortalAuthRequestBlocks.h; path = ZohoPortalAuthKit.framework/Headers/ZohoPortalAuthRequestBlocks.h; sourceTree = "<group>"; };
+		1EE0D26F12655FC5952D7C96974957A6 /* ZCatalystRow.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ZCatalystRow.swift; sourceTree = "<group>"; };
+		224A1FE0B6766B6E124CC963E4A4CB86 /* URLParameterEncoder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = URLParameterEncoder.swift; sourceTree = "<group>"; };
+		2DBD452287528D5A77BE5A7AD2DD357C /* Pods_ZCatalyst_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZCatalyst_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		3736857EDD3F2749E729D28BF1D95951 /* ZohoPortalAuthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZohoPortalAuthKit.framework; path = Example/Pods/ZohoPortalAuth/ZohoPortalAuthKit.framework; sourceTree = "<group>"; };
+		3ED8CD865C68B53ED6BC2CA4A62A4E0A /* Pods-ZCatalyst_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-ZCatalyst_Tests-umbrella.h"; sourceTree = "<group>"; };
+		43A1AE73509533DDB3316EF18E3A96F5 /* FileAPIManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FileAPIManager.swift; sourceTree = "<group>"; };
+		43CDB6EB7ADE474550F6AD9001CF9195 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		453AD28AFC073FEC832E30BCF4F0B5C1 /* NetworkRouter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NetworkRouter.swift; sourceTree = "<group>"; };
+		478F11161C1CFB1C1120EF12D04217EF /* Pods-ZCatalyst_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ZCatalyst_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		487503CD604D964FC0BC8F7F347346D2 /* ZCatalyst.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = ZCatalyst.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		4A0730C323CDE0C8F010E2878F7BDC5A /* Router.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		4AFD206F22E4FC06049AB49CF8F4F7A7 /* ZCatalyst-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ZCatalyst-prefix.pch"; sourceTree = "<group>"; };
+		4BD4EFD0975C5A4FE849C028D256867B /* Pods-ZCatalyst_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ZCatalyst_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		5710F9381006858241253DC52430BDED /* ZCatalystFileStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ZCatalystFileStore.swift; sourceTree = "<group>"; };
+		5A7CB682EFACF7868D38CDC0C414E899 /* ZohoPortalAuthToken.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ZohoPortalAuthToken.h; path = ZohoPortalAuthKit.framework/Headers/ZohoPortalAuthToken.h; sourceTree = "<group>"; };
+		62CC8224A7907CC127232A9B5D7C9BCC /* ZohoPortalAuthToken.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ZohoPortalAuthToken.h; sourceTree = "<group>"; };
+		63F4FAF9F15A7EE4529F33388CECD7E9 /* Pods-ZCatalyst_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ZCatalyst_Example.release.xcconfig"; sourceTree = "<group>"; };
+		64070304B7D6ED66CC5F962474EC0FE8 /* ZCatalystDataStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ZCatalystDataStore.swift; sourceTree = "<group>"; };
+		645C01867A739DBC2D6ADD6E1B28D866 /* RouterDelegateClass.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RouterDelegateClass.swift; sourceTree = "<group>"; };
+		66E1A90F9C7FA06D3E0F8784A8E7B47A /* Pods-ZCatalyst_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-ZCatalyst_Example.modulemap"; sourceTree = "<group>"; };
+		67EF0BD852B42280177D8589FC80EF81 /* APIHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = APIHandler.swift; sourceTree = "<group>"; };
+		69A523193711E6B14964B52AB57F44E0 /* ZCatalystFunction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ZCatalystFunction.swift; sourceTree = "<group>"; };
+		73939C635B176DBD3ADFBC65E7285B97 /* Pods-ZCatalyst_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-ZCatalyst_Example-acknowledgements.plist"; sourceTree = "<group>"; };
+		7A5074C53C9C3A727334B5A81E8635C8 /* Pods-ZCatalyst_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-ZCatalyst_Example-dummy.m"; sourceTree = "<group>"; };
+		81FCBA0204B259F76E92BC357A710C01 /* Pods-ZCatalyst_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-ZCatalyst_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
+		83B4809F4AA8AF3E6C10CE014232831B /* Pods-ZCatalyst_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-ZCatalyst_Example-frameworks.sh"; sourceTree = "<group>"; };
+		918FC8395F5C01767B0A889436FDBFCE /* HTTPMethod.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		97B332FFB141BE911658A03C57B76399 /* ZCatalystSearch.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ZCatalystSearch.swift; sourceTree = "<group>"; };
+		9D6CC56FBAFFE575AF718532F7B4CA92 /* ZCatalyst-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ZCatalyst-Info.plist"; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9E08EF67347A444B99BA2D2C2EE223A0 /* ZohoPortalAuth.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ZohoPortalAuth.debug.xcconfig; sourceTree = "<group>"; };
+		9EC0FCDD3E8F2F7F58A195C9EE43FDA1 /* Pods_ZCatalyst_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZCatalyst_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9ECEE1E58C32FAFC77C6491CE4663CAF /* ZCatalystTable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ZCatalystTable.swift; sourceTree = "<group>"; };
+		9FA3250B2F1BFF2E99CE7B75B5922175 /* ZCatalystFile.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ZCatalystFile.swift; sourceTree = "<group>"; };
+		9FE17BBBFFF6A38817AE7EFB5C782E31 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A2D393A3C89C4584D675B911A5050B71 /* ZCatalystFolder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ZCatalystFolder.swift; sourceTree = "<group>"; };
+		AA4A9CFE57DE12C136F5634A8F05F06A /* URLRequestBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = URLRequestBuilder.swift; sourceTree = "<group>"; };
+		AC56D8B4E7A8D664F395659194BDA18E /* ZCatalystSelectQuery.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ZCatalystSelectQuery.swift; sourceTree = "<group>"; };
+		B0F34FC3FDB096A8C44E95994EEF4375 /* ZCatalystUser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ZCatalystUser.swift; sourceTree = "<group>"; };
+		B29CADC2E75B661E72B98EDC5B2157C2 /* Pods-ZCatalyst_Example-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-ZCatalyst_Example-Info.plist"; sourceTree = "<group>"; };
+		B5159D18482E64FA3C4506149F085490 /* ZCatalyst.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ZCatalyst.release.xcconfig; sourceTree = "<group>"; };
+		B5AC77C193A9ACF4C58F510C9E42D7E4 /* Payload.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Payload.swift; sourceTree = "<group>"; };
+		B7B65BAA422D9F4C5EB8093B3C6AB4FA /* ZCatalystDataType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ZCatalystDataType.swift; sourceTree = "<group>"; };
+		B7B848874769DC91A323AB04B22E2207 /* ZCatalystAuthHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ZCatalystAuthHandler.swift; sourceTree = "<group>"; };
+		BC84F7F7F4E3287AC4B9FC4428E2EEAD /* APIEndPointConvertable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = APIEndPointConvertable.swift; sourceTree = "<group>"; };
+		BD6BD3713E35BD4A498B599009C62B11 /* HeaderTypes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HeaderTypes.swift; sourceTree = "<group>"; };
+		C2C09C20F6BAEB3D34BCAE1EBFF7ECEA /* Pods-ZCatalyst_Tests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-ZCatalyst_Tests-Info.plist"; sourceTree = "<group>"; };
+		C38E6C35411AFA78F109E20A23C40011 /* NetworkErrors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NetworkErrors.swift; sourceTree = "<group>"; };
+		C623D136A3343D158AF94B8C834C7A28 /* ZohoPortalAuthConstants.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ZohoPortalAuthConstants.h; sourceTree = "<group>"; };
+		C8E2B13CEE2EE03CE3515550F803F61A /* Parker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Parker.swift; sourceTree = "<group>"; };
+		CC14789B1259B1DE04B9ACF5C32F38A8 /* ZCatalyst.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ZCatalyst.debug.xcconfig; sourceTree = "<group>"; };
+		CC822C2A22BB1CBE8BD50CCD2AC9EA20 /* ZCatalyst.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = ZCatalyst.modulemap; sourceTree = "<group>"; };
+		CD5D3035F0BE802AC331FA86445A4DAA /* PayloadFactory.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PayloadFactory.swift; sourceTree = "<group>"; };
+		D0FD67C02200B31FFF991BF83B947E22 /* ZCatalystColumn.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ZCatalystColumn.swift; sourceTree = "<group>"; };
+		D1B138904753628C9499AD648473F9BC /* APIManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		D4E220A793E4421B7EED2B87E66062F5 /* Pods-ZCatalyst_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-ZCatalyst_Tests.modulemap"; sourceTree = "<group>"; };
+		D81576376611FAE423BE3EA2C6B124AD /* ZohoPortalAuth.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ZohoPortalAuth.h; path = ZohoPortalAuthKit.framework/Headers/ZohoPortalAuth.h; sourceTree = "<group>"; };
+		DBAEE3F49C215A59C4A2E0A7B2CBE758 /* ZohoPortalAuthRequestBlocks.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ZohoPortalAuthRequestBlocks.h; sourceTree = "<group>"; };
+		DE3F435DC04CAD691D70694F1DC1873A /* ZCatalyst.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZCatalyst.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DEAF577B25D772A58164E0BA6F34B205 /* ZohoPortalAuthConstants.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ZohoPortalAuthConstants.h; path = ZohoPortalAuthKit.framework/Headers/ZohoPortalAuthConstants.h; sourceTree = "<group>"; };
+		E22A4EB27A541F434764B50DD965ED4F /* ZCatalyst-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ZCatalyst-dummy.m"; sourceTree = "<group>"; };
+		E4290F9F71668A20C53E6F567C690613 /* ZCatalystUserDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ZCatalystUserDelegate.swift; sourceTree = "<group>"; };
+		F26EF0F14146B5149914DE36DF2A7FE5 /* ParameterEncoding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ParameterEncoding.swift; sourceTree = "<group>"; };
+		F5DA13B64D3B008CBAE5688856EA334A /* Pods-ZCatalyst_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-ZCatalyst_Example-umbrella.h"; sourceTree = "<group>"; };
+		FF9129AFD264F68E4DF3446AE72D1E57 /* ZCatalystApp.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ZCatalystApp.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		36ECA964CAC453C747C8F96B261C34C4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				426FE4465C947E5D2DC9CED4714051EC /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE330FD386C6687CF352608DE92A51FA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				649E78D7D4616C1144DA15385F5C0A8D /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F5DF0D912DE7978CD8D359755E7183FB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				80042C183E0774F54219891BD686ECC6 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0B280FA0F515E6B04BFFE6F8FEDDAC67 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				9E08EF67347A444B99BA2D2C2EE223A0 /* ZohoPortalAuth.debug.xcconfig */,
+				0422B13FB99EA486B23BBF3EB0BD02D4 /* ZohoPortalAuth.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/ZohoPortalAuth";
+			sourceTree = "<group>";
+		};
+		1639122830CC05E7D0520B6DCC6ABC66 /* ZCatalyst */ = {
+			isa = PBXGroup;
+			children = (
+				C8A5EE33A76359E761453D8B6EC7FF43 /* Core */,
+				C4121E9C477AA857FC7945AA476101A7 /* Frameworks */,
+				388A06B9CE38E1678EF96462A0382697 /* Headers */,
+				2312948764CB9BA98DEE90FFEEBF7CC5 /* Parker */,
+				6AB201CB1C635C8D28910209963F9F0F /* Pod */,
+				31A1272F13C53DD98C768AC8E80904C5 /* Support Files */,
+			);
+			name = ZCatalyst;
+			path = ../..;
+			sourceTree = "<group>";
+		};
+		2312948764CB9BA98DEE90FFEEBF7CC5 /* Parker */ = {
+			isa = PBXGroup;
+			children = (
+				C8E2B13CEE2EE03CE3515550F803F61A /* Parker.swift */,
+				6000F83B45C5129D1A0E690D08888453 /* Endpoint */,
+				7DC15E16BBAAF7EB69014E27FC12B8C5 /* Service */,
+			);
+			name = Parker;
+			path = ZCatalyst/Classes/Parker;
+			sourceTree = "<group>";
+		};
+		31A1272F13C53DD98C768AC8E80904C5 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				CC822C2A22BB1CBE8BD50CCD2AC9EA20 /* ZCatalyst.modulemap */,
+				E22A4EB27A541F434764B50DD965ED4F /* ZCatalyst-dummy.m */,
+				9D6CC56FBAFFE575AF718532F7B4CA92 /* ZCatalyst-Info.plist */,
+				4AFD206F22E4FC06049AB49CF8F4F7A7 /* ZCatalyst-prefix.pch */,
+				07B6EA53ECD09B030780FC6490F4DF37 /* ZCatalyst-umbrella.h */,
+				CC14789B1259B1DE04B9ACF5C32F38A8 /* ZCatalyst.debug.xcconfig */,
+				B5159D18482E64FA3C4506149F085490 /* ZCatalyst.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "Example/Pods/Target Support Files/ZCatalyst";
+			sourceTree = "<group>";
+		};
+		388A06B9CE38E1678EF96462A0382697 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				0B1BE251B72CA97DB935579E16C94CC4 /* ZohoPortalAuth.h */,
+				C623D136A3343D158AF94B8C834C7A28 /* ZohoPortalAuthConstants.h */,
+				DBAEE3F49C215A59C4A2E0A7B2CBE758 /* ZohoPortalAuthRequestBlocks.h */,
+				62CC8224A7907CC127232A9B5D7C9BCC /* ZohoPortalAuthToken.h */,
+			);
+			name = Headers;
+			path = ZCatalyst/Classes/Headers;
+			sourceTree = "<group>";
+		};
+		3F3537EABD2DBD71AB1A1B39D95E9638 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9EC0FCDD3E8F2F7F58A195C9EE43FDA1 /* Pods_ZCatalyst_Example.framework */,
+				2DBD452287528D5A77BE5A7AD2DD357C /* Pods_ZCatalyst_Tests.framework */,
+				DE3F435DC04CAD691D70694F1DC1873A /* ZCatalyst.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5AA9CB20AF14AC8080C3F0C807719EB2 /* Pods-ZCatalyst_Example */ = {
+			isa = PBXGroup;
+			children = (
+				66E1A90F9C7FA06D3E0F8784A8E7B47A /* Pods-ZCatalyst_Example.modulemap */,
+				0EBF9C0A100503EE0B3A9F73AF89F26E /* Pods-ZCatalyst_Example-acknowledgements.markdown */,
+				73939C635B176DBD3ADFBC65E7285B97 /* Pods-ZCatalyst_Example-acknowledgements.plist */,
+				7A5074C53C9C3A727334B5A81E8635C8 /* Pods-ZCatalyst_Example-dummy.m */,
+				83B4809F4AA8AF3E6C10CE014232831B /* Pods-ZCatalyst_Example-frameworks.sh */,
+				B29CADC2E75B661E72B98EDC5B2157C2 /* Pods-ZCatalyst_Example-Info.plist */,
+				F5DA13B64D3B008CBAE5688856EA334A /* Pods-ZCatalyst_Example-umbrella.h */,
+				4BD4EFD0975C5A4FE849C028D256867B /* Pods-ZCatalyst_Example.debug.xcconfig */,
+				63F4FAF9F15A7EE4529F33388CECD7E9 /* Pods-ZCatalyst_Example.release.xcconfig */,
+			);
+			name = "Pods-ZCatalyst_Example";
+			path = "Target Support Files/Pods-ZCatalyst_Example";
+			sourceTree = "<group>";
+		};
+		5F0F873183C3423F91F59F5881C7CCA4 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				5AA9CB20AF14AC8080C3F0C807719EB2 /* Pods-ZCatalyst_Example */,
+				9DB52A475159A92712680EE823DAFA1D /* Pods-ZCatalyst_Tests */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		6000F83B45C5129D1A0E690D08888453 /* Endpoint */ = {
+			isa = PBXGroup;
+			children = (
+				BC84F7F7F4E3287AC4B9FC4428E2EEAD /* APIEndPointConvertable.swift */,
+				BD6BD3713E35BD4A498B599009C62B11 /* HeaderTypes.swift */,
+				918FC8395F5C01767B0A889436FDBFCE /* HTTPMethod.swift */,
+				05C368456EC4DF548654B15107A9A255 /* JSONParameterEncoder.swift */,
+				C38E6C35411AFA78F109E20A23C40011 /* NetworkErrors.swift */,
+				F26EF0F14146B5149914DE36DF2A7FE5 /* ParameterEncoding.swift */,
+				B5AC77C193A9ACF4C58F510C9E42D7E4 /* Payload.swift */,
+				224A1FE0B6766B6E124CC963E4A4CB86 /* URLParameterEncoder.swift */,
+				AA4A9CFE57DE12C136F5634A8F05F06A /* URLRequestBuilder.swift */,
+			);
+			path = Endpoint;
+			sourceTree = "<group>";
+		};
+		6AB201CB1C635C8D28910209963F9F0F /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				43CDB6EB7ADE474550F6AD9001CF9195 /* LICENSE */,
+				9FE17BBBFFF6A38817AE7EFB5C782E31 /* README.md */,
+				487503CD604D964FC0BC8F7F347346D2 /* ZCatalyst.podspec */,
+			);
+			name = Pod;
+			sourceTree = "<group>";
+		};
+		6DAE1C3BCE78832C93512BC2A2660C6F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BBD3C267E9ADB63491D4D28839B6A332 /* ZohoPortalAuth */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		7DC15E16BBAAF7EB69014E27FC12B8C5 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				0A8826AA84234A76612C4E2F9AB69DC9 /* Logger.swift */,
+				453AD28AFC073FEC832E30BCF4F0B5C1 /* NetworkRouter.swift */,
+				4A0730C323CDE0C8F010E2878F7BDC5A /* Router.swift */,
+				645C01867A739DBC2D6ADD6E1B28D866 /* RouterDelegateClass.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		9DB52A475159A92712680EE823DAFA1D /* Pods-ZCatalyst_Tests */ = {
+			isa = PBXGroup;
+			children = (
+				D4E220A793E4421B7EED2B87E66062F5 /* Pods-ZCatalyst_Tests.modulemap */,
+				0AC9C1B48474D613A76FE55468E2ECF7 /* Pods-ZCatalyst_Tests-acknowledgements.markdown */,
+				81FCBA0204B259F76E92BC357A710C01 /* Pods-ZCatalyst_Tests-acknowledgements.plist */,
+				17BD908CCA455171220E4973E6B3472D /* Pods-ZCatalyst_Tests-dummy.m */,
+				C2C09C20F6BAEB3D34BCAE1EBFF7ECEA /* Pods-ZCatalyst_Tests-Info.plist */,
+				3ED8CD865C68B53ED6BC2CA4A62A4E0A /* Pods-ZCatalyst_Tests-umbrella.h */,
+				109CCE52183A7E73F1ECA5190425C0AB /* Pods-ZCatalyst_Tests.debug.xcconfig */,
+				478F11161C1CFB1C1120EF12D04217EF /* Pods-ZCatalyst_Tests.release.xcconfig */,
+			);
+			name = "Pods-ZCatalyst_Tests";
+			path = "Target Support Files/Pods-ZCatalyst_Tests";
+			sourceTree = "<group>";
+		};
+		BBD3C267E9ADB63491D4D28839B6A332 /* ZohoPortalAuth */ = {
+			isa = PBXGroup;
+			children = (
+				D81576376611FAE423BE3EA2C6B124AD /* ZohoPortalAuth.h */,
+				DEAF577B25D772A58164E0BA6F34B205 /* ZohoPortalAuthConstants.h */,
+				17F2E5AAD4CF0C855D4C5567278DF1F0 /* ZohoPortalAuthRequestBlocks.h */,
+				5A7CB682EFACF7868D38CDC0C414E899 /* ZohoPortalAuthToken.h */,
+				E18B4103C3FBBA9F09780B27CB9255B2 /* Frameworks */,
+				0B280FA0F515E6B04BFFE6F8FEDDAC67 /* Support Files */,
+			);
+			path = ZohoPortalAuth;
+			sourceTree = "<group>";
+		};
+		C0834CEBB1379A84116EF29F93051C60 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		C4121E9C477AA857FC7945AA476101A7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3736857EDD3F2749E729D28BF1D95951 /* ZohoPortalAuthKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C8A5EE33A76359E761453D8B6EC7FF43 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				67EF0BD852B42280177D8589FC80EF81 /* APIHandler.swift */,
+				D1B138904753628C9499AD648473F9BC /* APIManager.swift */,
+				16126E19154966DD34261C45B44F19BD /* Common.swift */,
+				43A1AE73509533DDB3316EF18E3A96F5 /* FileAPIManager.swift */,
+				CD5D3035F0BE802AC331FA86445A4DAA /* PayloadFactory.swift */,
+				1025CC11D4D69BBAB0EC2A7083DF032A /* Serializer.swift */,
+				FF9129AFD264F68E4DF3446AE72D1E57 /* ZCatalystApp.swift */,
+				1643E58467375509B4E9EC69A5A3C459 /* ZCatalystAppConfiguration.swift */,
+				B7B848874769DC91A323AB04B22E2207 /* ZCatalystAuthHandler.swift */,
+				9FA3250B2F1BFF2E99CE7B75B5922175 /* ZCatalystFile.swift */,
+				5710F9381006858241253DC52430BDED /* ZCatalystFileStore.swift */,
+				A2D393A3C89C4584D675B911A5050B71 /* ZCatalystFolder.swift */,
+				69A523193711E6B14964B52AB57F44E0 /* ZCatalystFunction.swift */,
+				B0F34FC3FDB096A8C44E95994EEF4375 /* ZCatalystUser.swift */,
+				E4290F9F71668A20C53E6F567C690613 /* ZCatalystUserDelegate.swift */,
+				CE98D591FC7A958F7E5584B72831C9FE /* Database */,
+			);
+			name = Core;
+			path = ZCatalyst/Classes/Core;
+			sourceTree = "<group>";
+		};
+		CE98D591FC7A958F7E5584B72831C9FE /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				D0FD67C02200B31FFF991BF83B947E22 /* ZCatalystColumn.swift */,
+				64070304B7D6ED66CC5F962474EC0FE8 /* ZCatalystDataStore.swift */,
+				B7B65BAA422D9F4C5EB8093B3C6AB4FA /* ZCatalystDataType.swift */,
+				1EE0D26F12655FC5952D7C96974957A6 /* ZCatalystRow.swift */,
+				97B332FFB141BE911658A03C57B76399 /* ZCatalystSearch.swift */,
+				AC56D8B4E7A8D664F395659194BDA18E /* ZCatalystSelectQuery.swift */,
+				9ECEE1E58C32FAFC77C6491CE4663CAF /* ZCatalystTable.swift */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		CF1408CF629C7361332E53B88F7BD30C = {
+			isa = PBXGroup;
+			children = (
+				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
+				D3CC77F29BC948D7440BDAAE7B0CD2D6 /* Development Pods */,
+				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
+				6DAE1C3BCE78832C93512BC2A2660C6F /* Pods */,
+				3F3537EABD2DBD71AB1A1B39D95E9638 /* Products */,
+				5F0F873183C3423F91F59F5881C7CCA4 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C0834CEBB1379A84116EF29F93051C60 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D3CC77F29BC948D7440BDAAE7B0CD2D6 /* Development Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1639122830CC05E7D0520B6DCC6ABC66 /* ZCatalyst */,
+			);
+			name = "Development Pods";
+			sourceTree = "<group>";
+		};
+		E18B4103C3FBBA9F09780B27CB9255B2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		02199E65B1CD70AC5E0943611DEDE76F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F0931814A259D78E066E4BA4B6AD10A4 /* Pods-ZCatalyst_Example-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2180A342D75B8DA05A2CBBD29823F516 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7F722C75EB495F83CBCF082DC2CE27FF /* Pods-ZCatalyst_Tests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		64DD3A3150AA4708BF50598CA0E2D439 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F6124E473FFF17AC03B1E7FBAE17C700 /* ZCatalyst-umbrella.h in Headers */,
+				4C2D131E6D1B1C671270AAF9D071C9A5 /* ZohoPortalAuth.h in Headers */,
+				940922E8194F6DF68B896BB8AEA5814F /* ZohoPortalAuthConstants.h in Headers */,
+				699B31A7D60D11BAA5E02BA44B0CC674 /* ZohoPortalAuthRequestBlocks.h in Headers */,
+				CE9C9037235199B7ECCF9F2751E315FE /* ZohoPortalAuthToken.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		4C004F03476B6EE0CD12E781D3371FA3 /* ZCatalyst */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DE837BC99DD1D121CA299AF4D1E92BD6 /* Build configuration list for PBXNativeTarget "ZCatalyst" */;
+			buildPhases = (
+				64DD3A3150AA4708BF50598CA0E2D439 /* Headers */,
+				16F5E4901F176CFC5A4163F658ADF5F6 /* Sources */,
+				F5DF0D912DE7978CD8D359755E7183FB /* Frameworks */,
+				A9D8186DC53748F0A09E2C723148C281 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ZCatalyst;
+			productName = ZCatalyst;
+			productReference = DE3F435DC04CAD691D70694F1DC1873A /* ZCatalyst.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		86C160407D09F1426AA20619DC828273 /* Pods-ZCatalyst_Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F1BA85C5FA45DC1C2EEBB5F29A600CFE /* Build configuration list for PBXNativeTarget "Pods-ZCatalyst_Tests" */;
+			buildPhases = (
+				2180A342D75B8DA05A2CBBD29823F516 /* Headers */,
+				F2F53400002E24A25BD8BB314D00D556 /* Sources */,
+				36ECA964CAC453C747C8F96B261C34C4 /* Frameworks */,
+				C5671BC710692ECC88BBDF8C95B08736 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				547B45F9FA56FA53E4E1864538BFEE84 /* PBXTargetDependency */,
+			);
+			name = "Pods-ZCatalyst_Tests";
+			productName = "Pods-ZCatalyst_Tests";
+			productReference = 2DBD452287528D5A77BE5A7AD2DD357C /* Pods_ZCatalyst_Tests.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		ABD7EEB8F1A2F5CF961492F2CC264281 /* Pods-ZCatalyst_Example */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BAAF6D8C91B7BA5D4B458778325F13EF /* Build configuration list for PBXNativeTarget "Pods-ZCatalyst_Example" */;
+			buildPhases = (
+				02199E65B1CD70AC5E0943611DEDE76F /* Headers */,
+				8C5CA86A15E794365647EF2717EFC99E /* Sources */,
+				EE330FD386C6687CF352608DE92A51FA /* Frameworks */,
+				A3F298996286C3756DF61EA14883CA39 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				57E7E55384887CA40A420268D98578FB /* PBXTargetDependency */,
+				E1361BDE5C481176A1FD3E4A12341F55 /* PBXTargetDependency */,
+			);
+			name = "Pods-ZCatalyst_Example";
+			productName = "Pods-ZCatalyst_Example";
+			productReference = 9EC0FCDD3E8F2F7F58A195C9EE43FDA1 /* Pods_ZCatalyst_Example.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1100;
+				LastUpgradeCheck = 1100;
+			};
+			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
+			productRefGroup = 3F3537EABD2DBD71AB1A1B39D95E9638 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				ABD7EEB8F1A2F5CF961492F2CC264281 /* Pods-ZCatalyst_Example */,
+				86C160407D09F1426AA20619DC828273 /* Pods-ZCatalyst_Tests */,
+				4C004F03476B6EE0CD12E781D3371FA3 /* ZCatalyst */,
+				43F48AB13AD6B33E3835E9E7808A2089 /* ZohoPortalAuth */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A3F298996286C3756DF61EA14883CA39 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9D8186DC53748F0A09E2C723148C281 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5671BC710692ECC88BBDF8C95B08736 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		16F5E4901F176CFC5A4163F658ADF5F6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69ABAB665C54AC9B631D1A5184E06744 /* APIEndPointConvertable.swift in Sources */,
+				B784DE360E58549F3DA01485C7523FBD /* APIHandler.swift in Sources */,
+				B943A6E2C77DD96913C9A2F09FF877A5 /* APIManager.swift in Sources */,
+				E7F1529649C9BDC0A13900E5EB988969 /* Common.swift in Sources */,
+				F15914DA2EAA141184673AF92F121DAE /* FileAPIManager.swift in Sources */,
+				7353E08727660B97D7CA30DF3BB1C460 /* HeaderTypes.swift in Sources */,
+				118707E470D949D360F23864C59CEE5D /* HTTPMethod.swift in Sources */,
+				3A4C7191889F032A05C7A023DA8706C7 /* JSONParameterEncoder.swift in Sources */,
+				27E9606D1069E2DCC118480152A7329E /* Logger.swift in Sources */,
+				D50851032FA44885C81008FD01D735C4 /* NetworkErrors.swift in Sources */,
+				30485AE0B02D7A712369AAC3D133DBE1 /* NetworkRouter.swift in Sources */,
+				F6DBEFA73C93868B291E21D70997867E /* ParameterEncoding.swift in Sources */,
+				53A3F6A041AB86DD5203DCD2D3E36706 /* Parker.swift in Sources */,
+				9A9E80A1DE48ECF48822EA96FFF70AA8 /* Payload.swift in Sources */,
+				D4BA73C0797B427381C900235FE97B10 /* PayloadFactory.swift in Sources */,
+				5775F7BD25ED58BACB74920EF16D7DD7 /* Router.swift in Sources */,
+				EA19417EEB07A1123B9E3EF18DA30CC2 /* RouterDelegateClass.swift in Sources */,
+				2535FEDA8235F60AA371D38183429FA8 /* Serializer.swift in Sources */,
+				E4F767376D2704F8DD2C159E38FBE66A /* URLParameterEncoder.swift in Sources */,
+				009F096DBD2CF51E3CB09290D4FA3D58 /* URLRequestBuilder.swift in Sources */,
+				9BC41782703E7234723979A9646DA8F1 /* ZCatalyst-dummy.m in Sources */,
+				9D20DA0D6F2165D93BA799FBECCC8D41 /* ZCatalystApp.swift in Sources */,
+				95DA4AB7D0076B05D3862E871BD22195 /* ZCatalystAppConfiguration.swift in Sources */,
+				917D26997915AEB12EF65389333C21B2 /* ZCatalystAuthHandler.swift in Sources */,
+				14D0E25C37DD28B4244EF7207BCF8BEA /* ZCatalystColumn.swift in Sources */,
+				3489E889FFE695C40D95D2D6FC21D56D /* ZCatalystDataStore.swift in Sources */,
+				BC14805B9664B48C0A6BC983A38CAE1A /* ZCatalystDataType.swift in Sources */,
+				7240044C4519EFC9B7E629230DC2D307 /* ZCatalystFile.swift in Sources */,
+				B003436A8E6D7579B23093FF4EA88969 /* ZCatalystFileStore.swift in Sources */,
+				7ACE2BF2DD50818CE1B1FA73FD56DB2C /* ZCatalystFolder.swift in Sources */,
+				D19A00B6AD17F249FA1966E221F70C4A /* ZCatalystFunction.swift in Sources */,
+				228B8D98DB385D248DA83A58A46962DD /* ZCatalystRow.swift in Sources */,
+				ABC3373F95233A5901ED38D7173E8EC1 /* ZCatalystSearch.swift in Sources */,
+				BDB0A651A533CF3A7A1CB79D3F27A899 /* ZCatalystSelectQuery.swift in Sources */,
+				A2A0BA67A38641AEF464AAC7464FD3B0 /* ZCatalystTable.swift in Sources */,
+				8A99D1B02AD46CA5B3FFC415FDD4DCE2 /* ZCatalystUser.swift in Sources */,
+				1DFF05A0A79EEA7B10AB5EA9320A7AA9 /* ZCatalystUserDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C5CA86A15E794365647EF2717EFC99E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F000849A34A2AAFE667C74A1462234E7 /* Pods-ZCatalyst_Example-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2F53400002E24A25BD8BB314D00D556 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				64AE6319473798561F401763C2BB99C5 /* Pods-ZCatalyst_Tests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		547B45F9FA56FA53E4E1864538BFEE84 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-ZCatalyst_Example";
+			target = ABD7EEB8F1A2F5CF961492F2CC264281 /* Pods-ZCatalyst_Example */;
+			targetProxy = 7153489C2B39E308F938FB0631BF6CC8 /* PBXContainerItemProxy */;
+		};
+		57E7E55384887CA40A420268D98578FB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ZCatalyst;
+			target = 4C004F03476B6EE0CD12E781D3371FA3 /* ZCatalyst */;
+			targetProxy = BBA2C57B898C5E70F5F7320523F34B5A /* PBXContainerItemProxy */;
+		};
+		E1361BDE5C481176A1FD3E4A12341F55 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ZohoPortalAuth;
+			target = 43F48AB13AD6B33E3835E9E7808A2089 /* ZohoPortalAuth */;
+			targetProxy = 98186C505C260A1DD9BAA1B6E7E0261D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		01BA4DF1D4DD9301977E2519782BB247 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 109CCE52183A7E73F1ECA5190425C0AB /* Pods-ZCatalyst_Tests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-ZCatalyst_Tests/Pods-ZCatalyst_Tests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-ZCatalyst_Tests/Pods-ZCatalyst_Tests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		46C98DDEF4AD25F66754697FB38DA4D0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CC14789B1259B1DE04B9ACF5C32F38A8 /* ZCatalyst.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/ZCatalyst/ZCatalyst-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/ZCatalyst/ZCatalyst-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/ZCatalyst/ZCatalyst.modulemap";
+				PRODUCT_MODULE_NAME = ZCatalyst;
+				PRODUCT_NAME = ZCatalyst;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		63E7BC1B115CF7A3944CE140074D8E34 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 478F11161C1CFB1C1120EF12D04217EF /* Pods-ZCatalyst_Tests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-ZCatalyst_Tests/Pods-ZCatalyst_Tests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-ZCatalyst_Tests/Pods-ZCatalyst_Tests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		72C648FC75A325F34117D2C5D8D54D78 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9E08EF67347A444B99BA2D2C2EE223A0 /* ZohoPortalAuth.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7D92A31E7262A418E1D933F2EB5475B1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4BD4EFD0975C5A4FE849C028D256867B /* Pods-ZCatalyst_Example.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-ZCatalyst_Example/Pods-ZCatalyst_Example-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-ZCatalyst_Example/Pods-ZCatalyst_Example.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		9BB6B12B44826B5BFAEC74A17C277F89 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B5159D18482E64FA3C4506149F085490 /* ZCatalyst.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/ZCatalyst/ZCatalyst-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/ZCatalyst/ZCatalyst-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/ZCatalyst/ZCatalyst.modulemap";
+				PRODUCT_MODULE_NAME = ZCatalyst;
+				PRODUCT_NAME = ZCatalyst;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		B0087CB4594321EF41619F3181FE120E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+		B8BCBD0110C2658BB5DAADB9B7D97B92 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		E4E74FF025483061006FF203931C8A7E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0422B13FB99EA486B23BBF3EB0BD02D4 /* ZohoPortalAuth.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E87D6F86B2B48904542556A2A6251BFE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63F4FAF9F15A7EE4529F33388CECD7E9 /* Pods-ZCatalyst_Example.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-ZCatalyst_Example/Pods-ZCatalyst_Example-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-ZCatalyst_Example/Pods-ZCatalyst_Example.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1628507517FF1542BD786EA5B40FB461 /* Build configuration list for PBXAggregateTarget "ZohoPortalAuth" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				72C648FC75A325F34117D2C5D8D54D78 /* Debug */,
+				E4E74FF025483061006FF203931C8A7E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B8BCBD0110C2658BB5DAADB9B7D97B92 /* Debug */,
+				B0087CB4594321EF41619F3181FE120E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BAAF6D8C91B7BA5D4B458778325F13EF /* Build configuration list for PBXNativeTarget "Pods-ZCatalyst_Example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7D92A31E7262A418E1D933F2EB5475B1 /* Debug */,
+				E87D6F86B2B48904542556A2A6251BFE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DE837BC99DD1D121CA299AF4D1E92BD6 /* Build configuration list for PBXNativeTarget "ZCatalyst" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				46C98DDEF4AD25F66754697FB38DA4D0 /* Debug */,
+				9BB6B12B44826B5BFAEC74A17C277F89 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F1BA85C5FA45DC1C2EEBB5F29A600CFE /* Build configuration list for PBXNativeTarget "Pods-ZCatalyst_Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				01BA4DF1D4DD9301977E2519782BB247 /* Debug */,
+				63E7BC1B115CF7A3944CE140074D8E34 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+}
