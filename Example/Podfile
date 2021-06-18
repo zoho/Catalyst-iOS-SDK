@@ -1,0 +1,15 @@
+use_frameworks!
+
+
+#source 'https://git.csez.zohocorpin.com/zoho/zohopodspecs.git'
+
+target 'ZCatalyst_Example' do
+  pod 'ZCatalyst', :path => '../'
+  pod 'ZohoPortalAuth', '0.0.3'
+
+
+  target 'ZCatalyst_Tests' do
+    inherit! :search_paths
+  end
+
+end

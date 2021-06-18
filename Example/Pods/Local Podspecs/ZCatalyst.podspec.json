@@ -1,0 +1,24 @@
+{
+  "name": "ZCatalyst",
+  "version": "0.1.1",
+  "summary": "A short description of ZCatalyst.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://git.csez.zohocorpin.com/BaaS/zcatalyst-ios-sdk",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "boopathyparamasivan": "boopathy.p@zohocorp.com"
+  },
+  "source": {
+    "git": "https://git.csez.zohocorpin.com/BaaS/zcatalyst-ios-sdk.git",
+    "tag": "0.1.1"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "public_header_files": "Pod/Classes/**/*.h",
+  "source_files": "ZCatalyst/Classes/**/*",
+  "vendored_frameworks": "Example/Pods/ZohoPortalAuth/ZohoPortalAuthKit.framework"
+}
