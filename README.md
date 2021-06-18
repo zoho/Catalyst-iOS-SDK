@@ -1,10 +1,5 @@
 # Catalyst
 
-[![CI Status](https://img.shields.io/travis/Giridhar/Catalyst.svg?style=flat)](https://travis-ci.org/Giridhar/Catalyst)
-[![Version](https://img.shields.io/cocoapods/v/Catalyst.svg?style=flat)](https://cocoapods.org/pods/Catalyst)
-[![License](https://img.shields.io/cocoapods/l/Catalyst.svg?style=flat)](https://cocoapods.org/pods/Catalyst)
-[![Platform](https://img.shields.io/cocoapods/p/Catalyst.svg?style=flat)](https://cocoapods.org/pods/Catalyst)
-
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
@@ -22,7 +17,7 @@ pod 'Catalyst'
 
 ## Author
 
-Giridhar, giridharvc7@gmail.com
+boopathyparamasivan <boopathy.p@zohocorp.com>
 
 ## License
 

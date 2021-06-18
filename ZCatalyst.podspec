@@ -21,11 +21,11 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
-  s.homepage         = 'https://git.csez.zohocorpin.com/BaaS/zcatalyst-ios-sdk'
+  s.homepage         = 'https://github.com/zoho/Catalyst-iOS-SDK'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'boopathyparamasivan' => 'boopathy.p@zohocorp.com' }
-  s.source           = { :git => 'https://git.csez.zohocorpin.com/BaaS/zcatalyst-ios-sdk.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/zoho/Catalyst-iOS-SDK.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '9.0'
   

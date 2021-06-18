@@ -10,9 +10,6 @@ import Foundation
 
 struct URLParameterEncoder : ParameterEncoder{
 
-// 044-22672902
-    
-    
     static func encode(urlRequest: inout URLRequest, jsonBody body: Data?, withParameters parameters: Parameters) throws {
         
         do{
@@ -42,15 +39,4 @@ struct URLParameterEncoder : ParameterEncoder{
             throw ZCatalystError.processingError( code : ErrorCode.internalError, message : "Parameters encoding failed", details : nil )
         }
     }
-    
-//    public static func encode(parameters: Parameters) -> String
-//    {
-//        for (key,value) in parameters
-//        {
-//            let queryItem = URLQueryItem(name: key, value:"\(value)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)))
-//        
-//        }
-//    }
-    
-    
 }

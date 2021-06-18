@@ -3,7 +3,7 @@ This application makes use of the following third party libraries:
 
 ## ZCatalyst
 
-Copyright (c) 2019 Giridhar <giridharvc7@gmail.com>
+Copyright (c) 2019 boopathyparamasivan <boopathy.p@zohocorp.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

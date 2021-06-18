@@ -16,20 +16,3 @@ typealias DownloadProgressBlock          = (_ bytesWritten : Int64?,_ bytesToBeW
 
 typealias UploadCompletionBlock = (_ session: URLSession?, _ uploadTask : URLSessionTask?, _ error : Error?)->()
 typealias UploadProgressBlock       = (_ bytesWritten:Int?, _ bytesToBeWritten :Int?)->()
-
-
-//protocol NetworkRouter : AnyObject {
-//    
-//    associatedtype Endpoint : APIEndPointConvertable
-//    
-//    func request(_ route : Endpoint, completion : @escaping NetworkRouterCompletionBlock)
-//    
-//    func downloadRequest(_ route: Endpoint, downloadedFilePath:@escaping DownloadTaskFilePath, downloadCompletionBlock : @escaping DownloadCompletionBlock, progress: @escaping DownloadProgressBlock)
-//    
-//    func uploadRequest(_ route : Endpoint, uploadCompletionBlock:@escaping UploadCompletionBlock,  progress : @escaping UploadProgressBlock)
-//    
-//    func cancel()
-//    
-//    
-//    
-//}

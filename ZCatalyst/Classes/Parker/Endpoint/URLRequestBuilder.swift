@@ -11,16 +11,12 @@ import MobileCoreServices
 
 enum RequestBuildError: String, Error
 {
-    
-    // Add more errors here.
     case generic = "General Error"
     case parameter = "Error in parameter"
     case OAuth = "Error in OAuth token"
     
 }
 
-
-//Change this to Swift5 result type
 public enum Result<T, E: Error>
 {
     case success(T)
@@ -37,12 +33,6 @@ typealias ConfigureParametersErrorBlock    = (_ error:Error) -> ()
 
 struct URLRequestBuilder
 {
-    
-    
-    //TODO: Request Building must not be here. Move it to a seperate class and make it Result type and not throwable. Anything other than throwable.
-    
-    
-
     func makeRequest(from route: APIEndPointConvertable) throws -> URLRequest
     {
         var request = URLRequest(url: route.baseURL.appendingPathComponent(route.path), cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 600.0)
@@ -108,21 +98,7 @@ struct URLRequestBuilder
             completion( .error( typeCastToZCatalystError( error ) ) )
         }
     }
-    
-//    private func addOAuth(request: URLRequest, helper: OAuthCompatible, completion: @escaping (( _ result: URLRequest?, _ error: RequestBuildError?) -> Void))
-//    {
-//        var oauthrequest = request
-//        helper.getOAuthToken(success: { (token) in
-//            self.setOAuthHeaders(token, request: &oauthrequest)
-//            completion(oauthrequest, nil)
-//        }) { (error) in
-//            completion(nil, RequestBuildError.OAuth)
-//        }
-//    }
-    
-    // 64569124/5/6/7
-    // 64569129
-    
+
     fileprivate func configureParameters(body: Parameters?, jsonBody : Data? = nil ,urlParameters : Parameters?, request : inout URLRequest) throws -> URLRequest {
         
         do {

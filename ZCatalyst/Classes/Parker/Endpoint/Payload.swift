@@ -62,23 +62,3 @@ struct Payload
         self.urlParameters = parameters
     }
 }
-
-//public enum TempPayload
-//{
-//    case params(body: Parameters? , urlParameters: Parameters? , headers: HTTPHeaders?, bodyData: Data?)
-//}
-
-//public enum Payload{
-//    case empty
-//
-//    case params(body: Parameters? , urlParameters: Parameters? , headers: HTTPHeaders?, bodyData: Data?) // FIXME: Replace all below with this case.
-//
-//    case parameters(body : Parameters?, urlParameters : Parameters?)
-//
-//    case requestParametersWithHeaders(body : Parameters?, urlParameters : Parameters?, headers : HTTPHeaders?)
-//
-//    case parametersWithOAuth(body : Parameters?, urlParameters : Parameters?, headers : HTTPHeaders?, OAuthHelper: OAuthCompatible)
-//
-//    case parametersWithJSONandHeaders(body : Parameters?,jsonBody : Data?, urlParameters : Parameters?, headers : HTTPHeaders?, OAuthHelper: OAuthCompatible)
-//
-//}

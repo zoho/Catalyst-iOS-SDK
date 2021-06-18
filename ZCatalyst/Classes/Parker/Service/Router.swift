@@ -109,11 +109,6 @@ extension RouterError:Hashable
         return lhs.hashValue == rhs.hashValue
     }
     
-//    public func hash(into hasher: inout Hasher)
-//    {
-//        hasher.combine(self)
-//    }
-    
     public var hashValue: Int {
         switch self {
         case .general:
@@ -143,53 +138,6 @@ extension RouterError:Hashable
         }
     }
 }
-
-//public enum RouterError: String, Error
-//{
-//    case general = "Generic Error"
-//    case noData = "No Data"
-//    case noResponse = "No Response"
-//    case Bad_Request = "Bad Request"
-//    case Auth_Error = "Authrorization Error"
-//    case Forbidden = "Forbidden"
-//    case Not_Found = "Not Found"
-//    case Method_Not_Allowed = "Method Not Allowed"
-//    case Unsupported_Media_Type = "Unsupported Media Type"
-//    case Internal_Server_Error = "Internal Server Error"
-//    case Other_Http_Error = "Misc Error"
-//    case URLSessionError = "Request Cancelled"
-//    // FIXME: case URLSessionError (Error) // Enums with Raw values cannot have associated values. Rewrite this error protocol.
-//
-//    func errorForCode(code: Int) -> RouterError
-//    {
-//        switch code
-//        {
-//        case 400:
-//            return RouterError.Bad_Request
-//        case 401:
-//            return RouterError.Auth_Error
-//        case 403:
-//            return RouterError.Forbidden
-//        case 404:
-//            return RouterError.Not_Found
-//        case 405:
-//            return RouterError.Method_Not_Allowed
-//        case 500:
-//            return RouterError.Internal_Server_Error
-//        default:
-//            return RouterError.Other_Http_Error
-//        }
-//    }
-//
-//    var errorCode: Int {
-//        guard let code = RouterErrorDictionary[self] else
-//        {
-//            return 999
-//        }
-//        return code
-//    }
-//
-//}
 
 internal class Router  {
     var tasks: [String:URLSessionTask] = [:]
