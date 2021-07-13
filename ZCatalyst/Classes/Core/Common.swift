@@ -230,13 +230,6 @@ protocol SelfParsable {
     
 }
 
-
-//typealias JSON = [String: Any<Codable>]
-
-
-//TODO: There are talks that there can be unauthenticated API calls, meaning the API Calls needn't be authenticated in the user scope. But will be authorized in the Admin (Catalyst Developer) scope. To handle that we'll need these functions
-// func getToken(isOAuth: Bool, completion: ->) This will either return a OAuth Key or API Key.
-
 class OAuth: OAuthCompatible
 {
     func getOAuthToken(success: @escaping ZSSOKitCompletionSuccessBlock, failure: @escaping ZSSOKitCompletionErrorBlock) {
