@@ -30,11 +30,11 @@ public struct ZCatalystAppConfiguration : Decodable
     }
     var apiVersion : String = "v1"
     public internal( set ) var projectId : String
-    public internal( set ) var environment : ZCatalystEnvironment
+    public internal( set ) var environment : ZCatalystAccountType
     public var requestTimeOut : Double = 120.0
     public var requestHeaders : Dictionary< String, String >?
     
-    public init( clientId : String, clientSecret : String, redirectURLScheme : String, portalId : String, projectId : String, serverTLD : ServerTLD = .com, environment : ZCatalystEnvironment = .production ) throws
+    public init( clientId : String, clientSecret : String, redirectURLScheme : String, portalId : String, projectId : String, serverTLD : ServerTLD = .com, environment : ZCatalystAccountType = .production ) throws
     {
         self.clientId = clientId
         self.clientSecret = clientSecret
@@ -95,10 +95,13 @@ public struct ZCatalystAppConfiguration : Decodable
         self.portalId = try container.decode( String.self, forKey : .portalId )
         self.redirectURLScheme = try container.decode( String.self, forKey : .redirectURLScheme )
         self.projectId = try container.decode( String.self, forKey : .projectId )
-        self.oAuthScopes = try container.decode( [ String ].self, forKey : .oAuthScopes )
+        let scopes = try container.decode( String.self, forKey : .oAuthScopes )
+        if let scopesArr = scopes.split( separator : "," ) as? [ String ]
+        {
+            self.oAuthScopes = scopesArr
+        }
         self.apiBaseURL = try container.decode( String.self, forKey : .apiBaseURL )
         self.apiVersion = try container.decode( String.self, forKey : .apiVersion )
-        self.accountsURL = try container.decode( String.self, forKey : .accountsURL )
         self.requestTimeOut = try container.decode( Double.self, forKey : .requestTimeOut )
         if let serverTLD = ServerTLD( serverTLD : try container.decode( String.self, forKey : .serverTLD ) )
         {
