@@ -77,41 +77,28 @@ public class ZCatalystApp
         ZCatalystAuthHandler.initIAMLogin( with : window, config : appConfiguration )
     }
     
-    public func initSDK( window : UIWindow, environment : ZCatalystEnvironment = .production ) throws
+    public func initSDK( window : UIWindow, environment : ZCatalystEnvironment ) throws
     {
+        var plistName = "AppConfiguration"
         if environment == .production
         {
-            if let appConfigPlist = Bundle.main.path( forResource : "AppConfigurationProduction", ofType : "plist" ), let appConfig = NSDictionary( contentsOfFile : appConfigPlist ) as? [String : Any]
-            {
-                let configData = try JSONSerialization.data( withJSONObject: appConfig, options : [] )
-                let decoder = JSONDecoder()
-                let appConfiguration = try decoder.decode( ZCatalystAppConfiguration.self, from : configData )
-                ZCatalystApp.shared.appConfig = appConfiguration
-                ZCatalystAuthHandler.initIAMLogin( with : window, config : appConfiguration )
-            }
-            else
-            {
-                ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.internalError ) : AppConfigurationProduction.plist is not found, Details : -" )
-                throw ZCatalystError.sdkError(code: ErrorCode.internalError, message: "AppConfiguration.plist is not found.", details: nil)
-            }
+            plistName += "Production"
         }
         else
         {
-            if let appConfigPlist = Bundle.main.path( forResource : "AppConfigurationDevelopment", ofType : "plist" ), let appConfig = NSDictionary( contentsOfFile : appConfigPlist ) as? [String : Any]
-            {
-                let configData = try JSONSerialization.data( withJSONObject: appConfig, options : [] )
-                let decoder = JSONDecoder()
-                let appConfiguration = try decoder.decode( ZCatalystAppConfiguration.self, from : configData )
-                ZCatalystApp.shared.appConfig = appConfiguration
-                ZCatalystApp.shared.appConfig.environment = .development
-                ZCatalystAuthHandler.initIAMLogin( with : window, config : appConfiguration )
-            }
-            else
-            {
-                ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.internalError ) : AppConfigurationDevelopment.plist is not found, Details : -" )
-                throw ZCatalystError.sdkError(code: ErrorCode.internalError, message: "AppConfiguration.plist is not found.", details: nil)
-            }
+            plistName += "Development"
         }
+        guard let appConfigPlist = Bundle.main.path( forResource : plistName, ofType : "plist" ), let appConfig = NSDictionary( contentsOfFile : appConfigPlist ) as? [String : Any] else
+        {
+            ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.initializationError ) : \(plistName).plist is not found, Details : -" )
+            throw ZCatalystError.sdkError(code: ErrorCode.initializationError, message: "\(plistName).plist is not found.", details: nil)
+        }
+        let configData = try JSONSerialization.data( withJSONObject: appConfig, options : [] )
+        let decoder = JSONDecoder()
+        let appConfiguration = try decoder.decode( ZCatalystAppConfiguration.self, from : configData )
+        ZCatalystApp.shared.appConfig = appConfiguration
+        ZCatalystApp.shared.appConfig.environment = environment
+        ZCatalystAuthHandler.initIAMLogin( with : window, config : appConfiguration )
     }
     
     public func getCurrentUser( completion: @escaping ( Result< ZCatalystUser,ZCatalystError > ) -> Void )
