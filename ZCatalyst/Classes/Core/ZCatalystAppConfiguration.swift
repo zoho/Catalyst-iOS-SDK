@@ -30,11 +30,11 @@ public struct ZCatalystAppConfiguration : Decodable
     }
     var apiVersion : String = "v1"
     public internal( set ) var projectId : String
-    public internal( set ) var environment : ZCatalystAccountType
+    public internal( set ) var environment : ZCatalystEnvironment
     public var requestTimeOut : Double = 120.0
     public var requestHeaders : Dictionary< String, String >?
     
-    public init( clientId : String, clientSecret : String, redirectURLScheme : String, portalId : String, projectId : String, serverTLD : ServerTLD = .com, environment : ZCatalystAccountType = .production ) throws
+    public init( clientId : String, clientSecret : String, redirectURLScheme : String, portalId : String, projectId : String, serverTLD : ServerTLD = .com, environment : ZCatalystEnvironment = .production ) throws
     {
         self.clientId = clientId
         self.clientSecret = clientSecret

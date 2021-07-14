@@ -22,7 +22,7 @@ internal enum Constants: String
     }
 }
 
-public enum ZCatalystAccountType
+public enum ZCatalystEnvironment
 {
     case production
     case development
@@ -77,7 +77,7 @@ public class ZCatalystApp
         ZCatalystAuthHandler.initIAMLogin( with : window, config : appConfiguration )
     }
     
-    public func initSDK( window : UIWindow, environment : ZCatalystAccountType ) throws
+    public func initSDK( window : UIWindow, environment : ZCatalystEnvironment ) throws
     {
         var plistName = "AppConfiguration"
         if environment == .production
