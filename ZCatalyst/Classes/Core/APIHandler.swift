@@ -1071,7 +1071,7 @@ extension AuthAPI: APIEndPointConvertable
     }
     
     var OAuthEnabled: OAuthEnabled {
-        return .enabled( helper : OAuth() )
+        return .disabled
     }
     
     var payload: Payload? {
