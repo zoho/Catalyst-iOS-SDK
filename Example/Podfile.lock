@@ -1,5 +1,5 @@
 PODS:
-  - ZCatalyst (0.1.1)
+  - ZCatalyst (2.0.1)
   - ZohoPortalAuth (0.0.3)
 
 DEPENDENCIES:
@@ -15,9 +15,9 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  ZCatalyst: 8bc6eabe9b65802e4e88ad8b12f795b3383e59d1
+  ZCatalyst: 4b218c8cadab731305c2c9ef12a81b1091ef0200
   ZohoPortalAuth: d642a6f5a6891c6c0855e39ce88c800188637ce6
 
-PODFILE CHECKSUM: c86d5f32edc912dee37e7735518b7df9b4c25733
+PODFILE CHECKSUM: 9f3e2858be2d80ea85fa10077b2d891b25d1e038
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.11.0.rc.1
