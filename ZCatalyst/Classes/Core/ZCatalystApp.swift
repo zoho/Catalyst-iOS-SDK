@@ -65,6 +65,8 @@ public class ZCatalystApp
     static var sessionCompletionHandlers : [ String : () -> () ] = [ String : () -> () ]()
     public static var fileUploadURLSessionConfiguration : URLSessionConfiguration = .default
     public static var fileDownloadURLSessionConfiguration : URLSessionConfiguration = .default
+    public static var sessionConfiguration : URLSessionConfiguration = URLSessionConfiguration.default
+    static var session : URLSession = URLSession( configuration : sessionConfiguration )
     public static let shared = ZCatalystApp()
     
     private init()
@@ -189,5 +191,39 @@ public class ZCatalystApp
     public func notifyBackgroundSessionEvent(_ identifier : String, _ completionHandler : @escaping () -> Void)
     {
         ZCatalystApp.sessionCompletionHandlers.updateValue( completionHandler, forKey: identifier)
+    }
+    
+    
+    public static func makeURLRequest(url : URL, requestTimeout : TimeInterval, requestMethod : CatalystRequestMethod, cachePolicy : URLRequest.CachePolicy = .returnCacheDataElseLoad, headers : [ String : String ]?, requestBody : [ String : Any ]?, completion : @escaping( CatalystResult.DataURLResponse< [ String : Any ]?, URLResponse > ) -> () )
+    {
+
+        var urlRequest = URLRequest( url : url )
+        urlRequest.httpMethod = requestMethod.rawValue
+        urlRequest.cachePolicy = cachePolicy
+        urlRequest.allHTTPHeaderFields = headers
+        if let requestBody = requestBody, !requestBody.isEmpty
+        {
+            let reqBody = try? JSONSerialization.data(withJSONObject: requestBody, options: [])
+            urlRequest.httpBody = reqBody
+        }
+        sessionConfiguration.timeoutIntervalForRequest = requestTimeout
+        session.dataTask( with : urlRequest) { ( data, response, error ) in
+            if let error = error
+            {
+                completion( .failure( typeCastToZCatalystError( error ) ) )
+                return
+            }
+            if let response = response, let data = data
+            {
+                if let responseJSON = try? JSONSerialization.jsonObject( with : data, options : [] ) as? [ String : Any ]
+                {
+                    completion( .success( responseJSON, response ) )
+                }
+                else
+                {
+                    completion( .success( nil, response ) )
+                }
+            }
+        }.resume()
     }
 }
