@@ -96,6 +96,7 @@ public enum ZCatalystError : Error
     case networkError( code : String, message : String, details : Dictionary< String, Any >? )
 }
 
+
 public struct ErrorCode
 {
     public static var invalidData = "INVALID_DATA"
@@ -134,6 +135,17 @@ public struct ErrorMessage
     public static let oauthFetchErrorMsg = "There was an error in fetching oauth Token."
     public static let unableToConstructURLMsg = "There was a problem constructing the URL."
 }
+
+
+public enum CatalystRequestMethod : String
+{
+    case get = "GET"
+    case post = "POST"
+    case patch = "PATCH"
+    case put = "PUT"
+    case delete = "DELETE"
+}
+
 
 public extension Error
 {
@@ -229,6 +241,13 @@ protocol Parsable
 protocol SelfParsable {
     
 }
+
+
+//typealias JSON = [String: Any<Codable>]
+
+
+//TODO: There are talks that there can be unauthenticated API calls, meaning the API Calls needn't be authenticated in the user scope. But will be authorized in the Admin (Catalyst Developer) scope. To handle that we'll need these functions
+// func getToken(isOAuth: Bool, completion: ->) This will either return a OAuth Key or API Key.
 
 class OAuth: OAuthCompatible
 {
