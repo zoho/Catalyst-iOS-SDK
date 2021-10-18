@@ -2,11 +2,34 @@
 //  Common.swift
 //  Catalyst
 //
-//  Created by Giridhar on 17/05/19.
-//
 
 import Foundation
 
+struct PayloadFactory
+{
+    static func generateSearch(api: SearchAPI) -> Payload
+    {
+        switch api
+        {
+        case .search(let text, let coloumn, let select,let order, let start, let end):
+            print("")
+            var bodyJSON : [ String : Any ] = [ "search" :text,
+                                           "search_table_columns" : coloumn,
+                                           "start" : start,
+                                           "end" : end ]
+            if let s = select
+            {
+                bodyJSON["select_table_columns"] = s
+            }
+            if let o = order
+            {
+                bodyJSON["order_by"] = o
+            }
+            
+            return Payload(bodyParameters: bodyJSON, urlParameters: nil, headers: nil, bodyData: nil)
+        }
+    }
+}
 
 class DateFormat
 {
@@ -96,6 +119,7 @@ public enum ZCatalystError : Error
     case networkError( code : String, message : String, details : Dictionary< String, Any >? )
 }
 
+
 public struct ErrorCode
 {
     public static var invalidData = "INVALID_DATA"
@@ -134,6 +158,17 @@ public struct ErrorMessage
     public static let oauthFetchErrorMsg = "There was an error in fetching oauth Token."
     public static let unableToConstructURLMsg = "There was a problem constructing the URL."
 }
+
+
+public enum CatalystRequestMethod : String
+{
+    case get = "GET"
+    case post = "POST"
+    case patch = "PATCH"
+    case put = "PUT"
+    case delete = "DELETE"
+}
+
 
 public extension Error
 {
@@ -229,6 +264,13 @@ protocol Parsable
 protocol SelfParsable {
     
 }
+
+
+//typealias JSON = [String: Any<Codable>]
+
+
+//TODO: There are talks that there can be unauthenticated API calls, meaning the API Calls needn't be authenticated in the user scope. But will be authorized in the Admin (Catalyst Developer) scope. To handle that we'll need these functions
+// func getToken(isOAuth: Bool, completion: ->) This will either return a OAuth Key or API Key.
 
 class OAuth: OAuthCompatible
 {
