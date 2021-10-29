@@ -8,7 +8,7 @@ The iOS SDK package enables you to handle several back end jobs such as user
 
 - **Data Store** : The Data Store in Catalyst is a cloud-based relational database management system which stores the persistent data of your application. This data repository includes the data from the application's backend and the data of the application's end users. The Catalyst Data Store enables you to perform data manipulations such as adding new tables, adding and modifying records, defining field characteristics, and deleting data.
 
-- **File Store functionalities **: Catalyst File Store provides cloud storage solutions to store, manage, and organise your application files and user data files. The files can be images, videos, text files, document files, spreadsheets, or other formats. Catalyst provides storage for all file formats and helps you categorise them in folders.
+- **File Store functionalities**: Catalyst File Store provides cloud storage solutions to store, manage, and organise your application files and user data files. The files can be images, videos, text files, document files, spreadsheets, or other formats. Catalyst provides storage for all file formats and helps you categorise them in folders.
 
 - **Function executions** : Catalyst Functions are custom-built coding structures which contain the intense business logic of your application. Functions allow you to store the functionality of the application in a centralised and secure place, rather than storing it within the application's main code. The application uses APIs to invoke functions from the Catalyst servers when needed.
 
@@ -33,12 +33,13 @@ The iOS SDK package enables you to handle several back end jobs such as user
 You can seamlessly integrate these Catalyst components in your iOS app by implementing the ready-made functionalities provided by the SDK package, and build on them easily. This saves you from investing time and effort into coding the backend from scratch, and helps you focus more on designing the user experience of the app.
 
 ## 📜 Content 
-- Requirement
-- Example Build
-- SDK Responsibilities
-- Installation
-- Author
-- License**
+- [Requirement](#-requirements)
+- [Example Build](#-example-build)
+- [Documentation](#-documentation)
+- [SDK Responsibilities](#-sdk-responsibilities)
+- [Installation](#-installation)
+- [Author](#-author)
+- [License](#-license)
 
 ## 📋 Requirements
 - Xcode 9 and Above
