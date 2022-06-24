@@ -31,8 +31,7 @@ public class ZCatalystUser : ZCatalystUserDelegate
     }
     
     var payload: Parameters{
-        let userdict = ["first_name":self.firstName,
-                        "last_name":self.lastName,
+        let userdict = ["last_name":self.lastName,
                         "email_id":self.email]
         
         return ["platform_type":"ios",
