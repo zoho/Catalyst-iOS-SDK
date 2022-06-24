@@ -22,7 +22,7 @@ public class ZCatalystUserDelegate : ZCatalystEntity
         let container = try decoder.container( keyedBy : CodingKeys.self )
         self.id = try container.decode( Int64.self, forKey : .id )
         self.email = try container.decode( String.self, forKey : .email )
-        self.firstName = try container.decode( String.self, forKey : .firstName )
+        self.firstName = try container.decodeIfPresent(String.self, forKey: .firstName)
         self.lastName = try container.decode( String.self, forKey : .lastName )
         self.zuId = try container.decode( Int64.self, forKey : .zuId )
         self.isConfirmed = try container.decode( Bool.self, forKey : .isConfirmed )
