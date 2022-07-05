@@ -1,8 +1,5 @@
 use_frameworks!
 
-
-#source 'https://git.csez.zohocorpin.com/zoho/zohopodspecs.git'
-#source 'https://github.com/CocoaPods/Specs.git'
 target 'ZCatalyst_Example' do
   pod 'ZCatalyst', :path => '../'
   pod 'ZohoPortalAuth', '0.0.3'
