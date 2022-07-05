@@ -16,17 +16,17 @@ struct PayloadFactory
         {
         case .search(let text, let coloumn, let select,let order, let start, let end):
             print("")
-            var bodyJSON : [ String : Any ] = [ "search" :text,
-                                           "search_table_columns" : coloumn,
-                                           "start" : start,
-                                           "end" : end ]
+            var bodyJSON : [ String : Any ] = [ PayloadConstants.search :text,
+                                                PayloadConstants.searchTableColumns : coloumn,
+                                                PayloadConstants.start : start,
+                                                PayloadConstants.end : end ]
             if let s = select
             {
-                bodyJSON["select_table_columns"] = s
+                bodyJSON[PayloadConstants.selectTableColumns] = s
             }
             if let o = order
             {
-                bodyJSON["order_by"] = o
+                bodyJSON[PayloadConstants.orderBy] = o
             }
             
             return Payload(bodyParameters: bodyJSON, urlParameters: nil, headers: nil, bodyData: nil)
@@ -34,3 +34,12 @@ struct PayloadFactory
     }
 }
 
+public struct PayloadConstants
+{
+    static let orderBy = "order_by"
+    static let selectTableColumns = "select_table_columns"
+    static let search = "search"
+    static let searchTableColumns = "search_table_columns"
+    static let start = "start"
+    static let end = "end"
+}

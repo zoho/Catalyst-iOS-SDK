@@ -31,13 +31,13 @@ public class ZCatalystUser : ZCatalystUserDelegate
     }
     
     var payload: Parameters{
-        let userdict = ["last_name":self.lastName,
-                        "email_id":self.email]
+        let userdict = [ZCatalystUserConstants.lastName:self.lastName,
+                        ZCatalystUserConstants.emailId:self.email]
         
-        return ["platform_type":"ios",
-                "redirect_url": ZCatalystApp.shared.appConfig.redirectURLScheme,
-                "zaid":ZCatalystApp.shared.appConfig.portalId,
-                "user_details":userdict]
+        return [ZCatalystUserConstants.platformType:ZCatalystUserConstants.ios,
+                ZCatalystUserConstants.redirectURL: ZCatalystApp.shared.appConfig.redirectURLScheme,
+                ZCatalystUserConstants.zaid:ZCatalystApp.shared.appConfig.portalId,
+                ZCatalystUserConstants.userDetails:userdict]
     }
     
     enum CodingKeys : String, CodingKey
@@ -61,4 +61,15 @@ public struct ZCatalystUserRole : Decodable
         case id = "role_id"
         case name = "role_name"
     }
+}
+
+public struct ZCatalystUserConstants
+{
+    static let lastName = "last_name"
+    static let emailId = "email_id"
+    static let platformType = "platform_type"
+    static let redirectURL = "redirect_url"
+    static let zaid = "zaid"
+    static let userDetails = "user_details"
+    static let ios = "ios"
 }

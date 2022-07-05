@@ -61,10 +61,12 @@ public enum ServerTLD : String
 public class ZCatalystApp
 {
     public internal( set ) var appConfig : ZCatalystAppConfiguration!
-    
+    internal var userAgent : String = "ZC_iOS_unknown_app"
     static var sessionCompletionHandlers : [ String : () -> () ] = [ String : () -> () ]()
     public static var fileUploadURLSessionConfiguration : URLSessionConfiguration = .default
     public static var fileDownloadURLSessionConfiguration : URLSessionConfiguration = .default
+    public static var sessionConfiguration : URLSessionConfiguration = URLSessionConfiguration.default
+    static var session : URLSession = URLSession( configuration : sessionConfiguration )
     public static let shared = ZCatalystApp()
     
     private init()
@@ -73,6 +75,10 @@ public class ZCatalystApp
     
     public func initSDK( window : UIWindow, appConfiguration : ZCatalystAppConfiguration )
     {
+        if let packageName = Bundle.main.infoDictionary?[ kCFBundleNameKey as String ] as? String, let appVersion = Bundle.main.infoDictionary?[ "CFBundleShortVersionString" ] as? String
+        {
+            self.userAgent = "\( packageName )/\( appVersion )(iPhone) ZCiOSSDK"
+        }
         ZCatalystApp.shared.appConfig = appConfiguration
         ZCatalystAuthHandler.initIAMLogin( with : window, config : appConfiguration )
     }
@@ -96,6 +102,10 @@ public class ZCatalystApp
         let configData = try JSONSerialization.data( withJSONObject: appConfig, options : [] )
         let decoder = JSONDecoder()
         let appConfiguration = try decoder.decode( ZCatalystAppConfiguration.self, from : configData )
+        if let packageName = Bundle.main.infoDictionary?[ kCFBundleNameKey as String ] as? String, let appVersion = Bundle.main.infoDictionary?[ "CFBundleShortVersionString" ] as? String
+        {
+            self.userAgent = "\( packageName )/\( appVersion )(iPhone) ZCiOSSDK"
+        }
         ZCatalystApp.shared.appConfig = appConfiguration
         ZCatalystApp.shared.appConfig.environment = environment
         ZCatalystAuthHandler.initIAMLogin( with : window, config : appConfiguration )
@@ -153,11 +163,14 @@ public class ZCatalystApp
         return ZCatalystFunction( identifier : name )
     }
     
-    public func getDataStoreInstance() -> ZCatalystDataStore
+    public func getDataStoreInstance(tableIdentifier : String) -> ZCatalystDataStore
     {
-        return ZCatalystDataStore()
+        return ZCatalystDataStore(tableIdentifier: tableIdentifier)
     }
-    
+    public func execute( query : ZCatalystSelectQuery, completion: @escaping (Result<[ [ String : Any ] ], ZCatalystError>) -> Void)
+    {
+        APIHandler().executeZCQL( query : query.query, completion : completion )
+    }
     public func newUser( lastName : String, email : String ) -> ZCatalystUser
     {
         let user = ZCatalystUser()
@@ -189,5 +202,38 @@ public class ZCatalystApp
     public func notifyBackgroundSessionEvent(_ identifier : String, _ completionHandler : @escaping () -> Void)
     {
         ZCatalystApp.sessionCompletionHandlers.updateValue( completionHandler, forKey: identifier)
+    }
+    
+    public static func makeURLRequest(url : URL, requestTimeout : TimeInterval, requestMethod : CatalystRequestMethod, cachePolicy : URLRequest.CachePolicy = .returnCacheDataElseLoad, headers : [ String : String ]?, requestBody : [ String : Any ]?, completion : @escaping( CatalystResult.DataURLResponse< [ String : Any ]?, URLResponse > ) -> () )
+    {
+
+        var urlRequest = URLRequest( url : url )
+        urlRequest.httpMethod = requestMethod.rawValue
+        urlRequest.cachePolicy = cachePolicy
+        urlRequest.allHTTPHeaderFields = headers
+        if let requestBody = requestBody, !requestBody.isEmpty
+        {
+            let reqBody = try? JSONSerialization.data(withJSONObject: requestBody, options: [])
+            urlRequest.httpBody = reqBody
+        }
+        sessionConfiguration.timeoutIntervalForRequest = requestTimeout
+        session.dataTask( with : urlRequest) { ( data, response, error ) in
+            if let error = error
+            {
+                completion( .failure( typeCastToZCatalystError( error ) ) )
+                return
+            }
+            if let response = response, let data = data
+            {
+                if let responseJSON = try? JSONSerialization.jsonObject( with : data, options : [] ) as? [ String : Any ]
+                {
+                    completion( .success( responseJSON, response ) )
+                }
+                else
+                {
+                    completion( .success( nil, response ) )
+                }
+            }
+        }.resume()
     }
 }

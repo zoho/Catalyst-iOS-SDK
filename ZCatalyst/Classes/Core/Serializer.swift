@@ -14,14 +14,14 @@ struct Serializer
         do {
             let json = try JSONSerialization.jsonObject(with: data, options:[]) as? [String:Any]
             
-            guard let status = json?["status"] as? String else
+            guard let status = json?[CatalystConstants.status] as? String else
             {
                 ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.jsonException ) : \( ErrorMessage.responseParseError ), Details : -" )
                 return .error( .processingError( code : ErrorCode.jsonException, message : ErrorMessage.responseParseError, details : nil ) )
             }
-            if status == "success"
+            if status == CatalystConstants.success
             {
-                guard let body = json?["data"] else
+                guard let body = json?[SerializerConstants.data] else
                 {
                     ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.jsonException ) : \( ErrorMessage.responseParseError ), Details : -" )
                     return .error( .processingError( code : ErrorCode.jsonException, message : ErrorMessage.responseParseError, details : nil ) )
@@ -64,14 +64,14 @@ struct Serializer
         do {
             let json = try JSONSerialization.jsonObject(with: data, options:[]) as? [String:Any]
             
-            guard let status = json?["status"] as? String else
+            guard let status = json?[CatalystConstants.status] as? String else
             {
                 ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.jsonException ) : \( ErrorMessage.responseParseError ), Details : -" )
                 return .error( .processingError( code : ErrorCode.jsonException, message : ErrorMessage.responseParseError, details : nil ) )
             }
-            if status == "success"
+            if status == CatalystConstants.success
             {
-                guard let body = json?["data"] else
+                guard let body = json?[SerializerConstants.data] else
                 {
                     ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.jsonException ) : \( ErrorMessage.responseParseError ), Details : -" )
                     return .error( .processingError( code : ErrorCode.jsonException, message : ErrorMessage.responseParseError, details : nil ) )
@@ -102,14 +102,14 @@ struct Serializer
         do {
             let json = try JSONSerialization.jsonObject(with: data, options:[]) as? [String:Any]
             
-            guard let status = json?["status"] as? String else
+            guard let status = json?[CatalystConstants.status] as? String else
             {
                 ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.jsonException ) : \( ErrorMessage.responseParseError ), Details : -" )
                 return .error( .processingError( code : ErrorCode.jsonException, message : ErrorMessage.responseParseError, details : nil ) )
             }
-            if status == "success"
+            if status == CatalystConstants.success
             {
-                guard let body = json?["data"] else
+                guard let body = json?[SerializerConstants.data] else
                 {
                     ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.jsonException ) : \( ErrorMessage.responseParseError ), Details : -" )
                     return .error( .processingError( code : ErrorCode.jsonException, message : ErrorMessage.responseParseError, details : nil ) )
@@ -120,9 +120,9 @@ struct Serializer
             }
             else
             {
-                if status == "failure"
+                if status == CatalystConstants.failure
                 {
-                    guard let error = json?["data"] as? [ String : Any ], let code = error[ "error_code" ] as? String, let message = error[ "message" ] as? String else
+                    guard let error = json?[SerializerConstants.data] as? [ String : Any ], let code = error[ SerializerConstants.errorCode ] as? String, let message = error[ SerializerConstants.message ] as? String else
                     {
                         ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.jsonException ) : \( ErrorMessage.responseParseError ), Details : -" )
                         return .error( .processingError( code : ErrorCode.jsonException, message : ErrorMessage.responseParseError, details : nil ) )
@@ -146,14 +146,14 @@ struct Serializer
         do {
             let json = try JSONSerialization.jsonObject(with: data, options:[]) as? [String:Any]
             
-            guard let status = json?["status"] as? String else
+            guard let status = json?[CatalystConstants.status] as? String else
             {
                 ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.jsonException ) : \( ErrorMessage.responseParseError ), Details : -" )
                 return .error( .processingError( code : ErrorCode.jsonException, message : ErrorMessage.responseParseError, details : nil ) )
             }
-            if status == "success"
+            if status == CatalystConstants.success
             {
-                guard let body = json?["data"] as? [String: Any] else
+                guard let body = json?[SerializerConstants.data] as? [String: Any] else
                 {
                     ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.jsonException ) : \( ErrorMessage.responseParseError ), Details : -" )
                     return .error( .processingError( code : ErrorCode.jsonException, message : ErrorMessage.responseParseError, details : nil ) )
@@ -166,9 +166,9 @@ struct Serializer
             }
             else
             {
-                if status == "failure"
+                if status == CatalystConstants.failure
                 {
-                    guard let error = json?["data"] as? [ String : Any ], let code = error[ "error_code" ] as? String, let message = error[ "message" ] as? String else {
+                    guard let error = json?[SerializerConstants.data] as? [ String : Any ], let code = error[SerializerConstants.errorCode] as? String, let message = error[ SerializerConstants.message ] as? String else {
                         ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.jsonException ) : \( ErrorMessage.responseParseError ), Details : -" )
                         return .error( .processingError( code : ErrorCode.jsonException, message : ErrorMessage.responseParseError, details : nil ) )
                     }
@@ -187,3 +187,9 @@ struct Serializer
     }
 }
 
+public struct SerializerConstants
+{
+    static let data = "data"
+    static let message = "message"
+    static let errorCode = "error_code"
+}

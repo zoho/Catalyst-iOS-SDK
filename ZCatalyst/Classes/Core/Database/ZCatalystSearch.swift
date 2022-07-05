@@ -69,8 +69,8 @@ public struct ZCatalystSearchOptions
     func buildAPI() -> SearchAPI
     {
         let api = SearchAPI.search( text : searchPattern.searchString( text ),
-                                   search_coloumn : searchColumns,
-                                   select_table_coloumn : displayColumns,
+                                   searchColoumn : searchColumns,
+                                   selectTableColoumn : displayColumns,
                                    order : sortColumns, startIndex : startIndex,
                                    endIndex : endIndex )
         return api

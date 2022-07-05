@@ -153,6 +153,29 @@ struct APIHandler
         networkClient.upload( fileRefId : fileRefId, filePath : nil, fileName : fileName, fileData : fileData, url : api, fileUploadDelegate : fileUploadDelegate )
     }
     
+    func delete( folderId: Int64, fileId: Int64, completion: @escaping( ZCatalystError? ) -> Void )
+    {
+        let api = FileStorageAPI.deleteFile(folderId: String(folderId) , fileId: String(fileId))
+        networkClient.request( api, session : URLSession.shared) { ( result ) in
+            switch result
+            {
+            case .success( let data ) :
+                let jsonResult : Result< ZCatalystFile, ZCatalystError > = self.parse( data : data )
+                switch jsonResult
+                {
+                case .success( _ ) :
+                    completion( nil )
+                case .error( let error ) :
+                    completion( error )
+                    ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
+                }
+            case .error( let error ):
+                completion( typeCastToZCatalystError( error ) )
+                ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
+            }
+        }
+    }
+    
     func executeFunction( name : String, parameters params : [ String : Any ]?, body : [ String : Any ]?, requestMethod : HTTPMethod, completion : @escaping( Result< String, ZCatalystError > ) -> Void )
     {
         let api = FunctionsAPI.execute( id : name, requestMethod : requestMethod, parameters : params, body : body )
@@ -168,12 +191,12 @@ struct APIHandler
                         completion( .error( .processingError( code : ErrorCode.jsonException, message : ErrorMessage.responseParseError, details : nil ) ) )
                         return
                     }
-                    if jsonValue[ "status" ] as? String == "failure"
+                    if jsonValue[ CatalystConstants.status ] as? String == CatalystConstants.failure
                     {
                         let result : Result< ZCatalystFunctionResult, ZCatalystError > = Serializer.parse( data : data )
                         switch result {
                         case .success( let funcResult ) :
-                            guard let output = funcResult.output[ "output" ] as? String else
+                            guard let output = funcResult.output[ APIHandlerConstants.output ] as? String else
                             {
                                 ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.jsonException ) : \( ErrorMessage.responseParseError ), Details : -" )
                                 completion( .error( .processingError( code : ErrorCode.jsonException, message : ErrorMessage.responseParseError, details : nil ) ) )
@@ -187,7 +210,7 @@ struct APIHandler
                     }
                     else
                     {
-                        guard let output = jsonValue[ "output" ] as? String else
+                        guard let output = jsonValue[ APIHandlerConstants.output ] as? String else
                         {
                             ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.jsonException ) : \( ErrorMessage.responseParseError ), Details : -" )
                             completion( .error( .processingError( code : ErrorCode.jsonException, message : ErrorMessage.responseParseError, details : nil ) ) )
@@ -351,38 +374,6 @@ struct APIHandler
         }
     }
     
-    func getTables( completion : @escaping ( Result< [ ZCatalystTable ], ZCatalystError > ) -> Void )
-    {
-        let api = TableAPI.fetchAll
-        networkClient.request( api, session : URLSession.shared ) { ( result ) in
-            switch result
-            {
-            case .success( let data ) :
-                let jsonResult : Result< [ ZCatalystTable ], ZCatalystError > = self.parse( data : data )
-                completion( jsonResult )
-            case .error( let error ):
-                completion( Result.error( typeCastToZCatalystError( error ) ) )
-                ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
-            }
-        }
-    }
-    
-    func getTable( name : String, completion : @escaping ( Result< ZCatalystTable, ZCatalystError > ) -> Void )
-    {
-        let api = TableAPI.fetch( table : name )
-        networkClient.request( api, session : URLSession.shared ) { ( result ) in
-            switch result
-            {
-            case .success( let data ) :
-                let jsonResult : Result< ZCatalystTable, ZCatalystError > = self.parse( data : data )
-                completion( jsonResult )
-            case .error( let error ):
-                completion( Result.error( typeCastToZCatalystError( error ) ) )
-                ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
-            }
-        }
-    }
-    
     func getColumns( table : String, completion : @escaping ( Result< [ ZCatalystColumn ], ZCatalystError > ) -> Void )
     {
         let api = ColumAPI.fetchAll( table : table )
@@ -417,70 +408,77 @@ struct APIHandler
     
     func create(_ rows: [ ZCatalystRow ], tableId : String, completion: @escaping(Result<[ZCatalystRow], ZCatalystError>) -> Void)
     {
-        guard let payload = ZCatalystTable.bulkInsert(rows: rows) else {
-            completion( .error( .processingError( code : ErrorCode.invalidData, message : ErrorMessage.invalidDataMsg, details : nil ) ) )
-            return
-        }
-        let api = RowAPI.insert( json : payload, table : tableId )
-        networkClient.request( api, session : URLSession.shared) { ( result ) in
-            switch result
-            {
-            case .success( let data ) :
-                let jsonResult : Result< [ ZCatalystRow ], ZCatalystError > = self.parse( data : data )
-                switch jsonResult
+        do
+        {
+            let payload = try ZCatalystDataStore.bulkInsert(rows: rows)
+            let api = RowAPI.insert( json : payload, table : tableId )
+            networkClient.request( api, session : URLSession.shared) { ( result ) in
+                switch result
                 {
-                case .success( let rows ) :
-                    for row in rows
+                case .success( let data ) :
+                    let jsonResult : Result< [ ZCatalystRow ], ZCatalystError > = self.parse( data : data )
+                    switch jsonResult
                     {
-                        row.tableIdentifier = tableId
+                    case .success( let rows ) :
+                        for row in rows
+                        {
+                            row.tableIdentifier = tableId
+                        }
+                        completion( .success( rows ) )
+                    case .error( let error ) :
+                        completion( .error( error ) )
+                        ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
                     }
-                    completion( .success( rows ) )
-                case .error( let error ) :
-                    completion( .error( error ) )
+                case .error( let error ):
+                    completion( Result.error( typeCastToZCatalystError( error ) ) )
                     ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
                 }
-            case .error( let error ):
-                completion( Result.error( typeCastToZCatalystError( error ) ) )
-                ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
             }
+        }
+        catch
+        {
+            completion(.error(typeCastToZCatalystError(error)))
         }
     }
     
     func update(_ rows: [ ZCatalystRow ], tableId : String, completion: @escaping(Result<[ZCatalystRow], ZCatalystError>) -> Void)
     {
-        guard let payload = ZCatalystTable.bulkInsert(rows: rows) else {
-            ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.invalidData ) : \( ErrorMessage.invalidDataMsg ), Details : -" )
-            completion( .error( .processingError( code : ErrorCode.invalidData, message : ErrorMessage.invalidDataMsg, details : nil ) ) )
-            return
-        }
-        let api = RowAPI.update( json : payload, table : tableId )
-        networkClient.request( api, session : URLSession.shared) { ( result ) in
-            switch result
-            {
-            case .success( let data ) :
-                let jsonResult : Result< [ ZCatalystRow ], ZCatalystError > = self.parse( data : data )
-                switch jsonResult
+        do
+        {
+            let payload = try ZCatalystDataStore.bulkInsert(rows: rows)
+            let api = RowAPI.update( json : payload, table : tableId )
+            networkClient.request( api, session : URLSession.shared) { ( result ) in
+                switch result
                 {
-                case .success( let rows ) :
-                    for row in rows
+                case .success( let data ) :
+                    let jsonResult : Result< [ ZCatalystRow ], ZCatalystError > = self.parse( data : data )
+                    switch jsonResult
                     {
-                        row.tableIdentifier = tableId
+                    case .success( let rows ) :
+                        for row in rows
+                        {
+                            row.tableIdentifier = tableId
+                        }
+                        completion( .success( rows ) )
+                    case .error( let error ) :
+                        completion( .error( error ) )
+                        ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
                     }
-                    completion( .success( rows ) )
-                case .error( let error ) :
-                    completion( .error( error ) )
+                case .error( let error ):
+                    completion( Result.error( typeCastToZCatalystError( error ) ) )
                     ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
                 }
-            case .error( let error ):
-                completion( Result.error( typeCastToZCatalystError( error ) ) )
-                ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
             }
+        }
+        catch
+        {
+            completion(.error(typeCastToZCatalystError(error)))
         }
     }
     
-    func fetchRows(table : String, completion: @escaping (Result<[ZCatalystRow], ZCatalystError>) -> Void)
+    func fetchRows(table : String, maxRecord: String?, nextToken: String?, completion: @escaping (CatalystResult.DataURLResponse<[ZCatalystRow], ResponseInfo>) -> Void)
     {
-        let api = RowAPI.fetchAll(table: table)
+        let api = RowAPI.fetchAll(table: table, nextPageToken: nextToken, perPage: maxRecord)
         networkClient.request( api, session : URLSession.shared) { ( result ) in
             switch result
             {
@@ -493,13 +491,21 @@ struct APIHandler
                     {
                         row.tableIdentifier = table
                     }
-                    completion( .success( rows ) )
+                    do
+                    {
+                        let info = try parseResponseInfo(data: data)
+                        completion( .success( rows, info ) )
+                    }
+                    catch
+                    {
+                        completion( .failure( error ) )
+                    }
                 case .error( let error ) :
-                    completion( .error( error ) )
+                    completion( .failure( error ) )
                     ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
                 }
             case .error( let error ):
-                completion( Result.error( typeCastToZCatalystError( error ) ) )
+                completion( .failure( typeCastToZCatalystError( error ) ) )
                 ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
             }
         }
@@ -593,10 +599,10 @@ struct APIHandler
         let os_version = UIDevice.current.systemVersion
         let bundleID = Bundle.main.bundleIdentifier
         var payload:[String: Any] {
-            return ["device_token":token,
-                    "os_version":os_version,
-                    "app_bundle_id":bundleID ?? "",
-                    "test_device":isTestDevice]
+            return [APIHandlerConstants.deviceToken:token,
+                    APIHandlerConstants.osVersion:os_version,
+                    APIHandlerConstants.appBundleID:bundleID ?? "",
+                    APIHandlerConstants.testDevice:isTestDevice]
         }
         return payload
     }
@@ -610,7 +616,7 @@ struct APIHandler
             {
             case .success(let json):
                 guard let jsonObj = json as? [String: Any],
-                    let installationId = jsonObj["installation_id"] as? String else
+                      let installationId = jsonObj[APIHandlerConstants.installationID] as? String else
                 {
                     completion(false)
                     return
@@ -641,7 +647,7 @@ struct APIHandler
                 }
                 if T.self == ZCatalystUser.self
                 {
-                    if let userDetails = json[ "user_details" ] as? [ String : Any ]
+                    if let userDetails = json[ APIHandlerConstants.userDetails ] as? [ String : Any ]
                     {
                         let jsonData = try JSONSerialization.data( withJSONObject: userDetails, options : [] )
                         let decoder = JSONDecoder()
@@ -708,27 +714,48 @@ struct APIHandler
             return .error( typeCastToZCatalystError( error ) )
         }
     }
+    
+    fileprivate func parseResponseInfo(data : Data) throws -> ResponseInfo
+    {
+        let json = try JSONSerialization.jsonObject(with: data, options:[]) as? [String:Any]
+        guard let moreRecords = json?[APIHandlerConstants.moreRecords] as? Bool else
+        {
+            ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.jsonException ) : \( ErrorMessage.responseParseError ), Details : -" )
+            throw  ZCatalystError.processingError( code : ErrorCode.jsonException, message : ErrorMessage.responseParseError, details : nil )
+        }
+        if moreRecords
+        {
+            if let token = json?[APIHandlerConstants.nextToken] as? String
+            {
+                return ResponseInfo(hasMoreRecords: moreRecords, nextPageToken: token)
+            }
+            else
+            {
+                throw  ZCatalystError.processingError( code : ErrorCode.jsonException, message : ErrorMessage.responseParseError, details : nil )
+            }
+        }
+        else
+        {
+            return ResponseInfo(hasMoreRecords: moreRecords, nextPageToken: nil)
+        }
+    }
 }
 
 extension FileStorageAPI: APIEndPointConvertable
 {
-    var baseURL: URL {
-        return  ServerURL.url()
-    }
-    
     var path: String {
         switch self
         {
         case .fetchAll( let folderId ) :
-            return "folder/\( folderId )/file"
+            return "\(APIHandlerConstants.folder)/\( folderId )/\(APIHandlerConstants.file)"
         case .fetch( let folderId, let fileId ) :
-            return "folder/\( folderId )/file/\( fileId )"
-        case .uploadFile(let folderID):
-            return "folder/\(folderID)/file"
+            return "\(APIHandlerConstants.folder)/\( folderId )/\(APIHandlerConstants.file)/\( fileId )"
+        case .uploadFile(let folderId):
+            return "\(APIHandlerConstants.folder)/\(folderId)/\(APIHandlerConstants.file)"
         case .downloadFile(let folderId, let fileId):
-            return "/folder/\(folderId)/file/\(fileId)/download"
-        case .deleteFile:
-            return ""
+            return "\(APIHandlerConstants.folder)/\( folderId )/\(APIHandlerConstants.file)/\(fileId)/\(APIHandlerConstants.download)"
+        case .deleteFile(let folderId, let fileId):
+            return "\(APIHandlerConstants.folder)/\( folderId )/\(APIHandlerConstants.file)/\(fileId)"
         }
     }
     
@@ -744,46 +771,37 @@ extension FileStorageAPI: APIEndPointConvertable
             return .post
         case .downloadFile(_,_):
             return .get
-        case .deleteFile:
+        case .deleteFile(_,_):
             return .delete
         }
     }
     
     var OAuthEnabled: OAuthEnabled {
-            return .enabled(helper: OAuth())
+        return .enabled(helper: OAuth())
     }
     
     var payload: Payload? {
         return nil
     }
-    
-    var headers: HTTPHeaders?
-    {
-        return ServerURL.portalHeader()
-    }
 }
 
 extension FolderAPI : APIEndPointConvertable
 {
-    var baseURL : URL {
-        return ServerURL.url()
-    }
-    
     var path : String {
         switch self
         {
         case .fetch( let folder ) :
-            return "folder/\( folder )"
+            return "\(APIHandlerConstants.folder)/\( folder )"
         case .fetchAll :
-            return "folder"
+            return "\(APIHandlerConstants.folder)"
         }
     }
     
     var httpMethod: HTTPMethod {
         switch self
         {
-            case .fetch( _ ), .fetchAll :
-                return HTTPMethod.get
+        case .fetch( _ ), .fetchAll :
+            return HTTPMethod.get
         }
     }
     
@@ -794,24 +812,16 @@ extension FolderAPI : APIEndPointConvertable
     var payload: Payload? {
         return nil
     }
-    
-    var headers: HTTPHeaders? {
-        return ServerURL.portalHeader()
-    }
 }
 
 
 extension FunctionsAPI: APIEndPointConvertable
 {
-    var baseURL: URL {
-        return ServerURL.url()
-    }
-    
     var path: String {
         switch self
         {
         case .execute( let id, _, _, _ ) :
-            return "function/\(id)/execute"
+            return "\(APIHandlerConstants.function)/\(id)/\(APIHandlerConstants.execute)"
         }
     }
     
@@ -834,26 +844,18 @@ extension FunctionsAPI: APIEndPointConvertable
             return Payload(bodyParameters: body, urlParameters: params, headers: nil, bodyData: nil)
         }
     }
-    
-    var headers: HTTPHeaders? {
-        return ServerURL.portalHeader()
-        
-    }
 }
 
 extension PushNotificationAPI: APIEndPointConvertable
 {
-    var baseURL: URL {
-        return ServerURL.url()
-    }
     
     var path: String {
         switch self
         {
         case .deregister(_,let appID):
-            return "/push-notification/\(appID)/unregister" //TODO: Documentation says appID, not sure what it is. So have put app.name for now.
+            return "/\(APIHandlerConstants.pushNotification)/\(appID)/\(APIHandlerConstants.unregister)" //TODO: Documentation says appID, not sure what it is. So have put app.name for now.
         case .register(_,let appID):
-            return "/push-notification/\(appID)/register"
+            return "/\(APIHandlerConstants.pushNotification)/\(appID)/\(APIHandlerConstants.register)"
         }
     }
     
@@ -871,30 +873,22 @@ extension PushNotificationAPI: APIEndPointConvertable
             return Payload(bodyParameters: params, urlParameters: nil, headers: nil, bodyData:  nil)
         }
     }
-    
-    var headers: HTTPHeaders? {
-        return ServerURL.portalHeader()
-    }
 }
 
 extension RowAPI: APIEndPointConvertable
 {
-    var baseURL: URL {
-        return ServerURL.url()
-    }
-    
     var path: String {
         switch self {
-        case .fetchAll(let table), .update( _ , let table), .insert(_,let table):
-            return "/table/\(table)/row"
+        case .fetchAll(let table, _ , _), .update( _ , let table), .insert(_,let table):
+            return "/\(APIHandlerConstants.table)/\(table)/\(APIHandlerConstants.row)"
         case .delete(let row, let table), .fetch(let table, let row):
-            return "/table/\(table)/row/\(row)"
+            return "/\(APIHandlerConstants.table)/\(table)/\(APIHandlerConstants.row)/\(row)"
         }
     }
     
     var httpMethod: HTTPMethod {
         switch self{
-        case .fetchAll(_), .fetch(_, _):
+        case .fetchAll(_,_,_), .fetch(_, _):
             return .get
         case .update(_, _):
             return .put
@@ -906,34 +900,53 @@ extension RowAPI: APIEndPointConvertable
     }
     
     var OAuthEnabled: OAuthEnabled {
-         return .enabled(helper: OAuth())
+        return .enabled(helper: OAuth())
     }
     
     var payload: Payload? {
         switch self
         {
             
-        case .fetchAll(_), .fetch(_, _), .delete(_,_):
+        case .fetch(_, _), .delete(_,_):
             return nil
+        case .fetchAll(_,let nextToken, let maxRecord):
+            var parameter : Parameters = Parameters()
+            if let maxRecord = maxRecord
+            {
+                if let nextToken = nextToken
+                {
+                    parameter  = [APIHandlerConstants.maxRows : maxRecord, APIHandlerConstants.nextToken : nextToken]
+                }
+                else
+                {
+                    parameter = [APIHandlerConstants.maxRows : maxRecord]
+                    
+                }
+                return Payload(bodyParameters: nil, urlParameters: parameter , headers: nil, bodyData: nil)
+            }
+            else
+            {
+                if let nextToken = nextToken
+                {
+                    parameter  = [APIHandlerConstants.nextToken : nextToken]
+                    return Payload(bodyParameters: nil, urlParameters: parameter , headers: nil, bodyData: nil)
+                }
+                else
+                {
+                    return nil
+                }
+            }
         case .update(let jsonData, _), .insert(let jsonData, _):
             return Payload(bodyParameters: nil, urlParameters: nil, headers: nil, bodyData: jsonData)
         }
-    }
-    
-    var headers: HTTPHeaders? {
-        return ServerURL.portalHeader()
     }
 }
 
 extension SearchAPI: APIEndPointConvertable
 {
-    var baseURL: URL {
-        return ServerURL.url()
-    }
-    
     var path: String
     {
-        return "search"
+        return APIHandlerConstants.search
     }
     
     var httpMethod: HTTPMethod
@@ -949,63 +962,18 @@ extension SearchAPI: APIEndPointConvertable
     var payload: Payload? {
         return PayloadFactory.generateSearch(api: self)
     }
-    
-    var headers: HTTPHeaders?
-    {
-        return ServerURL.portalHeader()
-    }
-}
-
-extension TableAPI : APIEndPointConvertable
-{
-    var baseURL : URL {
-        return ServerURL.url()
-    }
-    
-    var path : String {
-        switch self
-        {
-        case .fetch( let table ) :
-            return "table/\( table )"
-        case .fetchAll :
-            return "table"
-        }
-    }
-    
-    var httpMethod: HTTPMethod {
-        switch self
-        {
-            case .fetch( _ ), .fetchAll :
-                return HTTPMethod.get
-        }
-    }
-    
-    var OAuthEnabled: OAuthEnabled {
-        return .enabled( helper : OAuth() )
-    }
-    
-    var payload: Payload? {
-        return nil
-    }
-    
-    var headers: HTTPHeaders? {
-        return ServerURL.portalHeader()
-    }
 }
 
 extension ColumAPI : APIEndPointConvertable
 {
-    var baseURL: URL {
-        return ServerURL.url()
-    }
     
     var path: String {
         switch self
         {
         case .fetch( let table, let column ) :
-            return "table/\( table )/column/\( column )"
+            return "\(APIHandlerConstants.table)/\( table )/\(APIHandlerConstants.column)/\( column )"
         case .fetchAll( let table ) :
-            return "table/\( table )/column"
+            return "\(APIHandlerConstants.table)/\( table )/\(APIHandlerConstants.column)"
         }
     }
     
@@ -1020,20 +988,12 @@ extension ColumAPI : APIEndPointConvertable
     var payload: Payload? {
         return nil
     }
-    
-    var headers: HTTPHeaders? {
-        return ServerURL.portalHeader()
-    }
 }
 
 extension QueryAPI: APIEndPointConvertable
 {
-    var baseURL: URL {
-        return ServerURL.url()
-    }
-    
     var path: String {
-        return "/query"
+        return "/\(APIHandlerConstants.query)"
     }
     
     var httpMethod: HTTPMethod {
@@ -1047,23 +1007,15 @@ extension QueryAPI: APIEndPointConvertable
     var payload: Payload? {
         switch self{
         case .execute(let query):
-            return Payload(bodyParameters: ["query":query], urlParameters: nil, headers: nil, bodyData: nil)
+            return Payload(bodyParameters: [APIHandlerConstants.query:query], urlParameters: nil, headers: nil, bodyData: nil)
         }
-    }
-    
-    var headers: HTTPHeaders? {
-        return ServerURL.portalHeader()
     }
 }
 
 extension AuthAPI: APIEndPointConvertable
 {
-    var baseURL: URL {
-        return ServerURL.url()
-    }
-    
     var path: String {
-        return "/project-user/signup"
+        return "/\(APIHandlerConstants.projectUser)/\(APIHandlerConstants.signup)"
     }
     
     var httpMethod: HTTPMethod {
@@ -1080,22 +1032,12 @@ extension AuthAPI: APIEndPointConvertable
             return Payload(bodyParameters: user.payload, urlParameters: nil, headers: nil, bodyData: nil)
         }
     }
-    
-    var headers: HTTPHeaders? {
-        return ServerURL.portalHeader()
-    }
-    
-    
 }
 
 extension UserAPI : APIEndPointConvertable
 {
-    var baseURL: URL {
-        return ServerURL.url()
-    }
-    
     var path: String {
-        return "/project-user/current"
+        return "/\(APIHandlerConstants.projectUser)/\(APIHandlerConstants.current)"
     }
     
     var httpMethod: HTTPMethod {
@@ -1109,8 +1051,35 @@ extension UserAPI : APIEndPointConvertable
     var payload: Payload? {
         return nil
     }
-    
-    var headers: HTTPHeaders? {
-        return ServerURL.portalHeader()
-    }
 }
+
+public struct APIHandlerConstants
+{
+    static let moreRecords = "more_records"
+    static let nextToken = "next_token"
+    static let query = "query"
+    static let maxRows = "max_rows"
+    static let projectUser = "project-user"
+    static let current = "current"
+    static let signup = "signup"
+    static let pushNotification = "push-notification"
+    static let unregister = "unregister"
+    static let register = "register"
+    static let installationID = "installation_id"
+    static let userDetails = "user_details"
+    static let output = "output"
+    static let deviceToken = "device_token"
+    static let osVersion = "os_version"
+    static let appBundleID = "app_bundle_id"
+    static let testDevice = "test_device"
+    static let folder = "folder"
+    static let file = "file"
+    static let download = "download"
+    static let function = "function"
+    static let execute = "execute"
+    static let table = "table"
+    static let row = "row"
+    static let column = "column"
+    static let search  = "search"
+}
+
