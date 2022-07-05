@@ -229,9 +229,7 @@ extension Router {
             ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.responseNil ) : Response nil, Details : -" )
             return .error( ZCatalystError.processingError( code : ErrorCode.responseNil, message : "Response nil", details : nil ) )
         }
-        
-        
-        
+           
         guard let response = response else
         {
             ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.responseNil ) : Response nil, Details : -" )

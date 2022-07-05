@@ -9,15 +9,11 @@
 import Foundation
 
 protocol APIEndPointConvertable {
-    var baseURL : URL {get}
     var path : String {get}
     var httpMethod : HTTPMethod {get}
     var OAuthEnabled: OAuthEnabled {get}
     var payload : Payload? {get}
-    var headers : HTTPHeaders? {get}
-    
     func request() -> URLRequest
-    
 }
 
 

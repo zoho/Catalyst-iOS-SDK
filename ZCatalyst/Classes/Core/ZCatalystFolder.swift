@@ -70,4 +70,9 @@ public final class ZCatalystFolder : ZCatalystEntity
     {
         APIHandler().upload( fileName : fileName, fileData : fileData, folder : self.id, completion : completion )
     }
+    
+    public func delete( fileId : Int64, completion: @escaping( ZCatalystError? ) -> Void )
+    {
+        APIHandler().delete(folderId: self.id, fileId: fileId, completion: completion)
+    }
 }

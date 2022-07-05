@@ -23,14 +23,20 @@ struct ServerURL
         return self.url(projectID: projectID)
     }
     
-    static var portal_header_name = "PROJECT_ID"
+    static var portalHeaderName = "PROJECT_ID"
     
     static func portalHeader() -> HTTPHeaders
     {
         let portalID = ZCatalystApp.shared.appConfig.portalId
-        return [self.portal_header_name: portalID]
+        return [self.portalHeaderName: portalID]
     }
+    static var userAgent : String = "User-Agent"
     
+    static func getUserAgent() -> UserAgent
+    {
+        let userAgent = ZCatalystApp.shared.userAgent
+        return [ self.userAgent : userAgent ]
+    }
     
 }
 
@@ -50,7 +56,7 @@ enum FileStorageAPI
     case fetch( folderId : String, fileId : String )
     case uploadFile(folderId: String)
     case downloadFile(folderId: String, fileId: String)
-    case deleteFile
+    case deleteFile(folderId: String, fileId: String)
 }
 
 enum FolderAPI
@@ -71,17 +77,11 @@ enum QueryAPI
 
 enum RowAPI
 {
-    case fetchAll(table: String)
+    case fetchAll(table: String, nextPageToken : String?, perPage : String?)
     case fetch( table : String, row : Int64 )
     case update(json: Data, table: String)
     case delete(row: Int64, table: String)
     case insert(json: Data, table: String)
-}
-
-enum TableAPI
-{
-    case fetch( table : String )
-    case fetchAll
 }
 
 enum ColumAPI
@@ -99,8 +99,8 @@ enum PushNotificationAPI
 enum SearchAPI
 {
     case search( text : String,
-                search_coloumn :Parameters,
-                select_table_coloumn : Parameters?,
+                searchColoumn :Parameters,
+                selectTableColoumn : Parameters?,
                 order : Parameters?,
                 startIndex : Int?,
                 endIndex : Int? )

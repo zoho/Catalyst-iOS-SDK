@@ -10,7 +10,7 @@ import Foundation
 
 typealias HTTPHeaders    = [String:String]
 
-typealias UserAgent      = [String:String]
+typealias UserAgent   = [String:String]   
 
 typealias OAuthHeaders   = [String:String]
 
@@ -18,7 +18,7 @@ typealias OAuthHeaders   = [String:String]
 typealias ZSSOKitCompletionSuccessBlock = (_ accessToken:String) -> ()
 typealias ZSSOKitCompletionErrorBlock = (_ error : Error) -> ()
 
-protocol OAuthCompatible: class
+protocol OAuthCompatible: AnyObject
 {
      func getOAuthToken(success : @escaping ZSSOKitCompletionSuccessBlock, failure : @escaping ZSSOKitCompletionErrorBlock )
      func isUserLoggedin() -> (Bool)

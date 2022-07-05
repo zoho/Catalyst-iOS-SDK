@@ -2,11 +2,15 @@ use_frameworks!
 
 
 #source 'https://git.csez.zohocorpin.com/zoho/zohopodspecs.git'
-
+#source 'https://github.com/CocoaPods/Specs.git'
 target 'ZCatalyst_Example' do
   pod 'ZCatalyst', :path => '../'
   pod 'ZohoPortalAuth', '0.0.3'
-
+  pod 'Apptics-SDK/Core', '1.0.0'
+   pod 'Apptics-SDK/CrashKit', '1.0.0'
+   pod 'Apptics-SDK/Scripts', '1.0.0'
+   pod 'AppticsRateUs', '1.0.0'
+   pod 'AppticsFeedbackKit', '1.0.0'
 
   target 'ZCatalyst_Tests' do
     inherit! :search_paths

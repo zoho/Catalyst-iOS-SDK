@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ZCatalyst'
-  s.version          = '2.0.1'
+  s.version          = '2.0.2'
   s.summary          = 'A short description of ZCatalyst.'
 
 # This description is used to generate tags and improve search results.
@@ -27,7 +27,7 @@ TODO: Add long description of the pod here.
   s.author           = { 'boopathyparamasivan' => 'boopathy.p@zohocorp.com' }
   s.source           = { :git => 'https://github.com/zoho/Catalyst-iOS-SDK.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '9.0'
+  s.ios.deployment_target = '11.0'
   
   
   s.public_header_files = "Pod/Classes/**/*.h"
@@ -35,5 +35,16 @@ TODO: Add long description of the pod here.
   s.source_files = 'ZCatalyst/Classes/**/*'
   
   s.vendored_frameworks =  'Example/Pods/ZohoPortalAuth/ZohoPortalAuthKit.framework'
+
+  s.dependency 'Apptics-SDK/Core', '1.0.0'
+
+  s.dependency 'Apptics-SDK/CrashKit', '1.0.0'
+
+  s.dependency 'Apptics-SDK/Scripts', '1.0.0'
+  
+  s.dependency 'AppticsRateUs', '1.0.0'
+  
+  s.dependency 'AppticsFeedbackKit', '1.0.0'
+
   
 end

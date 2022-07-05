@@ -11,18 +11,30 @@ import MobileCoreServices
 
 enum RequestBuildError: String, Error
 {
+    
+    // Add more errors here.
     case generic = "General Error"
     case parameter = "Error in parameter"
     case OAuth = "Error in OAuth token"
     
 }
 
+
+//Change this to Swift5 result type
 public enum Result<T, E: Error>
 {
     case success(T)
     case error(E)
 }
 
+public struct CatalystResult
+{
+    public enum DataURLResponse< Data : Any, Response : Any >
+    {
+        case success( Data, Response )
+        case failure( Error )
+    }
+}
 
 typealias RequestSuccessCompletion = (_ urlRequest:URLRequest?) -> ()
 typealias RequestFailureCompletion = (_ error:Error?) -> ()
@@ -33,13 +45,19 @@ typealias ConfigureParametersErrorBlock    = (_ error:Error) -> ()
 
 struct URLRequestBuilder
 {
+    
+    
+    //TODO: Request Building must not be here. Move it to a seperate class and make it Result type and not throwable. Anything other than throwable.
+    
+    
+
     func makeRequest(from route: APIEndPointConvertable) throws -> URLRequest
     {
-        var request = URLRequest(url: route.baseURL.appendingPathComponent(route.path), cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 600.0)
+        var request = URLRequest(url:ServerURL.url().appendingPathComponent(route.path), cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 600.0)
         request.httpMethod = route.httpMethod.rawValue
         
-        self.setAdditionalHeaders(route.headers, request: &request)
-        
+        self.setAdditionalHeaders(ServerURL.portalHeader(), request: &request)
+        self.setUserAgent(ServerURL.getUserAgent(), request: &request)
         guard let payload = route.payload else
         {
             return request
@@ -98,7 +116,7 @@ struct URLRequestBuilder
             completion( .error( typeCastToZCatalystError( error ) ) )
         }
     }
-
+    
     fileprivate func configureParameters(body: Parameters?, jsonBody : Data? = nil ,urlParameters : Parameters?, request : inout URLRequest) throws -> URLRequest {
         
         do {

@@ -135,6 +135,22 @@ public struct ErrorMessage
     public static let unableToConstructURLMsg = "There was a problem constructing the URL."
 }
 
+public enum CatalystRequestMethod : String
+{
+    case get = "GET"
+    case post = "POST"
+    case patch = "PATCH"
+    case put = "PUT"
+    case delete = "DELETE"
+}
+
+public struct CatalystConstants
+{
+    static let failure = "failure"
+    static let success = "success"
+    static let status = "status"
+}
+
 public extension Error
 {
     var code : Int
@@ -234,19 +250,19 @@ class OAuth: OAuthCompatible
 {
     func getOAuthToken(success: @escaping ZSSOKitCompletionSuccessBlock, failure: @escaping ZSSOKitCompletionErrorBlock) {
         ZohoPortalAuth.getOauth2Token { (token, error) in
-            
+
             guard let aToken = token else {
                 failure(NSError.init(domain: "Generic error", code: 100, userInfo: nil))
                 return
             }
-            
+
             if error != nil {
                 failure(NSError.init(domain: "Generic error", code: 100, userInfo: nil))
                 return
             }
-            
+
             success(aToken)
-            
+
         }
     }
     
