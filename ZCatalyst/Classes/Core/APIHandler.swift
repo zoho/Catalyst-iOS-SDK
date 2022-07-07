@@ -493,7 +493,7 @@ struct APIHandler
                     }
                     do
                     {
-                        let info = try parseResponseInfo(data: data)
+                        let info = try self.parseResponseInfo(data: data)
                         completion( .success( rows, info ) )
                     }
                     catch
