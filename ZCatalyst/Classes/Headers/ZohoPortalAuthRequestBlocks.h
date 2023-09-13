@@ -42,4 +42,12 @@ The callback handler for revoking the access token at logout. Nil error means th
 */
 typedef void (^ZohoPortalAuthRevokeAccessTokenHandler)(NSError *error);
 
+/**
+ The callblack handler during userinfo fetch api. It will return the dict of the user information
+ 
+ @param userinfo User Information
+ @param error Respective error object.
+ */
+typedef void (^ZohoPortalAuthUserInfoHandler)(NSDictionary *userinfo,NSError *error);
+
 #endif /* ZohoPortalAuthRequestBlocks_h */

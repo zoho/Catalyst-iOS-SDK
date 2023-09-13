@@ -15,9 +15,31 @@ struct ZCatalystAuthHandler
 //    #if TARGET_OS_IOS
 // ZohoPortalAuth seems to be a singleton -> This means only one instance will be present at any point which inturn means that if we support multi app support, ZohoPortalAuth should seperately handle both auth and return their respective objects instead of having it in a singleton class function.
     
-    static func initIAMLogin( with window : UIWindow, config : ZCatalystAppConfiguration )
+    static func initIAMLogin( with window : UIWindow, config : ZCatalystAppConfiguration ) throws
     {
-        ZohoPortalAuth.initWithClientID(config.clientId, clientSecret: config.clientSecret, portalID: config.portalId, scope: config.oAuthScopes, urlScheme: config.redirectURLScheme, mainWindow: window, accountsPortalURL: config.accountsURL)
+        if ZCatalystApp.shared.appConfig.isCustomLogin
+        {
+            guard config.jwtClientId != CatalystConstants.NotAvailable && config.jwtClientSecret != CatalystConstants.NotAvailable else
+            {
+                ZCatalystLogger.logError(message: "\( ErrorCode.customLoginDisabled ) - \( ErrorMessage.customLoginDisabled )")
+                throw ZCatalystError.inValidError(code: ErrorCode.customLoginDisabled, message: ErrorMessage.customLoginDisabled, details: nil)
+            }
+            guard !config.jwtClientId.isEmpty && !config.jwtClientSecret.isEmpty else
+            {
+                ZCatalystLogger.logError(message: "\( ErrorCode.invalidOperation ) - JWTClient Id and JWTClient Secret must not be empty for custom login ")
+                throw ZCatalystError.inValidError(code: ErrorCode.invalidOperation, message: "JWTClient Id and JWTClient Secret must not be empty for custom login", details: nil)
+            }
+            ZohoPortalAuth.initWithClientID( config.jwtClientId, clientSecret: config.jwtClientSecret, portalID: config.portalId, scope: config.oAuthScopes, urlScheme: config.redirectURLScheme, mainWindow: window, accountsPortalURL: config.accountsURL )
+        }
+        else
+        {
+            guard !config.clientId.isEmpty && !config.clientSecret.isEmpty else
+            {
+                ZCatalystLogger.logError(message: "\( ErrorCode.invalidOperation ) - Client Id and Client Secret must not be empty for default login ")
+                throw ZCatalystError.inValidError(code: ErrorCode.invalidOperation, message: "Client Id and Client Secret must not be empty for default login", details: nil)
+            }
+            ZohoPortalAuth.initWithClientID(config.clientId, clientSecret: config.clientSecret, portalID: config.portalId, scope: config.oAuthScopes, urlScheme: config.redirectURLScheme, mainWindow: window, accountsPortalURL: config.accountsURL)
+        }
     }
 
     static func handleRedirectURL(_ url: URL, sourceApplication: String?, annotation: Any)
