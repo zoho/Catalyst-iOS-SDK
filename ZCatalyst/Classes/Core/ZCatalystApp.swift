@@ -60,7 +60,7 @@ public enum ServerTLD : String
 /// The Catalyst class lets you initialize an application/project
 public class ZCatalystApp
 {
-    public internal( set ) var appConfig : ZCatalystAppConfiguration!
+    public internal( set ) var appConfig : ZCatalystAppConfiguration = ZCatalystAppConfiguration()
     internal var userAgent : String = "ZC_iOS_unknown_app"
     static var sessionCompletionHandlers : [ String : () -> () ] = [ String : () -> () ]()
     public static var fileUploadURLSessionConfiguration : URLSessionConfiguration = .default
@@ -73,14 +73,14 @@ public class ZCatalystApp
     {
     }
     
-    public func initSDK( window : UIWindow, appConfiguration : ZCatalystAppConfiguration )
+    public func initSDK( window : UIWindow, appConfiguration : ZCatalystAppConfiguration ) throws
     {
         if let packageName = Bundle.main.infoDictionary?[ kCFBundleNameKey as String ] as? String, let appVersion = Bundle.main.infoDictionary?[ "CFBundleShortVersionString" ] as? String
         {
             self.userAgent = "\( packageName )/\( appVersion )(iPhone) ZCiOSSDK"
         }
         ZCatalystApp.shared.appConfig = appConfiguration
-        ZCatalystAuthHandler.initIAMLogin( with : window, config : appConfiguration )
+        try ZCatalystAuthHandler.initIAMLogin( with : window, config : appConfiguration )
     }
     
     public func initSDK( window : UIWindow, environment : ZCatalystEnvironment ) throws
@@ -108,7 +108,7 @@ public class ZCatalystApp
         }
         ZCatalystApp.shared.appConfig = appConfiguration
         ZCatalystApp.shared.appConfig.environment = environment
-        ZCatalystAuthHandler.initIAMLogin( with : window, config : appConfiguration )
+        try ZCatalystAuthHandler.initIAMLogin( with : window, config : appConfiguration )
     }
     
     public func getCurrentUser( completion: @escaping ( Result< ZCatalystUser,ZCatalystError > ) -> Void )
@@ -130,11 +130,39 @@ public class ZCatalystApp
     {
         if ZCatalystApp.shared.isUserSignedIn()
         {
-            completion( nil )
+            return completion( nil )
+        }
+        if ZCatalystApp.shared.appConfig.isCustomLogin
+        {
+            ZCatalystLogger.logError(message: "\( ErrorCode.invalidConfiguration ) - \( ErrorMessage.invalidConfigurationForDefaultLogin )")
+            return completion( ZCatalystError.inValidError(code: ErrorCode.invalidConfiguration, message: ErrorMessage.invalidConfigurationForDefaultLogin, details: nil) )
         }
         else
         {
             ZCatalystAuthHandler.presentLogin( completion : completion )
+        }
+    }
+    
+    public func handleCustomLogin( withJWT token : String, completion : @escaping ( Error? ) -> Void )
+    {
+        if ZCatalystApp.shared.isUserSignedIn()
+        {
+            return completion( nil )
+        }
+        if !ZCatalystApp.shared.appConfig.isCustomLogin
+        {
+            ZCatalystLogger.logError(message: "\( ErrorCode.invalidConfiguration ) - \( ErrorMessage.invalidConfigurationForCustomLogin )")
+            return completion( ZCatalystError.inValidError(code: ErrorCode.invalidConfiguration, message: ErrorMessage.invalidConfigurationForCustomLogin, details: nil) )
+        }
+        ZohoPortalAuth.getOAuthToken(forRemoteUser: token, tokenType: ZohoPortalAuthRemoteLoginTypeJWT, baseURL: nil) { accessToken, error in
+            if let error = error
+            {
+                return completion( error )
+            }
+            if let _ = accessToken
+            {
+                completion( nil )
+            }
         }
     }
     
@@ -182,6 +210,11 @@ public class ZCatalystApp
     public func search( searchOptions : ZCatalystSearchOptions, completion : @escaping( Result< [ String : Any ], ZCatalystError > ) -> Void )
     {
         APIHandler().search( searchOptions : searchOptions, completion )
+    }
+    
+    public func getCurrentTimeZone( completion : @escaping ( Result< TimeZone, ZCatalystError > ) -> Void )
+    {
+        APIHandler().getCurrentTimeZone(completion: completion)
     }
     
     /**
@@ -235,5 +268,47 @@ public class ZCatalystApp
                 }
             }
         }.resume()
+    }
+    
+    public func registerNotification( token : String, appID : String, testDevice : Bool, completion : @escaping ( ZCatalystError? ) -> () )
+    {
+        guard UserDefaults.standard.value(forKey: Constants.apnsInstallationKey.string) == nil else
+        {
+            return ZCatalystLogger.logError( message : "Error Occurred : Device already registered for Push notifications" )
+        }
+        let apiHandler = APIHandler()
+        let payload = apiHandler.pushNotificationPayload(token: token, testDevice: testDevice)
+        let api = PushNotificationAPI.register(paramets: payload, appID: appID)
+        apiHandler.networkClient.request(api, session: URLSession.shared) { (result) in
+            apiHandler.handlePushResult(result) { error in
+                if error != nil
+                {
+                    UserDefaults.standard.set(token, forKey: Constants.apnsTokenKey.string)
+                }
+                completion( error )
+            }
+        }
+    }
+    
+    public func deregisterNotification( token : String, appID : String, testDevice : Bool, completion : @escaping ( ZCatalystError? ) -> () )
+    {
+        guard UserDefaults.standard.value(forKey: Constants.apnsInstallationKey.string) != nil else
+        {
+            ZCatalystLogger.logError( message : "Error Occurred : Device not registered for Push notifications" )
+            return completion( ZCatalystError.inValidError(code: ErrorCode.invalidOperation, message: "Device not registered for Push notifications", details: nil) )
+        }
+        let apiHandler = APIHandler()
+        let payload = apiHandler.pushNotificationPayload(token: token,testDevice: testDevice)
+        let api = PushNotificationAPI.deregister(parameters: payload, appID: appID)
+        apiHandler.networkClient.request(api, session: URLSession.shared) { (result) in
+            apiHandler.handlePushResult(result) { error in
+                if error == nil
+                {
+                    UserDefaults.standard.removeObject(forKey: Constants.apnsTokenKey.string)
+                    UserDefaults.standard.removeObject(forKey: Constants.apnsInstallationKey.string)
+                }
+                completion( error )
+            }
+        }
     }
 }

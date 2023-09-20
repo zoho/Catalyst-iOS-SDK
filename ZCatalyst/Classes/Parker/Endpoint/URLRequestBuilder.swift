@@ -196,7 +196,7 @@ struct URLRequestBuilder
         guard let oauthTokenValue = oauthToken else{
             return
         }
-        request.setValue("Bearer \(oauthTokenValue)", forHTTPHeaderField: HeaderKeyTypes.authorization.rawValue)
+        request.setValue("Zoho-oauthtoken \(oauthTokenValue)", forHTTPHeaderField: HeaderKeyTypes.authorization.rawValue)
     }
     
     private func getMimeTypeFor( fileURL : URL ) -> String

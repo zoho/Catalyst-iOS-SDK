@@ -50,6 +50,11 @@ enum UserAPI
     case getCurrentUser
 }
 
+enum TimeZoneAPI
+{
+    case getTimeZone
+}
+
 enum FileStorageAPI
 {
     case fetchAll( folderId : Int64 )

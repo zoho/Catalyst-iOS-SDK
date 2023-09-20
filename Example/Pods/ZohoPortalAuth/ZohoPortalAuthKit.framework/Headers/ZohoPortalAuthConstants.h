@@ -9,7 +9,10 @@
 #ifndef ZohoPortalAuthConstants_h
 #define ZohoPortalAuthConstants_h
 
-
+typedef enum : NSUInteger {
+    ZohoPortalAuthRemoteLoginTypeJWT,
+    ZohoPortalAuthRemoteLoginTypeUserToken
+} ZohoPortalAuthRemoteLoginType;
 /**
  * Unable to fetch token from server.
  */

@@ -11,6 +11,8 @@
 #import <UIKit/UIKit.h>
 #endif
 #import "ZohoPortalAuthRequestBlocks.h"
+#include "ZohoPortalAuthConstants.h"
+
 
 /**
 ZohoPortalAuth is a hollistic SDK which provides easy to use methods. Using these methods you can achieve Zoho Client Portal model sign-in integration with your iOS Mobile Application.
@@ -54,6 +56,9 @@ ZohoPortalAuth is a hollistic SDK which provides easy to use methods. Using thes
 
 /// Method to clear the keychain items stored by ZohoPortalAuth which would be persistant even after uninstalling the app. (Call this method if it is going to be your apps firt time launch.
 +(void)clearZohoAuthPortalDetailsForFirstLaunch;
+
+/// Method to handle default scoped clients. Call this method if you have enabled default scopes for your client ID
++(void)setDefaultScopesEnabled:(BOOL)isEnabled;
 
 
 /// Method to handle OAuth redirection via URL Scheme. This method should be called from your |UIApplicationDelegate|'s |application:openURL:sourceApplication:annotation|.  Returns |YES| if |ZohoPortalAuth handled this URL.
@@ -113,6 +118,19 @@ ZohoPortalAuth is a hollistic SDK which provides easy to use methods. Using thes
 + (void) presentZohoPortalSignInWithCustomParams:(NSString *)urlParams
                                         signinHandler:(ZohoPortalAuthSignInHandler)signinBlock;
 
+/// This method presents the Zoho Portal Custom Sign Up page on SFSafariViewController.
+/// @param signupUrl your custom signup page url.
+/// @param signinBlock handler block.
++ (void) presentZohoPortalSignUpHavingURL:(NSString *)signupUrl
+                                        signinHandler:(ZohoPortalAuthSignInHandler)signinBlock;
+
+
+/// This method presents the Zoho Portal Sign in page with custom URL on SFSafariViewController.
+/// @param url custom urlparams to be passed to the portal sign-in page.
+/// @param signinBlock handler block.
++ (void) presentZohoPortalSignInWithCustomURL:(NSString *)url
+                                signinHandler:(ZohoPortalAuthSignInHandler)signinBlock;
+
 
 /// For MULTI-PORTAL Supported Apps:This method presents the Zoho Portal Sign in page on SFSafariViewController for the respective Portal ID having the respective accounts portal URL.
 /// @param portalID A unique identifier for your Portal.
@@ -122,9 +140,20 @@ ZohoPortalAuth is a hollistic SDK which provides easy to use methods. Using thes
 
 
 /// Method used to silently login a user into the portal app using a usertoken. (For Special JWT Handlings)
-/// @param userToken A unique userToken obtained from your server to identify the user.
+/// @param token A unique token obtained from your server to identify the user.
+/// @param tokenType JWT or usertoken . Refer ZohoPortalAuthRemoteLoginType
 /// @param tokenBlock handler block.
-+(void) getOAuthTokenForRemoteUser:(NSString *)userToken tokenHandler:(ZohoPortalAuthAccessTokenHandler)tokenBlock;
++(void) getOAuthTokenForRemoteUser:(NSString *)token
+                      tokenType:(ZohoPortalAuthRemoteLoginType)tokenType
+                      tokenHandler:(ZohoPortalAuthAccessTokenHandler)tokenBlock ;
+/// Method used to silently login a user into the portal app using a usertoken. (For Special JWT Handlings)
+/// @param token A unique token obtained from your server to identify the user.
+/// @param tokenType JWT or usertoken . Refer ZohoPortalAuthRemoteLoginType
+/// @param tokenBlock handler block.
++(void) getOAuthTokenForRemoteUser:(NSString *)token
+                         tokenType:(ZohoPortalAuthRemoteLoginType)tokenType
+                           baseURL:(NSURL*)baseURL
+                      tokenHandler:(ZohoPortalAuthAccessTokenHandler)tokenBlock ;
 
 
 /// Call this method at Logout. This will revoke the access token from the server and clears the keychain items stored by ZohoPortalAuth.
@@ -158,4 +187,21 @@ ZohoPortalAuth is a hollistic SDK which provides easy to use methods. Using thes
 /// @param accountsPortalURL accounts portal url endpoint for your respective Portal.
 /// @param tokenBlock handler block.
 +(void)enhanceScopesForPortalID:(NSString *)portalID havingAccountsPortalURL:(NSString *)accountsPortalURL tokenHandler:(ZohoPortalAuthAccessTokenHandler)tokenBlock;
+
+/// Method to use new Sign in page which supports OTP Sign in.
+/// @param shouldUseNewSignIn preferred bool value.
++(void)setShouldUseNewSignIn:(BOOL)shouldUseNewSignIn;
+
+/// Call this method to fetch the User Information from server using the User Info API
+/// Do not call this method frequently. But only when it is actually required. 
+/// @param userinfoBlock handler block.
++(void)fetchUserInfo:(ZohoPortalAuthUserInfoHandler)userinfoBlock;
+
+
+/// For MULTI-PORTAL Supported Apps:Call this method to fetch the User Information from server using the User Info API for the respective Portal..
+/// @param portalID A unique identifier for your Portal.
+/// @param accountsPortalURL accounts portal url endpoint for your respective Portal.
+/// @param userinfoBlock handler block.
++(void)fetchUserInfoForPortalID:(NSString *)portalID havingAccountsPortalURL:(NSString *)accountsPortalURL revokeHandler:(ZohoPortalAuthUserInfoHandler)userinfoBlock;
+
 @end

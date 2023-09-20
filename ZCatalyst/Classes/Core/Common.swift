@@ -119,6 +119,8 @@ public struct ErrorCode
     public static let initializationError = "INITIALIZATION_ERROR"
     public static let functionExecutionError = "FUNCTION_EXECUTION_ERROR"
     public static let jsonException = "JSON_EXCEPTION"
+    public static let customLoginDisabled = "CUSTOM_LOGIN_DISABLED"
+    public static let invalidConfiguration = "INVALID_CONFIGURATION"
 }
 
 public struct ErrorMessage
@@ -133,6 +135,9 @@ public struct ErrorMessage
     public static let oauthTokenNilMsg = "The oauth token is nil."
     public static let oauthFetchErrorMsg = "There was an error in fetching oauth Token."
     public static let unableToConstructURLMsg = "There was a problem constructing the URL."
+    public static let customLoginDisabled = "The parameters required for Custom Login could not be found, make sure you have enabled Custom Login for the project and re-download the property file."
+    public static let invalidConfigurationForDefaultLogin = "The SDK has not been initialized with the configuration required for the default login. Reinitialize the SDK with the appropriate configuration for the default login."
+    public static let invalidConfigurationForCustomLogin = "The SDK has not been initialized with the configuration required for the custom login. Reinitialize the SDK with the appropriate configuration for the custom login."
 }
 
 public enum CatalystRequestMethod : String
@@ -149,6 +154,7 @@ public struct CatalystConstants
     static let failure = "failure"
     static let success = "success"
     static let status = "status"
+    static let NotAvailable = "NA"
 }
 
 public extension Error

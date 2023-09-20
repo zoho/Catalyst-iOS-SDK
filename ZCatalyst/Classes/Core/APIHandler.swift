@@ -374,6 +374,34 @@ struct APIHandler
         }
     }
     
+    func getCurrentTimeZone( completion : @escaping ( Result< TimeZone, ZCatalystError > ) -> Void )
+    {
+        let api = TimeZoneAPI.getTimeZone
+        networkClient.request( api, session: URLSession.shared ) { result in
+            switch result
+            {
+            case .success(let data) :
+                let result: Result<ZCatalystSearchResponse, ZCatalystError> = Serializer.parse(data: data)
+                switch result
+                {
+                case .success(let response) :
+                    guard let timeZoneString = response.output[ APIHandlerConstants.timezone ] as? String, let timeZone = TimeZone(identifier: timeZoneString) else
+                    {
+                        ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.jsonException ) : Failed to get the time zone details, Details : -" )
+                        return completion( .error( ZCatalystError.sdkError(code: ErrorCode.jsonException, message: "Failed to get the time zone details", details: nil) ) )
+                    }
+                    completion( .success( timeZone ) )
+                case .error(let error) :
+                    completion( .error( error ) )
+                    ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
+                }
+            case .error(let error) :
+                completion( Result.error( typeCastToZCatalystError( error ) ) )
+                ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
+            }
+        }
+    }
+    
     func getColumns( table : String, completion : @escaping ( Result< [ ZCatalystColumn ], ZCatalystError > ) -> Void )
     {
         let api = ColumAPI.fetchAll( table : table )
@@ -564,50 +592,25 @@ struct APIHandler
         }
     }
     
-    func registerNotification( token : String, appID : String, testDevice : Bool )
-    {
-        let payload = pushNotificationPayload(token: token, testDevice: testDevice)
-        let api = PushNotificationAPI.register(paramets: payload, appID: appID)
-        networkClient.request(api, session: URLSession.shared) { (result) in
-            self.handlePushResult(result) { (success) in
-                if success
-                {
-                    UserDefaults.standard.set(token, forKey: Constants.apnsTokenKey.string)
-                }
-            }
-        }
-    }
-    
-    func deregisterNotification( token : String, appID : String, testDevice : Bool )
-    {
-        let payload = pushNotificationPayload(token: token,testDevice: testDevice)
-        let api = PushNotificationAPI.deregister(parameters: payload, appID: appID)
-        networkClient.request(api, session: URLSession.shared) { (result) in
-            self.handlePushResult(result){ success in
-                if success
-                {
-                    UserDefaults.standard.removeObject(forKey: Constants.apnsTokenKey.string)
-                    UserDefaults.standard.removeObject(forKey: Constants.apnsInstallationKey.string)
-                }
-                
-            }
-        }
-    }
-    
-    fileprivate func pushNotificationPayload(token: String, testDevice isTestDevice: Bool) -> [String: Any]
+    func pushNotificationPayload(token: String, testDevice isTestDevice: Bool) -> [String: Any]
     {
         let os_version = UIDevice.current.systemVersion
         let bundleID = Bundle.main.bundleIdentifier
         var payload:[String: Any] {
-            return [APIHandlerConstants.deviceToken:token,
+            var json : [ String : Any ] = [APIHandlerConstants.deviceToken:token,
                     APIHandlerConstants.osVersion:os_version,
                     APIHandlerConstants.appBundleID:bundleID ?? "",
                     APIHandlerConstants.testDevice:isTestDevice]
+            if let insId = UserDefaults.standard.value(forKey: Constants.apnsInstallationKey.string)
+            {
+                json.updateValue( insId, forKey: APIHandlerConstants.installationID)
+            }
+            return json
         }
         return payload
     }
     
-    fileprivate func handlePushResult(_ result: Result<Data, ZCatalystError>, completion: (Bool) -> ()) {
+    func handlePushResult(_ result: Result<Data, ZCatalystError>, completion: ( ZCatalystError? ) -> ()) {
         switch result
         {
         case .success(let data):
@@ -618,17 +621,17 @@ struct APIHandler
                 guard let jsonObj = json as? [String: Any],
                       let installationId = jsonObj[APIHandlerConstants.installationID] as? String else
                 {
-                    completion(false)
+                    completion( ZCatalystError.inValidError(code: ErrorCode.invalidData, message: "Failed to get installationId from response", details: nil ) )
                     return
                 }
                 
                 UserDefaults.standard.set(installationId, forKey: Constants.apnsInstallationKey.string)
-                completion(true)
-            case .error(_):
-                completion(false)
+                completion( nil )
+            case .error( let error ):
+                completion( error )
             }
-        case .error(_):
-            completion(false)
+        case .error( let error ):
+            completion( error )
         }
     }
     
@@ -1053,6 +1056,27 @@ extension UserAPI : APIEndPointConvertable
     }
 }
 
+extension TimeZoneAPI : APIEndPointConvertable
+{
+    var path: String
+    {
+        return "\( APIHandlerConstants.timezone )"
+    }
+    
+    var httpMethod: HTTPMethod
+    {
+        return .get
+    }
+    
+    var OAuthEnabled: OAuthEnabled {
+        return .enabled(helper: OAuth())
+    }
+    
+    var payload: Payload? {
+        return nil
+    }
+}
+
 public struct APIHandlerConstants
 {
     static let moreRecords = "more_records"
@@ -1081,5 +1105,6 @@ public struct APIHandlerConstants
     static let row = "row"
     static let column = "column"
     static let search  = "search"
+    static let timezone = "timezone"
 }
 
