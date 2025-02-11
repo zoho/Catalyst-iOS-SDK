@@ -255,28 +255,43 @@ protocol SelfParsable {
 class OAuth: OAuthCompatible
 {
     func getOAuthToken(success: @escaping ZSSOKitCompletionSuccessBlock, failure: @escaping ZSSOKitCompletionErrorBlock) {
-        ZohoPortalAuth.getOauth2Token { (token, error) in
-
-            guard let aToken = token else {
-                failure(NSError.init(domain: "Generic error", code: 100, userInfo: nil))
-                return
+        if ZCatalystApp.shared.appConfig.loginType == .client {
+            ZCatalystApp.shared.appConfig.zohoAuthProvider?.getOAuthToken (success: { token in
+                   success(token)
+            }, failure: { error in
+                failure( error )
+            } )
+        }
+        else {
+            ZohoPortalAuth.getOauth2Token { (token, error) in
+                
+                guard let aToken = token else {
+                    failure(NSError.init(domain: "Generic error", code: 100, userInfo: nil))
+                    return
+                }
+                
+                if error != nil {
+                    failure(NSError.init(domain: "Generic error", code: 100, userInfo: nil))
+                    return
+                }
+                
+                success(aToken)
             }
-
-            if error != nil {
-                failure(NSError.init(domain: "Generic error", code: 100, userInfo: nil))
-                return
-            }
-
-            success(aToken)
-
         }
     }
     
     func isUserLoggedin() -> (Bool) {
+        if ZCatalystApp.shared.appConfig.loginType == .client { return true }
         return ZohoPortalAuth.isUserSignedIn()
     }
     
     func initializeSSOForActionExtension() {
         return
     }
+}
+
+enum LoginType {
+    case ssoKit
+    case custom
+    case client
 }

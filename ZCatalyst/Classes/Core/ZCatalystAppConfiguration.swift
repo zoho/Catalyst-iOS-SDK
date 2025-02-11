@@ -35,7 +35,8 @@ public struct ZCatalystAppConfiguration : Decodable
     public internal( set ) var environment : ZCatalystEnvironment = .production
     public var requestTimeOut : Double = 120.0
     public var requestHeaders : Dictionary< String, String >?
-    internal var isCustomLogin : Bool = false
+    internal var loginType : LoginType = .ssoKit
+    internal var zohoAuthProvider: ZCatalystAuthProvider?
     
     internal init() {}
     
@@ -61,8 +62,15 @@ public struct ZCatalystAppConfiguration : Decodable
         try self.init(redirectURLScheme: redirectURLScheme, portalId: portalId, projectId: projectId, serverTLD: serverTLD, environment: environment)
         self.jwtClientId = jwtClientId
         self.jwtClientSecret = jwtClientSecret
-        self.isCustomLogin = true
+        self.loginType = .custom
         try self.validate()
+    }
+    
+    public init( redirectURLScheme : String, portalId : String, projectId : String, serverTLD : ServerTLD = .com, environment : ZCatalystEnvironment = .production, authProvider: ZCatalystAuthProvider ) throws
+    {
+        try self.init(redirectURLScheme: redirectURLScheme, portalId: portalId, projectId: projectId, serverTLD: serverTLD, environment: environment)
+        self.loginType = .client
+        self.zohoAuthProvider = authProvider
     }
     
     public func turnLoggerOn( minLogLevel : LogLevels? )
@@ -150,7 +158,7 @@ public struct ZCatalystAppConfiguration : Decodable
     private func validate() throws
     {
         var emptyProperties : [ String ] = [ String ]()
-        if isCustomLogin
+        if loginType == .custom
         {
             if jwtClientId.isEmpty
             {
@@ -161,7 +169,7 @@ public struct ZCatalystAppConfiguration : Decodable
                 emptyProperties.append( "jwtClientSecret" )
             }
         }
-        else
+        else if loginType == .ssoKit
         {
             if clientId.isEmpty
             {

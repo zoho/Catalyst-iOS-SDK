@@ -15,12 +15,15 @@ typealias UserAgent   = [String:String]
 typealias OAuthHeaders   = [String:String]
 
 
-typealias ZSSOKitCompletionSuccessBlock = (_ accessToken:String) -> ()
-typealias ZSSOKitCompletionErrorBlock = (_ error : Error) -> ()
+public typealias ZSSOKitCompletionSuccessBlock = (_ accessToken:String) -> ()
+public typealias ZSSOKitCompletionErrorBlock = (_ error : Error) -> ()
 
-protocol OAuthCompatible: AnyObject
+public protocol ZCatalystAuthProvider: AnyObject {
+    func getOAuthToken(success : @escaping ZSSOKitCompletionSuccessBlock, failure : @escaping ZSSOKitCompletionErrorBlock )
+}
+
+protocol OAuthCompatible: ZCatalystAuthProvider
 {
-     func getOAuthToken(success : @escaping ZSSOKitCompletionSuccessBlock, failure : @escaping ZSSOKitCompletionErrorBlock )
      func isUserLoggedin() -> (Bool)
      func initializeSSOForActionExtension()
 

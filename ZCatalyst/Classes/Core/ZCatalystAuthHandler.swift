@@ -17,7 +17,7 @@ struct ZCatalystAuthHandler
     
     static func initIAMLogin( with window : UIWindow, config : ZCatalystAppConfiguration ) throws
     {
-        if ZCatalystApp.shared.appConfig.isCustomLogin
+        if ZCatalystApp.shared.appConfig.loginType == .custom
         {
             guard config.jwtClientId != CatalystConstants.NotAvailable && config.jwtClientSecret != CatalystConstants.NotAvailable else
             {
@@ -78,23 +78,9 @@ struct ZCatalystAuthHandler
         }
     }
     
-    static func getOAuthToken( completion : @escaping( Result< String, Error > ) -> () )
-    {
-        ZohoPortalAuth.getOauth2Token { ( token, error ) in
-            if let error = error
-            {
-                ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
-                completion( .error( error ) )
-            }
-            if let token = token
-            {
-                completion( .success( token ) )
-            }
-        }
-    }
-    
     static func isUserSignedIn() -> Bool
     {
+        if ZCatalystApp.shared.appConfig.loginType == .client { return true }
         return ZohoPortalAuth.isUserSignedIn()
     }
     

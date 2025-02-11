@@ -68,6 +68,7 @@ public class ZCatalystApp
     public static var sessionConfiguration : URLSessionConfiguration = URLSessionConfiguration.default
     static var session : URLSession = URLSession( configuration : sessionConfiguration )
     public static let shared = ZCatalystApp()
+    var authProvider: ZCatalystAuthProvider?
     
     private init()
     {
@@ -80,6 +81,10 @@ public class ZCatalystApp
             self.userAgent = "\( packageName )/\( appVersion )(iPhone) ZCiOSSDK"
         }
         ZCatalystApp.shared.appConfig = appConfiguration
+        if appConfiguration.loginType == .client {
+            self.authProvider = appConfiguration.zohoAuthProvider
+            return
+        }
         try ZCatalystAuthHandler.initIAMLogin( with : window, config : appConfiguration )
     }
     
@@ -108,6 +113,10 @@ public class ZCatalystApp
         }
         ZCatalystApp.shared.appConfig = appConfiguration
         ZCatalystApp.shared.appConfig.environment = environment
+        if appConfiguration.loginType == .client {
+            self.authProvider = appConfiguration.zohoAuthProvider
+            return
+        }
         try ZCatalystAuthHandler.initIAMLogin( with : window, config : appConfiguration )
     }
     
@@ -132,7 +141,7 @@ public class ZCatalystApp
         {
             return completion( nil )
         }
-        if ZCatalystApp.shared.appConfig.isCustomLogin
+        if ZCatalystApp.shared.appConfig.loginType == .custom
         {
             ZCatalystLogger.logError(message: "\( ErrorCode.invalidConfiguration ) - \( ErrorMessage.invalidConfigurationForDefaultLogin )")
             return completion( ZCatalystError.inValidError(code: ErrorCode.invalidConfiguration, message: ErrorMessage.invalidConfigurationForDefaultLogin, details: nil) )
@@ -149,7 +158,7 @@ public class ZCatalystApp
         {
             return completion( nil )
         }
-        if !ZCatalystApp.shared.appConfig.isCustomLogin
+        if ZCatalystApp.shared.appConfig.loginType != .custom
         {
             ZCatalystLogger.logError(message: "\( ErrorCode.invalidConfiguration ) - \( ErrorMessage.invalidConfigurationForCustomLogin )")
             return completion( ZCatalystError.inValidError(code: ErrorCode.invalidConfiguration, message: ErrorMessage.invalidConfigurationForCustomLogin, details: nil) )
