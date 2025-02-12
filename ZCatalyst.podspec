@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ZCatalyst'
-  s.version          = '2.2.0'
+  s.version          = '2.2.1'
   s.summary          = 'A short description of ZCatalyst.'
 
 # This description is used to generate tags and improve search results.
