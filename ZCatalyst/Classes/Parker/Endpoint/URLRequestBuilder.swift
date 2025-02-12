@@ -45,12 +45,7 @@ typealias ConfigureParametersErrorBlock    = (_ error:Error) -> ()
 
 struct URLRequestBuilder
 {
-    
-    
     //TODO: Request Building must not be here. Move it to a seperate class and make it Result type and not throwable. Anything other than throwable.
-    
-    
-
     func makeRequest(from route: APIEndPointConvertable) throws -> URLRequest
     {
         var request = URLRequest(url:ServerURL.url().appendingPathComponent(route.path), cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 600.0)
@@ -64,17 +59,15 @@ struct URLRequestBuilder
         }
         
         do {
-                var newRequest =  try self.configureParameters(body: payload.bodyParameters, jsonBody: payload.bodyData, urlParameters: payload.urlParameters, request: &request)
-                self.setAdditionalHeaders(payload.headers, request: &newRequest)
-                return newRequest
-            }
-            catch {
-                ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.invalidData ) : Invalid parameters, Details : -" )
-                throw ZCatalystError.processingError( code : ErrorCode.invalidData, message : "Invalid parameters", details : nil )
-            }
-    
+            var newRequest =  try self.configureParameters(body: payload.bodyParameters, jsonBody: payload.bodyData, urlParameters: payload.urlParameters, request: &request)
+            self.setAdditionalHeaders(payload.headers, request: &newRequest)
+            return newRequest
+        }
+        catch {
+            ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.invalidData ) : Invalid parameters, Details : -" )
+            throw ZCatalystError.processingError( code : ErrorCode.invalidData, message : "Invalid parameters", details : nil )
+        }
     }
-    
     
     func buildRequest(from route : APIEndPointConvertable, success : @escaping RequestSuccessCompletion, failure : @escaping RequestFailureCompletion)
     {
@@ -102,6 +95,84 @@ struct URLRequestBuilder
         {
             ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
             failure( typeCastToZCatalystError( error ) )
+        }
+    }
+    
+    func buildRequest( from route : APIEndPointConvertable, completion : @escaping ( Result< URLRequest, ZCatalystError > ) -> Void )
+    {
+        buildRequest(from: route) { urlRequest in
+            guard let request = urlRequest else
+            {
+                ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.unableToConstructURL ) : Unable to construct URL request, Details : -" )
+                completion( .error( ZCatalystError.processingError( code : ErrorCode.unableToConstructURL, message : "Unable to construct URL request", details : nil ) ) )
+                return
+            }
+            completion( .success( request ) )
+        } failure: { error in
+            if let error = error
+            {
+                ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
+                completion( .error(typeCastToZCatalystError( error )) )
+            }
+            else
+            {
+                ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.responseNil ) : Response nil, Details : -" )
+                completion( .error( ZCatalystError.processingError( code : ErrorCode.responseNil, message : "Response nil", details : nil ) ) )
+            }
+        }
+
+    }
+    
+    func makeStratusRequest( from route: APIEndPointConvertable, bucketName : String, fileName : String, versionId : String?, fromCache: Bool) throws -> URLRequest
+    {
+        var queryItems : [ String : String ] = [:]
+        if let versionId = versionId
+        {
+            queryItems[ "versionId" ] = versionId
+        }
+        guard let stratusURL = ServerURL.stratusURL(bucketName: bucketName, fileName: fileName, queryParams: queryItems, fromCache: fromCache ) else {
+            ZCatalystLogger.logError( message : "\( ErrorCode.unableToConstructURL ) : \( ErrorMessage.unableToConstructURLMsg ), Details : -" )
+            throw ZCatalystError.processingError( code : ErrorCode.unableToConstructURL, message : ErrorMessage.unableToConstructURLMsg, details : nil )
+        }
+        var request = URLRequest(url: stratusURL, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 600.0)
+        request.httpMethod = route.httpMethod.rawValue
+        
+        self.setAdditionalHeaders(ServerURL.portalHeader(), request: &request)
+        self.setUserAgent(ServerURL.getUserAgent(), request: &request)
+        guard let payload = route.payload else
+        {
+            return request
+        }
+        var newRequest =  try self.configureParameters(body: payload.bodyParameters, jsonBody: payload.bodyData, urlParameters: payload.urlParameters, request: &request)
+        self.setAdditionalHeaders(payload.headers, request: &newRequest)
+        return newRequest
+    }
+    
+    func buildStratusRequest(from route : APIEndPointConvertable, bucketName : String, fileName : String, versionId : String?, fromCache: Bool = false, completion : @escaping ( Result< URLRequest, ZCatalystError > ) -> Void )
+    {
+        do {
+            let request = try makeStratusRequest(from: route, bucketName: bucketName, fileName: fileName, versionId: versionId, fromCache: fromCache)
+            
+            switch route.OAuthEnabled
+            {
+            case .disabled:
+                completion( .success( request ) )
+            case .enabled(let helper):
+                self.addOAuth(request: request, helper: helper) { (result) in
+                    switch result
+                    {
+                    case .success(let newRequest):
+                        completion( .success( newRequest ) )
+                    case .error(let error):
+                        completion( .error( error ) )
+                    }
+                }
+            }
+        }
+        catch
+        {
+            ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
+            completion( .error( typeCastToZCatalystError( error ) ) )
         }
     }
     

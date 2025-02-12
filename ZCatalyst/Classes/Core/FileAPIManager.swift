@@ -20,7 +20,7 @@ public protocol ZCatalystFileUploadDelegate
 {
     func progress( fileRefId : String, session : URLSession, sessionTask : URLSessionTask, progressPercentage : Double, totalBytesSent : Int64, totalBytesExpectedToSend : Int64 )
     
-    func didFinish( fileRefId : String, fileDetails : ZCatalystFile )
+    func didFinish( fileRefId : String, fileDetails : ZCatalystFile? )
     
     func didFail( fileRefId : String, with error : ZCatalystError? )
 

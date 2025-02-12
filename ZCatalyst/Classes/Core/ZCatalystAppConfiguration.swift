@@ -16,49 +16,40 @@ public struct ZCatalystAppConfiguration : Decodable
     public internal( set ) var jwtClientSecret : String = CatalystConstants.NotAvailable
     public var accountsURL : String = "https://accounts.zohoportal.com"
     public internal( set ) var portalId : String = String()
-    public var oAuthScopes : Array< String > = ["ZOHOCLOUD.functionapi.ALL","ZOHOCLOUD.serviceorg.ALL","ZOHOCLOUD.clientportal.ALL","ZOHOCATALYST.tables.rows.ALL","ZOHOCATALYST.queue.data.READ","ZOHOCATALYST.cache.READ","ZOHOCATALYST.queue.data.CREATE","ZOHOCATALYST.queue.READ","ZOHOCATALYST.tables.READ","ZOHOCATALYST.cache.CREATE","ZOHOCATALYST.tables.columns.READ","ZOHOCATALYST.files.READ","ZOHOCATALYST.files.CREATE","ZOHOCATALYST.projects.users.READ","ZOHOCATALYST.cache.DELETE","ZOHOCATALYST.folders.ALL","ZOHOCATALYST.zcql.CREATE","ZOHOCATALYST.graphql.READ","ZOHOCATALYST.email.CREATE","ZOHOCATALYST.segments.READ","ZOHOCATALYST.cron.ALL","ZOHOCATALYST.search.READ","ZOHOCATALYST.functions.execute","ZOHOCATALYST.functions.READ","ZOHOCATALYST.mlkit.READ","ZOHOCATALYST.folders.ALL","ZOHOCATALYST.notifications.web","ZOHOCATALYST.notifications.mobile","ZOHOCATALYST.functions.CREATE","ZOHOCATALYST.zia.automl.model.ALL","ZOHOCATALYST.zia.automl.model.predict","ZOHOCATALYST.zia.automl.dataset.CREATE","ZOHOCATALYST.zia.automl.dataset.READ","ZOHOCATALYST.zia.automl.dataset.UPDATE","ZOHOCATALYST.zia.timeseries.ALL","ZOHOCATALYST.zia.timeseries.analysis.READ","ZOHOCATALYST.zia.barcodescanning.READ","ZOHOCATALYST.circuits.execute","ZOHOCATALYST.circuits.execution.READ","ZOHOCATALYST.circuits.execution.DELETE","ZohoCatalyst.files.DELETE", "ZohoCatalyst.notifications.mobile.register", "ZohoCatalyst.projects.config.READ"]
+    public var oAuthScopes : Array< String > = ["ZOHOCLOUD.functionapi.ALL","ZOHOCLOUD.serviceorg.ALL","ZOHOCLOUD.clientportal.ALL","ZOHOCATALYST.tables.rows.ALL","ZOHOCATALYST.queue.data.READ","ZOHOCATALYST.cache.READ","ZOHOCATALYST.queue.data.CREATE","ZOHOCATALYST.queue.READ","ZOHOCATALYST.tables.READ","ZOHOCATALYST.cache.CREATE","ZOHOCATALYST.tables.columns.READ","ZOHOCATALYST.files.READ","ZOHOCATALYST.files.CREATE","ZOHOCATALYST.projects.users.READ","ZOHOCATALYST.cache.DELETE","ZOHOCATALYST.folders.ALL","ZOHOCATALYST.zcql.CREATE","ZOHOCATALYST.graphql.READ","ZOHOCATALYST.email.CREATE","ZOHOCATALYST.segments.READ","ZOHOCATALYST.cron.ALL","ZOHOCATALYST.search.READ","ZOHOCATALYST.functions.execute","ZOHOCATALYST.functions.READ","ZOHOCATALYST.mlkit.READ","ZOHOCATALYST.folders.ALL","ZOHOCATALYST.notifications.web","ZOHOCATALYST.notifications.mobile","ZOHOCATALYST.functions.CREATE","ZOHOCATALYST.zia.automl.model.ALL","ZOHOCATALYST.zia.automl.model.predict","ZOHOCATALYST.zia.automl.dataset.CREATE","ZOHOCATALYST.zia.automl.dataset.READ","ZOHOCATALYST.zia.automl.dataset.UPDATE","ZOHOCATALYST.zia.timeseries.ALL","ZOHOCATALYST.zia.timeseries.analysis.READ","ZOHOCATALYST.zia.barcodescanning.READ","ZOHOCATALYST.circuits.execute","ZOHOCATALYST.circuits.execution.READ","ZOHOCATALYST.circuits.execution.DELETE","ZohoCatalyst.files.DELETE", "ZohoCatalyst.notifications.mobile.register","Stratus.fileop.CREATE","Stratus.fileop.READ","ZohoCatalyst.buckets.objects.READ","ZohoCatalyst.buckets.objects.DELETE", "Stratus.fileop.ALL"]
     public internal( set ) var redirectURLScheme : String = String()
     public var apiBaseURL : String = "https://api.catalyst.zoho.com"
-    public internal( set ) var serverTLD : ServerTLD = .com
-    {
-        didSet
-        {
-            if let range = self.apiBaseURL.range( of : "zoho." )
-            {
-                self.apiBaseURL.removeSubrange(range.lowerBound..<self.apiBaseURL.endIndex)
-            }
-            self.apiBaseURL = self.apiBaseURL + "zoho.\( serverTLD.rawValue )"
-        }
-    }
     public var apiVersion : String = "v1"
     public internal( set ) var projectId : String = String()
     public internal( set ) var environment : ZCatalystEnvironment = .production
+    public var stratusDomainSuffix : String = String()
+    public var nimbusDomainSuffix : String = String()
     public var requestTimeOut : Double = 120.0
     public var requestHeaders : Dictionary< String, String >?
     internal var isCustomLogin : Bool = false
+    public internal( set ) var userAgent: String = ZCatalystAppConfiguration.defaultUserAgent()
     
     internal init() {}
     
-    private init( redirectURLScheme : String, portalId : String, projectId : String, serverTLD : ServerTLD, environment : ZCatalystEnvironment ) throws
+    private init( redirectURLScheme : String, portalId : String, projectId : String, environment : ZCatalystEnvironment ) throws
     {
         self.portalId = portalId
-        self.serverTLD = serverTLD
         self.redirectURLScheme = redirectURLScheme
         self.projectId = projectId
         self.environment = environment
     }
     
-    public init( clientId : String, clientSecret : String, redirectURLScheme : String, portalId : String, projectId : String, serverTLD : ServerTLD = .com, environment : ZCatalystEnvironment = .production ) throws
+    public init( clientId : String, clientSecret : String, redirectURLScheme : String, portalId : String, projectId : String, environment : ZCatalystEnvironment = .production ) throws
     {
-        try self.init(redirectURLScheme: redirectURLScheme, portalId: portalId, projectId: projectId, serverTLD: serverTLD, environment: environment)
+        try self.init(redirectURLScheme: redirectURLScheme, portalId: portalId, projectId: projectId, environment: environment)
         self.clientId = clientId
         self.clientSecret = clientSecret
         try self.validate()
     }
     
-    public init( jwtClientId : String, jwtClientSecret : String, redirectURLScheme : String, portalId : String, projectId : String, serverTLD : ServerTLD = .com, environment : ZCatalystEnvironment = .production ) throws
+    public init( jwtClientId : String, jwtClientSecret : String, redirectURLScheme : String, portalId : String, projectId : String, environment : ZCatalystEnvironment = .production ) throws
     {
-        try self.init(redirectURLScheme: redirectURLScheme, portalId: portalId, projectId: projectId, serverTLD: serverTLD, environment: environment)
+        try self.init(redirectURLScheme: redirectURLScheme, portalId: portalId, projectId: projectId, environment: environment)
         self.jwtClientId = jwtClientId
         self.jwtClientSecret = jwtClientSecret
         self.isCustomLogin = true
@@ -88,6 +79,26 @@ public struct ZCatalystAppConfiguration : Decodable
         ZCatalystLogger.initLogger(isLogEnabled: false)
     }
     
+    public mutating func setUserAgent(_ agent: String)
+    {
+        if(!agent.contains(CatalystConstants.SDK_NAME))
+        {
+            self.userAgent = "\(CatalystConstants.SDK_NAME) \(agent)"
+        }
+        else
+        {
+            self.userAgent = agent
+        }
+    }
+    
+    private static func defaultUserAgent() -> String {
+        if let packageName = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String,
+           let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            return "\(CatalystConstants.SDK_NAME) \(packageName)/\(appVersion)/\(UIDevice.current.name)"
+        }
+        return "\(CatalystConstants.SDK_NAME) UnknownApp/UnknownVersion/\(UIDevice.current.name)"
+    }
+    
     enum CodingKeys : String, CodingKey
     {
         case clientId = "ClientID"
@@ -102,10 +113,11 @@ public struct ZCatalystAppConfiguration : Decodable
         case apiVersion = "APIVersion"
         case accountsURL = "AccountsPortalDomain"
         case requestTimeOut = "RequestTimeOut"
-        case serverTLD = "ServerTLD"
         case turnLoggerOn = "TurnLoggerOn"
         case minLogLevel = "MinLogLevel"
         case requestHeaders = "RequestHeaders"
+        case stratusDomainSuffix = "StratusDomainSuffix"
+        case nimbusDomainSuffix = "NimbusDomainSuffix"
     }
     
     public init( from decoder : Decoder ) throws
@@ -129,14 +141,6 @@ public struct ZCatalystAppConfiguration : Decodable
         self.apiBaseURL = try container.decode( String.self, forKey : .apiBaseURL )
         self.apiVersion = try container.decode( String.self, forKey : .apiVersion )
         self.requestTimeOut = try container.decode( Double.self, forKey : .requestTimeOut )
-        if let serverTLD = ServerTLD( serverTLD : try container.decode( String.self, forKey : .serverTLD ) )
-        {
-            self.serverTLD = serverTLD
-        }
-        else
-        {
-            self.serverTLD = .com
-        }
         self.environment = .production
         self.requestHeaders = try container.decodeIfPresent( Dictionary< String, String >.self, forKey : .requestHeaders )
         if try container.decode( Bool.self, forKey : .turnLoggerOn ), let minLogLevel = LogLevels( logLevel : try container.decode( String.self, forKey : .minLogLevel ) )
@@ -144,6 +148,8 @@ public struct ZCatalystAppConfiguration : Decodable
             self.turnLoggerOn( minLogLevel : minLogLevel )
         }
         self.accountsURL = try container.decode( String.self, forKey: .accountsURL )
+        self.stratusDomainSuffix = try container.decode( String.self, forKey: .stratusDomainSuffix )
+        self.nimbusDomainSuffix = try container.decode( String.self, forKey: .nimbusDomainSuffix )
         try validate()
     }
     

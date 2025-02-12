@@ -28,40 +28,10 @@ public enum ZCatalystEnvironment
     case development
 }
 
-public enum ServerTLD : String
-{
-    case eu = "eu"
-    case `in` = "in"
-    case com = "com"
-    case cn = "com.cn"
-    case au = "com.au"
-    
-    init?( serverTLD : String )
-    {
-        switch serverTLD
-        {
-        case "eu" :
-            self.init( rawValue : "eu" )
-        case "in" :
-            self.init( rawValue : "in" )
-        case "com" :
-            self.init( rawValue : "com" )
-        case "cn" :
-            self.init( rawValue : "com.cn" )
-        case "au" :
-            self.init( rawValue : "com.au" )
-        default :
-            self.init( rawValue : "com" )
-        }
-    }
-}
-
-
 /// The Catalyst class lets you initialize an application/project
 public class ZCatalystApp
 {
     public internal( set ) var appConfig : ZCatalystAppConfiguration = ZCatalystAppConfiguration()
-    internal var userAgent : String = "ZC_iOS_unknown_app"
     static var sessionCompletionHandlers : [ String : () -> () ] = [ String : () -> () ]()
     public static var fileUploadURLSessionConfiguration : URLSessionConfiguration = .default
     public static var fileDownloadURLSessionConfiguration : URLSessionConfiguration = .default
@@ -75,10 +45,6 @@ public class ZCatalystApp
     
     public func initSDK( window : UIWindow, appConfiguration : ZCatalystAppConfiguration ) throws
     {
-        if let packageName = Bundle.main.infoDictionary?[ kCFBundleNameKey as String ] as? String, let appVersion = Bundle.main.infoDictionary?[ "CFBundleShortVersionString" ] as? String
-        {
-            self.userAgent = "\( packageName )/\( appVersion )(iPhone) ZCiOSSDK"
-        }
         ZCatalystApp.shared.appConfig = appConfiguration
         try ZCatalystAuthHandler.initIAMLogin( with : window, config : appConfiguration )
     }
@@ -102,10 +68,6 @@ public class ZCatalystApp
         let configData = try JSONSerialization.data( withJSONObject: appConfig, options : [] )
         let decoder = JSONDecoder()
         let appConfiguration = try decoder.decode( ZCatalystAppConfiguration.self, from : configData )
-        if let packageName = Bundle.main.infoDictionary?[ kCFBundleNameKey as String ] as? String, let appVersion = Bundle.main.infoDictionary?[ "CFBundleShortVersionString" ] as? String
-        {
-            self.userAgent = "\( packageName )/\( appVersion )(iPhone) ZCiOSSDK"
-        }
         ZCatalystApp.shared.appConfig = appConfiguration
         ZCatalystApp.shared.appConfig.environment = environment
         try ZCatalystAuthHandler.initIAMLogin( with : window, config : appConfiguration )
@@ -199,10 +161,11 @@ public class ZCatalystApp
     {
         APIHandler().executeZCQL( query : query.query, completion : completion )
     }
-    public func newUser( lastName : String, email : String ) -> ZCatalystUser
+    
+    public func newUser( firstName : String, email : String ) -> ZCatalystUser
     {
         let user = ZCatalystUser()
-        user.lastName = lastName
+        user.firstName = firstName
         user.email = email
         return user
     }

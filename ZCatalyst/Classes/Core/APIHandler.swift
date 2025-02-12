@@ -521,7 +521,8 @@ struct APIHandler
                     }
                     do
                     {
-                        let info = try self.parseResponseInfo(data: data)
+                        let responseInfo = try JSONSerialization.jsonObject(with: data, options:[]) as? [String:Any]
+                        let info = try self.parseResponseInfo(responseInfo: responseInfo)
                         completion( .success( rows, info ) )
                     }
                     catch
@@ -682,6 +683,177 @@ struct APIHandler
         }
     }
     
+    func getObjects( bucketName : String, queryParams : ZCatalystQuery.ObjectParams?, completion : @escaping ( CatalystResult.DataURLResponse< [ ZCatalystObject ], ResponseInfo > ) -> Void )
+    {
+        var params : [ String : Any ] = getQueryParams(queryParams: queryParams)
+        params[ APIHandlerConstants.bucketName ] = bucketName
+        let api = StratusAPI.getObjects( parameters: params )
+        networkClient.request( api, session : URLSession.shared ) { ( result ) in
+            switch result
+            {
+            case .success( let data ) :
+                let jsonResult : Result< [ ZCatalystObject ], ZCatalystError > = self.parse( data : data )
+                switch jsonResult
+                {
+                case .success(let objects) :
+                    do
+                    {
+                        let responseInfo = try ( JSONSerialization.jsonObject(with: data, options:[]) as? [String:Any] )?["data"] as? [ String : Any ]
+                        let info = try self.parseResponseInfo(responseInfo: responseInfo)
+                        _ = objects.map{ $0.bucketName = bucketName }
+                        completion( .success( objects, info ) )
+                    }
+                    catch
+                    {
+                        completion( .failure( typeCastToZCatalystError( error ) ) )
+                        ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
+                    }
+                case .error(let error) :
+                    completion( .failure( typeCastToZCatalystError( error ) ) )
+                    ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
+                }
+            case .error( let error ):
+                completion( .failure( typeCastToZCatalystError( error ) ) )
+                ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
+            }
+        }
+    }
+    
+    private func getQueryParams( queryParams : ZCatalystQuery.ObjectParams? ) -> [ String : Any ]
+    {
+        guard let queryParams = queryParams else {
+            return [:]
+        }
+        var params : [ String : Any ] = [:]
+        if let maxKeys = queryParams.maxKeys
+        {
+            params[ APIHandlerConstants.maxKeys ] = maxKeys
+        }
+        if let continuationToken = queryParams.continuationToken
+        {
+            params[ APIHandlerConstants.continuationToken ] = continuationToken
+        }
+        if let prefix = queryParams.prefix
+        {
+            params[ APIHandlerConstants.prefix ] = prefix
+        }
+        return params
+    }
+    
+    func getObject( bucketName : String, objectKey : String, versionId : String?, completion : @escaping ( Result< ZCatalystObject, ZCatalystError > ) -> Void )
+    {
+        var params : [ String : Any ] = [ APIHandlerConstants.objectKey : objectKey ]
+        if let versionId = versionId
+        {
+            params[ APIHandlerConstants.versionId ] = versionId
+        }
+        params[ APIHandlerConstants.bucketName ] = bucketName
+        let api = StratusAPI.getObject( parameters: params )
+        networkClient.request( api, session : URLSession.shared ) { ( result ) in
+            switch result
+            {
+            case .success( let data ) :
+                let jsonResult : Result< ZCatalystObject, ZCatalystError > = self.parse( data : data )
+                if case .success(let object) = jsonResult {
+                    object.bucketName = bucketName
+                }
+                completion( jsonResult )
+            case .error( let error ):
+                completion( .error( typeCastToZCatalystError( error ) ) )
+                ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
+            }
+        }
+    }
+    
+    func uploadObject( bucketName: String, filePath : String?, fileName : String?, data : Data?, shouldCompress: Bool = false, completion : @escaping ( ZCatalystError? ) -> Void )
+    {
+        let fileName = fileName ?? filePath?.lastPathComponent() ?? ""
+        networkClient.upload(bucketName: bucketName, filePath: filePath, fileName: fileName, data: data, shouldCompress: shouldCompress, completion: completion)
+    }
+    
+    func downloadObject( bucketName : String, fileName : String, versionId : String? = nil, fromCache: Bool, completion : @escaping ( Result< URL, ZCatalystError > ) -> Void )
+    {
+        networkClient.download( bucketName : bucketName, fileName : fileName, versionId: versionId, fromCache: fromCache, completion : completion )
+    }
+    
+    func uploadObject( bucketName: String, fileRefId: String, filePath : String?, fileName : String?, data : Data?, shouldCompress: Bool = false, fileUploadDelegate: ZCatalystFileUploadDelegate )
+    {
+        let fileName = fileName ?? filePath?.lastPathComponent() ?? ""
+        networkClient.upload(bucketName: bucketName, fileRefId: fileRefId, filePath: filePath, fileName: fileName, data: data, shouldCompress: shouldCompress, fileUploadDelegate: fileUploadDelegate)
+    }
+    
+    func downloadObject( bucketName : String, fileName : String, fileRefId : String, versionId : String? = nil, fromCache: Bool, fileDownloadDelegate: ZCatalystFileDownloadDelegate )
+    {
+        networkClient.download( bucketName : bucketName, fileName : fileName, fileRefId : fileRefId, versionId: versionId, fromCache: fromCache, fileDownloadDelegate: fileDownloadDelegate )
+    }
+    
+    func deleteObjects( bucketName : String, objects : [ ZCatalystObject ], completion : @escaping ( ZCatalystError? ) -> Void )
+    {
+        let params : [ String : Any ] = [ APIHandlerConstants.bucketName : bucketName ]
+        let body = getDeleteObjectsParams( objects )
+        let route = StratusAPI.deleteObjects(params: params, body: body )
+        networkClient.requestDataResponse(route, session: URLSession.shared) { result in
+            switch result
+            {
+            case .success(let ( _, response )) :
+                do
+                {
+                    try ( networkClient as? Parker )?.router.handleFaultyResponse(response: response)
+                    completion( nil )
+                }
+                catch
+                {
+                    ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
+                    return completion( typeCastToZCatalystError( error ) )
+                }
+            case .error(let error) :
+                ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
+                completion( typeCastToZCatalystError( error ) )
+            }
+        }
+    }
+    
+    private func getDeleteObjectsParams( _ objects : [ ZCatalystObject ]  ) -> [ String : Any ]
+    {
+        var requestBody : [ [ String : Any ] ] = []
+        for object in objects
+        {
+            var objectDetails : [ String : String ] = [:]
+            objectDetails[ APIHandlerConstants.key ] = object.fileName
+            if let versionId = object.versionId
+            {
+                objectDetails[ APIHandlerConstants.versionId ] = versionId
+            }
+            requestBody.append( objectDetails )
+        }
+        return [ APIHandlerConstants.objects : requestBody ]
+    }
+    
+    func deletePath( _ path : String, bucketName : String, completion : @escaping ( ZCatalystError? ) -> Void )
+    {
+        let params : [ String : Any ] = [ APIHandlerConstants.bucketName : bucketName, APIHandlerConstants.prefix : path ]
+        let route = StratusAPI.deletePath(parameters: params)
+        networkClient.requestDataResponse(route, session: URLSession.shared) { result in
+            switch result
+            {
+            case .success(let ( _, response )) :
+                do
+                {
+                    try ( networkClient as? Parker )?.router.handleFaultyResponse(response: response)
+                    completion( nil )
+                }
+                catch
+                {
+                    ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
+                    return completion( typeCastToZCatalystError( error ) )
+                }
+            case .error(let error) :
+                ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
+                completion( typeCastToZCatalystError( error ) )
+            }
+        }
+    }
+    
     fileprivate func parse< T : ZCatalystEntity >( data : Data ) -> Result< [ T ], ZCatalystError >
     {
         let result : Result< Any, ZCatalystError > = Serializer.precheckJSON( data : data )
@@ -690,7 +862,16 @@ struct APIHandler
         case .success( let json ) :
             do
             {
-                guard let jsonArr = json as? [ [ String : Any ] ] else
+                var jsonArr : [ [ String : Any ] ] = []
+                if let responseJSON = json as? [ [ String : Any ] ]
+                {
+                    jsonArr = responseJSON
+                }
+                else if let data = json as? [ String : Any ], let responseJSON = data["contents"] as? [ [ String : Any ] ]
+                {
+                    jsonArr = responseJSON
+                }
+                else
                 {
                     ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.jsonException ) : \( ErrorMessage.responseParseError ), Details : -" )
                     return .error( .processingError( code : ErrorCode.jsonException, message : ErrorMessage.responseParseError, details : nil ) )
@@ -718,19 +899,20 @@ struct APIHandler
         }
     }
     
-    fileprivate func parseResponseInfo(data : Data) throws -> ResponseInfo
+    fileprivate func parseResponseInfo( responseInfo : [String:Any]? ) throws -> ResponseInfo
     {
-        let json = try JSONSerialization.jsonObject(with: data, options:[]) as? [String:Any]
-        guard let moreRecords = json?[APIHandlerConstants.moreRecords] as? Bool else
+        guard let moreRecords = responseInfo?[APIHandlerConstants.moreRecords] as? Bool ?? responseInfo?[APIHandlerConstants.truncated] as? Bool else
         {
             ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.jsonException ) : \( ErrorMessage.responseParseError ), Details : -" )
             throw  ZCatalystError.processingError( code : ErrorCode.jsonException, message : ErrorMessage.responseParseError, details : nil )
         }
+        let recordsCount = responseInfo?[ APIHandlerConstants.keyCount ] as? Int
+        let maxKeys = responseInfo?[ APIHandlerConstants.maxKeys ] as? Int
         if moreRecords
         {
-            if let token = json?[APIHandlerConstants.nextToken] as? String
+            if let token = responseInfo?[APIHandlerConstants.nextToken] as? String ?? responseInfo?[APIHandlerConstants.nextContinuationToken] as? String
             {
-                return ResponseInfo(hasMoreRecords: moreRecords, nextPageToken: token)
+                return ResponseInfo(hasMoreRecords: moreRecords, nextPageToken: token, maxKeys: maxKeys, totalRecords: recordsCount)
             }
             else
             {
@@ -739,7 +921,7 @@ struct APIHandler
         }
         else
         {
-            return ResponseInfo(hasMoreRecords: moreRecords, nextPageToken: nil)
+            return ResponseInfo(hasMoreRecords: moreRecords, nextPageToken: nil, maxKeys: maxKeys, totalRecords: recordsCount)
         }
     }
 }
@@ -817,6 +999,62 @@ extension FolderAPI : APIEndPointConvertable
     }
 }
 
+extension StratusAPI : APIEndPointConvertable
+{
+    var path: String {
+        switch self {
+        case .getObjects( _ ):
+            return "\( APIHandlerConstants.bucket )/\( APIHandlerConstants.objects )"
+        case .getObject( _ ):
+            return "\( APIHandlerConstants.bucket )/\( APIHandlerConstants.object )"
+        case .uploadObject( let fileName, _ ):
+            return "\( fileName )"
+        case .downloadObject( let fileName ):
+            return "\( fileName )"
+        case .deleteObjects( _, _ ):
+            return "\( APIHandlerConstants.bucket )/\( APIHandlerConstants.object )"
+        case .deletePath( _ ):
+            return "\( APIHandlerConstants.bucket )/\( APIHandlerConstants.object )/\( APIHandlerConstants.prefix )"
+        }
+    }
+    
+    var httpMethod: HTTPMethod {
+        switch self {
+        case .getObjects( _ ):
+            return .get
+        case .getObject:
+            return .get
+        case .uploadObject( _, _):
+            return .put
+        case .downloadObject( _ ):
+            return .get
+        case .deleteObjects( _, _ ):
+            return .put
+        case .deletePath( _ ):
+            return .delete
+        }
+    }
+    
+    var OAuthEnabled: OAuthEnabled {
+        return .enabled( helper : OAuth() )
+    }
+    
+    var payload: Payload? {
+        switch self
+        {
+        case .getObjects( parameters: let parameters ), .getObject(parameters: let parameters) :
+            return Payload( urlParameters: parameters )
+        case .deleteObjects(params: let parameters, body : let body) :
+            return Payload( bodyParameters: body, urlParameters: parameters )
+        case .deletePath(parameters: let parameters) :
+            return Payload( urlParameters: parameters )
+        case .uploadObject(let fileName, let headers):
+            return Payload(headers: headers)
+        default :
+            return nil
+        }
+    }
+}
 
 extension FunctionsAPI: APIEndPointConvertable
 {
@@ -1080,7 +1318,10 @@ extension TimeZoneAPI : APIEndPointConvertable
 public struct APIHandlerConstants
 {
     static let moreRecords = "more_records"
+    static let truncated = "truncated"
+    static let keyCount = "key_count"
     static let nextToken = "next_token"
+    static let nextContinuationToken = "next_continuation_token"
     static let query = "query"
     static let maxRows = "max_rows"
     static let projectUser = "project-user"
@@ -1106,5 +1347,15 @@ public struct APIHandlerConstants
     static let column = "column"
     static let search  = "search"
     static let timezone = "timezone"
+    static let bucket = "bucket"
+    static let objects = "objects"
+    static let object = "object"
+    static let bucketName = "bucket_name"
+    static let maxKeys = "max_keys"
+    static let continuationToken = "continuation_token"
+    static let prefix = "prefix"
+    static let versionId = "version_id"
+    static let objectKey = "object_key"
+    static let key = "key"
 }
 

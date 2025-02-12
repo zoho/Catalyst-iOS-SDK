@@ -23,6 +23,16 @@ struct ServerURL
         return self.url(projectID: projectID)
     }
     
+    static func stratusURL( bucketName: String, fileName: String, queryParams : [ String : String ] , fromCache: Bool) -> URL?
+    {
+        let environment = ( ZCatalystApp.shared.appConfig.environment == .development ) ? "-development" : ""
+        guard let serverURL: URL = ZCRMURLBuilder(path: "/" + fileName, host: bucketName + environment + (fromCache ? ZCatalystApp.shared.appConfig.nimbusDomainSuffix : ZCatalystApp.shared.appConfig.stratusDomainSuffix), queryItems: queryParams.map{ URLQueryItem(name: $0.key, value: $0.value ) }).url else
+        {
+            return nil
+        }
+        return serverURL
+    }
+    
     static var portalHeaderName = "PROJECT_ID"
     
     static func portalHeader() -> HTTPHeaders
@@ -34,7 +44,7 @@ struct ServerURL
     
     static func getUserAgent() -> UserAgent
     {
-        let userAgent = ZCatalystApp.shared.userAgent
+        let userAgent = ZCatalystApp.shared.appConfig.userAgent
         return [ self.userAgent : userAgent ]
     }
     
@@ -68,6 +78,16 @@ enum FolderAPI
 {
     case fetchAll
     case fetch( folder : String )
+}
+
+enum StratusAPI
+{
+    case getObjects( parameters: Parameters? )
+    case getObject( parameters: Parameters? )
+    case uploadObject( String,  headers: HTTPHeaders?)
+    case downloadObject( String )
+    case deleteObjects( params: Parameters?, body : Parameters? )
+    case deletePath( parameters: Parameters? )
 }
 
 enum FunctionsAPI
