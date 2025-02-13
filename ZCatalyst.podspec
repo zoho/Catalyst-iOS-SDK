@@ -24,7 +24,7 @@ TODO: Add long description of the pod here.
   s.homepage         = 'https://github.com/zoho/Catalyst-iOS-SDK'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'boopathyparamasivan' => 'boopathy.p@zohocorp.com' }
+  s.author           = { 'Zoho Corporation': '' }
   s.source           = { :git => 'https://github.com/zoho/Catalyst-iOS-SDK.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '11.0'
