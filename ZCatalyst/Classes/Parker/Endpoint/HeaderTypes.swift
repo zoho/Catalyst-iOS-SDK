@@ -19,5 +19,5 @@ enum HeaderKeyTypes : String{
     case contentType        = "Content-Type"
     case authorization      = "Authorization"
     case userAgent          = "User-Agent"
-
+    case compress           = "compress"
 }

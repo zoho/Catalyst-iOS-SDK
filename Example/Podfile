@@ -1,6 +1,6 @@
 use_frameworks!
 
-source 'https://git.csez.zohocorpin.com/zoho/zohopodspecs.git'
+source 'https://zrepository.zoho.com/zohocorp/zoho/zohopodspecs.git'
 source 'https://github.com/CocoaPods/Specs.git'
 
 target 'ZCatalyst_Example' do

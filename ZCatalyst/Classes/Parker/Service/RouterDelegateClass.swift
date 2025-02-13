@@ -8,10 +8,14 @@
 
 import Foundation
 
-internal class RouterDelegate : NSObject, URLSessionDataDelegate, URLSessionTaskDelegate, URLSessionDownloadDelegate
+internal class RouterDelegate : NSObject, URLSessionDataDelegate, URLSessionDownloadDelegate
 {
     
-    var uploadTaskWithFileRefIdDict : [ URLSessionTask : FileUploadTaskReference ] = [ URLSessionTask : FileUploadTaskReference ]()
+    var urlSessionResponse : URLResponse? = nil
+    /*
+     For Object Upload action, urlSession didReceive data method won't get triggered due to empty response. So we need to call didFinish from URLSession didReceive response method instead. So included isObjectUploadAction boolean
+     */
+    var uploadTaskWithFileRefIdDict : [ URLSessionTask : ( task : FileUploadTaskReference, isObjectUploadAction : Bool ) ] = [:]
     var downloadTaskWithFileRefIdDict : [ URLSessionTask : FileDownloadTaskReference ] = [ URLSessionTask : FileDownloadTaskReference ]()
     
     func urlSession( _ session : URLSession, task : URLSessionTask, didCompleteWithError error : Error? )
@@ -27,7 +31,7 @@ internal class RouterDelegate : NSObject, URLSessionDataDelegate, URLSessionTask
              }
              else if let _ = task as? URLSessionUploadTask
              {
-                 if let fileUploadTaskReference = uploadTaskWithFileRefIdDict[ task ]
+                 if let fileUploadTaskReference = uploadTaskWithFileRefIdDict[ task ]?.task
                  {
                     fileUploadTaskReference.uploadClosure( nil, nil, typeCastToZCatalystError( err ) )
                  }
@@ -54,13 +58,18 @@ internal class RouterDelegate : NSObject, URLSessionDataDelegate, URLSessionTask
     
     func urlSession( _ session : URLSession, dataTask : URLSessionDataTask, didReceive response : URLResponse, completionHandler : @escaping ( URLSession.ResponseDisposition ) -> Void )
     {
+        urlSessionResponse = response
+        if let fileUploadTaskReference = uploadTaskWithFileRefIdDict[ dataTask ], fileUploadTaskReference.isObjectUploadAction
+        {
+            fileUploadTaskReference.task.uploadClosure( nil, FileUploadTaskFinished( dataTask: dataTask, data: nil, response: urlSessionResponse ), nil )
+        }
         completionHandler( .allow )
     }
     
     func urlSession( _ session : URLSession, task : URLSessionTask, didSendBodyData bytesSent : Int64, totalBytesSent : Int64, totalBytesExpectedToSend : Int64 )
     {
         let progress : Double = Double ( ( Double( totalBytesSent ) / Double( totalBytesExpectedToSend ) ) * 100 )
-        if let fileUploadTaskReference = uploadTaskWithFileRefIdDict[ task ]
+        if let fileUploadTaskReference = uploadTaskWithFileRefIdDict[ task ]?.task
         {
             fileUploadTaskReference.uploadClosure( FileUploadTaskDetails(progress: progress, session: session, task: task, bytesSent: bytesSent, totalBytesSent: totalBytesSent, totalBytesExpectedToSend: totalBytesExpectedToSend), nil, nil )
         }
@@ -68,9 +77,9 @@ internal class RouterDelegate : NSObject, URLSessionDataDelegate, URLSessionTask
     
     func urlSession( _ session : URLSession, dataTask : URLSessionDataTask, didReceive data : Data )
     {
-        if let fileUploadTaskReference = uploadTaskWithFileRefIdDict[ dataTask ]
+        if let fileUploadTaskReference = uploadTaskWithFileRefIdDict[ dataTask ]?.task
         {
-            fileUploadTaskReference.uploadClosure( nil, FileUploadTaskFinished( dataTask: dataTask, data: data ), nil )
+            fileUploadTaskReference.uploadClosure( nil, FileUploadTaskFinished( dataTask: dataTask, data: data, response: urlSessionResponse ), nil )
         }
     }
     
@@ -113,6 +122,7 @@ internal struct FileUploadTaskFinished
 {
     var dataTask : URLSessionDataTask?
     var data : Data?
+    var response : URLResponse?
 }
 
 /**

@@ -70,6 +70,12 @@ public struct ZCatalystSelectQuery
             return self
         }
         
+        public mutating func alias( tableName : String ) -> Builder
+        {
+            self.query += "AS \( tableName ) "
+            return self
+        }
+        
         public mutating func `where`( column : String, comparator : Comparator, value : String ) -> Builder
         {
             self.query += "WHERE \( column ) \( comparator ) \( value ) "

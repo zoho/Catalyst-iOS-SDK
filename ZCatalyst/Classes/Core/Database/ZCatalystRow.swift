@@ -157,10 +157,3 @@ extension ZCatalystRow
         }
     }
 }
-
-public struct ResponseInfo : ZCatalystEntity
-{
-   public internal(set) var hasMoreRecords : Bool = false
-   public internal(set) var nextPageToken : String?
-    
-}

@@ -155,6 +155,12 @@ public struct CatalystConstants
     static let success = "success"
     static let status = "status"
     static let NotAvailable = "NA"
+    static let SDK_NAME = "ZC_iOSSDK"
+}
+
+public struct MockValue
+{
+    static let string = "SDK_NIL"
 }
 
 public extension Error
@@ -241,6 +247,18 @@ extension String
     }
 }
 
+public struct ZCatalystQuery
+{
+    public struct ObjectParams
+    {
+        public var maxKeys : Int?
+        public var continuationToken : String?
+        public var prefix : String?
+        
+        public init() {}
+    }
+}
+
 protocol Parsable
 {
     static func parse( data : Data ) -> Result< Self, ZCatalystError >
@@ -278,5 +296,33 @@ class OAuth: OAuthCompatible
     
     func initializeSSOForActionExtension() {
         return
+    }
+}
+
+public struct ResponseInfo : ZCatalystEntity
+{
+    public internal(set) var hasMoreRecords : Bool = false
+    public internal(set) var nextPageToken : String?
+    public internal(set) var maxKeys : Int?
+    public internal(set) var totalRecords : Int?
+}
+
+struct ZCRMURLBuilder
+{
+    let path : String
+    var host : String?
+    var queryItems : [ URLQueryItem ]?
+
+    var url : URL? {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = host ?? ZCatalystApp.shared.appConfig.apiBaseURL
+        components.path = path
+        if self.queryItems?.isEmpty == false
+        {
+           components.queryItems = queryItems
+        }
+        components.percentEncodedQuery = components.percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
+        return components.url
     }
 }

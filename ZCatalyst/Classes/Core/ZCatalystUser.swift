@@ -21,7 +21,12 @@ public class ZCatalystUser : ZCatalystUserDelegate
     required init(from decoder: Decoder) throws
     {
         let container = try decoder.container( keyedBy : CodingKeys.self )
-        self.zaaId = try container.decode( Int64.self, forKey : .zaaId )
+        guard let zaaId = try? Int64( container.decode( String.self, forKey : .zaaId ) ) ?? container.decodeIfPresent( Int64.self, forKey: .zaaId ) else
+        {
+            ZCatalystLogger.logError(message: "Failed to get zaaid from the JSON")
+            throw ZCatalystError.processingError(code: ErrorCode.insufficientData, message: "Failed to get zaaid from the JSON", details: nil)
+        }
+        self.zaaId = zaaId
         self.status = try container.decode( String.self, forKey : .status )
         self.createdTime = try container.decode( String.self, forKey : .createdTime )
         self.modifiedTime = try container.decode( String.self, forKey : .modifiedTime )
@@ -31,8 +36,8 @@ public class ZCatalystUser : ZCatalystUserDelegate
     }
     
     var payload: Parameters{
-        let userdict = [ZCatalystUserConstants.lastName:self.lastName,
-                        ZCatalystUserConstants.emailId:self.email]
+        let userdict = [ZCatalystUserConstants.lastName:self.lastName ?? "",
+                        ZCatalystUserConstants.emailId:self.email, ZCatalystUserConstants.firstName:self.firstName]
         
         return [ZCatalystUserConstants.platformType:ZCatalystUserConstants.ios,
                 ZCatalystUserConstants.redirectURL: ZCatalystApp.shared.appConfig.redirectURLScheme,
@@ -61,12 +66,27 @@ public struct ZCatalystUserRole : Decodable
         case id = "role_id"
         case name = "role_name"
     }
+    
+    internal init() {}
+    
+    public init(from decoder: Decoder) throws
+    {
+        let container = try decoder.container( keyedBy : CodingKeys.self )
+        guard let roleId = try Int64( container.decode( String.self, forKey : .id ) ) else
+        {
+            ZCatalystLogger.logError(message: "Failed to get role id from the JSON")
+            throw ZCatalystError.processingError(code: ErrorCode.insufficientData, message: "Failed to get role id from the JSON", details: nil)
+        }
+        self.id = roleId
+        self.name = try container.decode( String.self, forKey : .name )
+    }
 }
 
 public struct ZCatalystUserConstants
 {
     static let lastName = "last_name"
     static let emailId = "email_id"
+    static let firstName = "first_name"
     static let platformType = "platform_type"
     static let redirectURL = "redirect_url"
     static let zaid = "zaid"
