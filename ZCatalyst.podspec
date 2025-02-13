@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ZCatalyst'
-  s.version          = '2.2.1'
+  s.version          = '2.2.2'
   s.summary          = 'A short description of ZCatalyst.'
 
 # This description is used to generate tags and improve search results.
@@ -24,7 +24,7 @@ TODO: Add long description of the pod here.
   s.homepage         = 'https://github.com/zoho/Catalyst-iOS-SDK'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'boopathyparamasivan' => 'boopathy.p@zohocorp.com' }
+  s.author           = { 'Zoho Corporation': '' }
   s.source           = { :git => 'https://github.com/zoho/Catalyst-iOS-SDK.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '11.0'
