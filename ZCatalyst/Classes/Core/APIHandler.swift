@@ -775,7 +775,10 @@ struct APIHandler
     {
         networkClient.download( bucketName : bucketName, fileName : fileName, versionId: versionId, fromCache: fromCache, completion : completion )
     }
-    
+    func deleteObject( bucketName : String, fileName : String, versionId : String? = nil, completion : @escaping (ZCatalystError? ) -> Void )
+    {
+        networkClient.delete( bucketName : bucketName, fileName : fileName, versionId: versionId, completion : completion )
+    }
     func uploadObject( bucketName: String, fileRefId: String, filePath : String?, fileName : String?, data : Data?, shouldCompress: Bool = false, fileUploadDelegate: ZCatalystFileUploadDelegate )
     {
         let fileName = fileName ?? filePath?.lastPathComponent() ?? ""
@@ -1011,6 +1014,8 @@ extension StratusAPI : APIEndPointConvertable
             return "\( fileName )"
         case .downloadObject( let fileName ):
             return "\( fileName )"
+        case .deleteObject( let fileName ):
+            return "\( fileName )"
         case .deleteObjects( _, _ ):
             return "\( APIHandlerConstants.bucket )/\( APIHandlerConstants.object )"
         case .deletePath( _ ):
@@ -1030,6 +1035,8 @@ extension StratusAPI : APIEndPointConvertable
             return .get
         case .deleteObjects( _, _ ):
             return .put
+        case .deleteObject( _ ):
+            return .delete
         case .deletePath( _ ):
             return .delete
         }

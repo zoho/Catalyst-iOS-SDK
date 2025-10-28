@@ -29,7 +29,7 @@ struct ZCatalystAuthHandler
                 ZCatalystLogger.logError(message: "\( ErrorCode.invalidOperation ) - JWTClient Id and JWTClient Secret must not be empty for custom login ")
                 throw ZCatalystError.inValidError(code: ErrorCode.invalidOperation, message: "JWTClient Id and JWTClient Secret must not be empty for custom login", details: nil)
             }
-            ZohoPortalAuth.initWithClientID( config.jwtClientId, clientSecret: config.jwtClientSecret, portalID: config.portalId, scope: config.oAuthScopes, urlScheme: config.redirectURLScheme, mainWindow: window, accountsPortalURL: config.accountsURL )
+            ZohoPortalAuth.initWithClientID( config.jwtClientId, clientSecret: config.jwtClientSecret, portalID: config.portalId, scope: config.oAuthScopes, urlScheme: config.redirectURLScheme, serviceName: "ZohoCatalyst", mainWindow: window, accountsPortalURL: config.accountsURL )
         }
         else
         {
@@ -38,7 +38,7 @@ struct ZCatalystAuthHandler
                 ZCatalystLogger.logError(message: "\( ErrorCode.invalidOperation ) - Client Id and Client Secret must not be empty for default login ")
                 throw ZCatalystError.inValidError(code: ErrorCode.invalidOperation, message: "Client Id and Client Secret must not be empty for default login", details: nil)
             }
-            ZohoPortalAuth.initWithClientID(config.clientId, clientSecret: config.clientSecret, portalID: config.portalId, scope: config.oAuthScopes, urlScheme: config.redirectURLScheme, mainWindow: window, accountsPortalURL: config.accountsURL)
+            ZohoPortalAuth.initWithClientID(config.clientId, clientSecret: config.clientSecret, portalID: config.portalId, scope: config.oAuthScopes, urlScheme: config.redirectURLScheme,serviceName: "ZohoCatalyst", mainWindow: window, accountsPortalURL: config.accountsURL)
         }
     }
 
@@ -47,9 +47,15 @@ struct ZCatalystAuthHandler
         ZohoPortalAuth.handleURL(url, sourceApplication: sourceApplication, annotation: annotation)
     }
     
-    static func presentLogin(completion: @escaping ( Error? ) -> Void)
+    static func presentLogin( completion: @escaping ( Error? ) -> Void)
     {
-        ZohoPortalAuth.presentZohoPortalSign { ( success, error ) in
+        var customParams: [String: Any] = [:]
+        customParams["servicename"] = "ZohoCatalyst"
+        #if targetEnvironment(simulator)
+        ZohoPortalAuth.shoulduseWKWebView(true)
+        #endif
+        
+        ZohoPortalAuth.presentZohoPortalSignIn(withCustomParams: customParams, signinHandler: { ( success, error ) in
             if let error = error
             {
                 switch( error.code )
@@ -75,7 +81,7 @@ struct ZCatalystAuthHandler
             {
                 completion( nil )
             }
-        }
+        })
     }
     
     static func getOAuthToken( completion : @escaping( Result< String, Error > ) -> () )

@@ -18,8 +18,8 @@ struct PayloadFactory
             print("")
             var bodyJSON : [ String : Any ] = [ PayloadConstants.search :text,
                                                 PayloadConstants.searchTableColumns : coloumn,
-                                                PayloadConstants.start : start,
-                                                PayloadConstants.end : end ]
+                                                PayloadConstants.start : start!,
+                                                PayloadConstants.end : end! ]
             if let s = select
             {
                 bodyJSON[PayloadConstants.selectTableColumns] = s

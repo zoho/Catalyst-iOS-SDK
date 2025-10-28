@@ -517,7 +517,9 @@ extension Router {
             switch result
             {
             case .success( let request ) :
-                guard let self = self else { return completion( ZCatalystError.sdkError( code : ErrorCode.internalError, message : "Failed to get self reference", details : nil ) ) }
+                guard let self = self else {
+                    return completion( ZCatalystError.sdkError( code : ErrorCode.internalError, message : "Failed to get self reference", details : nil ) )
+                }
                 if let filePath = filePath, let fileURL = URL( string: filePath )
                 {
                     self.uploadStratusFile(urlRequest: request, filePath: fileURL, fileName: fileName, completion: completion)
@@ -573,7 +575,7 @@ extension Router {
             if let data = data
             {
                 errorData = data
-            }
+            } 
             else if let url = url
             {
                 errorData = try Data(contentsOf: url)
@@ -630,6 +632,22 @@ extension Router {
             case .error( let error ) :
                 ZCatalystLogger.logError( message : "Error Occurred : \( error.description )" )
                 completion( .error( error ) )
+            }
+        }
+    }
+    func deleteObject( bucketName : String, fileName : String, versionId : String?, completion : @escaping (  ZCatalystError? ) -> Void )
+    {
+        let requestBuilder = URLRequestBuilder()
+        let route = StratusAPI.deleteObject( fileName )
+        requestBuilder.buildStratusRequest(from: route, bucketName: bucketName, fileName: fileName, versionId: versionId) { [ weak self ] result in
+            switch result
+            {
+            case .success( let request ) :
+                guard let self = self else { return completion( ZCatalystError.sdkError( code : ErrorCode.internalError, message : "Failed to get self reference", details : nil ) ) }
+                self.delete( urlRequest: request, completion: completion );
+            case .error( let error ) :
+                ZCatalystLogger.logError( message : "Error Occurred : \( error.description )" )
+                completion( error )
             }
         }
     }
@@ -808,6 +826,35 @@ extension Router {
     private func removeTempFile( atURL tempFileURL : URL)
     {
         try? FileManager.default.removeItem(at: tempFileURL)
+    }
+    
+    private func delete( urlRequest: URLRequest, completion: @escaping ( ZCatalystError? ) -> Void )
+    {
+        let urlsession = URLSession( configuration : .default )
+        urlsession.dataTask(with: urlRequest) { ( data, response, error ) in
+            if let error = error
+            {
+                return completion( typeCastToZCatalystError( error ) )
+            }
+            if let data = data, let response = response
+            {
+                do
+                {
+                    try self.handleFaultyResponse(data: data, response: response)
+                    completion( nil )
+                }
+                catch
+                {
+                    ZCatalystLogger.logError( message : "Error Occurred : \( error )" )
+                    completion( typeCastToZCatalystError( error ) )
+                }
+            }
+            else
+            {
+                ZCatalystLogger.logError( message : "Error Occurred : \( ErrorCode.responseNil ) : Response nil, Details : -" )
+                completion( ZCatalystError.processingError( code : ErrorCode.responseNil, message : "Response nil", details : nil ) )
+            }
+        }.resume()
     }
 
     static private func sessionConfiguration(for type: URLSessionConfigurationType) -> URLSessionConfiguration {
