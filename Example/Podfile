@@ -1,15 +1,21 @@
+
+platform :ios, '14.0'
 use_frameworks!
 
-source 'https://zrepository.zoho.com/zohocorp/zoho/zohopodspecs.git'
+project 'ZCatalyst.xcodeproj'
+
 source 'https://github.com/CocoaPods/Specs.git'
+source 'https://zrepository.zoho.com/zohocorp/zoho/zohopodspecs.git'
+
 
 target 'ZCatalyst_Example' do
   pod 'ZCatalyst', :path => '../'
-  pod 'ZohoPortalAuth', '1.0.1'
-  pod 'Apptics-SDK/Core', '1.0.0'
-   pod 'Apptics-SDK/CrashKit', '1.0.0'
-   pod 'Apptics-SDK/Scripts', '1.0.0'
-   pod 'AppticsRateUs', '1.0.0'
-   pod 'AppticsFeedbackKit', '1.0.0'
+#  pod 'ZohoPortalAuth', '1.0.5'
+##  pod 'IAM_ClientUsers', :path => ''
+#  pod 'Apptics-SDK/Core', '1.0.0'
+#   pod 'Apptics-SDK/CrashKit', '1.0.0'
+#   pod 'Apptics-SDK/Scripts', '1.0.0'
+#   pod 'AppticsRateUs', '1.0.0'
+#   pod 'AppticsFeedbackKit', '1.0.0'
 
 end

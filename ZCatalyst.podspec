@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ZCatalyst'
-  s.version          = '2.2.2'
+  s.version          = '3.0.0'
   s.summary          = 'A short description of ZCatalyst.'
 
 # This description is used to generate tags and improve search results.
@@ -21,6 +21,7 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
+ 
   s.homepage         = 'https://github.com/zoho/Catalyst-iOS-SDK'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
@@ -28,23 +29,23 @@ TODO: Add long description of the pod here.
   s.source           = { :git => 'https://github.com/zoho/Catalyst-iOS-SDK.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '11.0'
-  
-  
+  s.dependency 'ZohoPortalAuth', '1.0.5'
+  s.static_framework = true
+#  s.dependency 'Apptics-SDK/Core', '1.0.0'
+#  s.dependency 'Apptics-SDK/CrashKit', '1.0.0'
+#  s.dependency 'Apptics-SDK/Scripts', '1.0.0'
+#  s.dependency 'AppticsRateUs', '1.0.0'
+#  s.dependency 'AppticsFeedbackKit', '1.0.0'
+
   s.public_header_files = "Pod/Classes/**/*.h"
   
   s.source_files = 'ZCatalyst/Classes/**/*'
-  
-  s.vendored_frameworks =  'Example/Pods/ZohoPortalAuth/ZohoPortalAuthKit.framework'
-
-  s.dependency 'Apptics-SDK/Core', '1.0.0'
-
-  s.dependency 'Apptics-SDK/CrashKit', '1.0.0'
-
-  s.dependency 'Apptics-SDK/Scripts', '1.0.0'
-  
-  s.dependency 'AppticsRateUs', '1.0.0'
-  
-  s.dependency 'AppticsFeedbackKit', '1.0.0'
-
-  
+  #  pod 'ZohoPortalAuth', '1.0.5'
+  ##  pod 'IAM_ClientUsers', :path => ''
+  #  pod 'Apptics-SDK/Core', '1.0.0'
+  #   pod 'Apptics-SDK/CrashKit', '1.0.0'
+  #   pod 'Apptics-SDK/Scripts', '1.0.0'
+  #   pod 'AppticsRateUs', '1.0.0'
+  #   pod 'AppticsFeedbackKit', '1.0.0'
+#  s.vendored_frameworks =  'Example/Pods/ZohoPortalAuth/ZohoPortalAuthKit.framework'
 end

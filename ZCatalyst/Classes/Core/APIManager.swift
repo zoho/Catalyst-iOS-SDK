@@ -86,6 +86,7 @@ enum StratusAPI
     case getObject( parameters: Parameters? )
     case uploadObject( String,  headers: HTTPHeaders?)
     case downloadObject( String )
+    case deleteObject( String )
     case deleteObjects( params: Parameters?, body : Parameters? )
     case deletePath( parameters: Parameters? )
 }

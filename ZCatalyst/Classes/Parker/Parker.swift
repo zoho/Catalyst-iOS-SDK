@@ -32,6 +32,8 @@ internal protocol NetworkRequestable
     
     func download( bucketName: String, fileName: String, versionId : String?, fromCache: Bool, completion : @escaping ( Result< URL, ZCatalystError > ) -> Void )
     
+    func delete( bucketName: String, fileName: String, versionId : String?, completion : @escaping ( ZCatalystError?  ) -> Void )
+    
     func upload( bucketName: String, fileRefId: String, filePath : String?, fileName : String?, data : Data?, shouldCompress: Bool, fileUploadDelegate : ZCatalystFileUploadDelegate )
     
     func download( bucketName: String, fileName: String, fileRefId: String, versionId : String?, fromCache: Bool, fileDownloadDelegate : ZCatalystFileDownloadDelegate )
@@ -113,6 +115,11 @@ struct Parker: NetworkRequestable
     {
         router.downloadObject( bucketName: bucketName, fileName : fileName, versionId: versionId, fromCache: fromCache, completion : completion )
     }
+    func delete( bucketName : String, fileName : String, versionId : String? = nil, completion : @escaping (  ZCatalystError? ) -> Void )
+    {
+        router.deleteObject( bucketName: bucketName, fileName : fileName, versionId: versionId, completion : completion )
+    }
+    
     
     func download(bucketName: String, fileName: String, fileRefId: String, versionId: String?, fromCache: Bool, fileDownloadDelegate: ZCatalystFileDownloadDelegate) {
         router.downloadObject( bucketName: bucketName, fileName: fileName, fileRefId: fileRefId, versionId: versionId, fromCache: fromCache, fileDownloadDelegate: fileDownloadDelegate )
@@ -129,4 +136,5 @@ struct Parker: NetworkRequestable
     {
         router.download( url, fileRefId : fileRefId, fileDownloadDelegate : fileDownloadDelegate )
     }
+    
 }

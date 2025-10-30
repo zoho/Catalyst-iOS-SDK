@@ -16,11 +16,11 @@
 		37817B27BBF01E68DBF918EF /* Pods-Catalyst_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Catalyst_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Catalyst_Tests/Pods-Catalyst_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		5CBDC260E33986C6956985D6 /* Pods-ZCatalyst_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZCatalyst_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZCatalyst_Tests/Pods-ZCatalyst_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* ZCatalyst_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZCatalyst_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		6972FA2643CA98ECC5C6453A /* Pods-ZCatalyst_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZCatalyst_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZCatalyst_Example/Pods-ZCatalyst_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		861C359ADBA8FD5D86286A4D /* Pods-ZCatalyst_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZCatalyst_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZCatalyst_Example/Pods-ZCatalyst_Example.release.xcconfig"; sourceTree = "<group>"; };
 		9A114DB6E186E42405A93FF6 /* Pods-Catalyst_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Catalyst_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Catalyst_Example/Pods-Catalyst_Example.release.xcconfig"; sourceTree = "<group>"; };
 		A960B4294C460E06F71FC254 /* ZCatalyst.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = ZCatalyst.podspec; path = ../ZCatalyst.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		B1595505267CFFB400D0BD76 /* Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		B16DF1EB254FF6370021B991 /* Info_.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info_.plist; sourceTree = "<group>"; };
 		B2C112D215260E2B9DFB117D /* Pods_ZCatalyst_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZCatalyst_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB391E9FDF009BFFA9C68E8A /* Pods_ZCatalyst_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZCatalyst_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,7 +63,7 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				B1595505267CFFB400D0BD76 /* Tests.swift */,
+				607FACEB1AFB9204008FA782 /* Tests.swift */,
 				B16DF1EB254FF6370021B991 /* Info_.plist */,
 			);
 			path = Tests;
@@ -138,6 +138,7 @@
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
 						LastSwiftMigration = 0900;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 0;
@@ -209,7 +210,6 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-ZCatalyst_Example/Pods-ZCatalyst_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Apptics-SDK/Apptics_SDK.framework",
-				"${BUILT_PRODUCTS_DIR}/ZCatalyst/ZCatalyst.framework",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Apptics-SDK/Core/Apptics.framework/Apptics",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Apptics-SDK/CrashKit/AppticsCrashKit.framework/AppticsCrashKit",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/AppticsFeedbackKit/FeedbackKit/AppticsFeedbackKit.framework/AppticsFeedbackKit",
@@ -218,7 +218,6 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Apptics_SDK.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZCatalyst.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Apptics.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AppticsCrashKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AppticsFeedbackKit.framework",
@@ -346,11 +345,15 @@
 			baseConfigurationReference = 6972FA2643CA98ECC5C6453A /* Pods-ZCatalyst_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info_.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
 			};
@@ -361,11 +364,15 @@
 			baseConfigurationReference = 861C359ADBA8FD5D86286A4D /* Pods-ZCatalyst_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = QH6A58TANB;
 				INFOPLIST_FILE = Tests/Info_.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
 			};

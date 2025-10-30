@@ -23,10 +23,11 @@ ZohoPortalAuth is a hollistic SDK which provides easy to use methods. Using thes
 
 ///  This method will initialize the parameters which are required by the ZohoPortalAuth. Call this method at App Launch.
 /// @param clientID It is a unique identifier you receive when you register your application with Zoho
-/// @param clientSecret  A unique key generated when you register your application with Zoho. This must be kept confidential.
+/// @param clientSecret  A unique key generated when you register your application with Zoho. This must be kept confidential.
 /// @param portalID A unique identifier for your Portal.
 /// @param scopearray The API scopes requested by the app, represented in an array of |NSString|s. The default value is |@[aaaserver.profile.READ,zohocontacts.userphoto.READ]|.(Get the list of scopes required for your app from the respective service teams. Each Scope String should follow the proper syntax. -> 'servicename'.'scopename'.'operation type' Example: AaaServer.profile.READ.
 /// @param urlScheme Your App's URL Scheme.
+/// @param ServiceName Your App's Service name.
 /// @param mainWindow A UIWindow instance is required for presenting SFSafariViewController/AccountChooserViewController.
 /// @param accountsPortalURL accounts portal url endpoint for your app.
 +(void) initWithClientID: (NSString*)clientID
@@ -34,6 +35,7 @@ ZohoPortalAuth is a hollistic SDK which provides easy to use methods. Using thes
                  PortalID:(NSString *)portalID
                     Scope:(NSArray*)scopearray
                 URLScheme:(NSString*)urlScheme
+            ServiceName:(NSString*) servicename
                MainWindow:(UIWindow*)mainWindow
         AccountsPortalURL:(NSString*)accountsPortalURL;
 #endif
@@ -51,6 +53,7 @@ ZohoPortalAuth is a hollistic SDK which provides easy to use methods. Using thes
                           PortalID:(NSString *)portalID
                              Scope:(NSArray*)scopearray
                          URLScheme:(NSString*)urlScheme
+                      ServiceName: (NSString*) servicename
                  AccountsPortalURL:(NSString*)accountsPortalURL;
 
 
@@ -115,7 +118,7 @@ ZohoPortalAuth is a hollistic SDK which provides easy to use methods. Using thes
 /// This method presents the Zoho Portal Sign in page with custom parameters on SFSafariViewController.
 /// @param urlParams custom urlparams to be passed to the portal sign-in page.
 /// @param signinBlock handler block.
-+ (void) presentZohoPortalSignInWithCustomParams:(NSString *)urlParams
++ (void) presentZohoPortalSignInWithCustomParams:(NSDictionary *)urlParams
                                         signinHandler:(ZohoPortalAuthSignInHandler)signinBlock;
 
 /// This method presents the Zoho Portal Custom Sign Up page on SFSafariViewController.
@@ -186,7 +189,19 @@ ZohoPortalAuth is a hollistic SDK which provides easy to use methods. Using thes
 /// @param portalID A unique identifier for your Portal.
 /// @param accountsPortalURL accounts portal url endpoint for your respective Portal.
 /// @param tokenBlock handler block.
-+(void)enhanceScopesForPortalID:(NSString *)portalID havingAccountsPortalURL:(NSString *)accountsPortalURL tokenHandler:(ZohoPortalAuthAccessTokenHandler)tokenBlock;
++(void)enhanceScopesForPortalID:(NSString *)portalID
+        havingAccountsPortalURL:(NSString *)accountsPortalURL tokenHandler:(ZohoPortalAuthAccessTokenHandler)tokenBlock;
+
+
+/// Method used for Scope Enhancements for respective Portal ID. Call this method once if you are introducing new scopes in your app update.
+/// @param portalID A unique identifier for your Portal.
+/// @param accountsPortalURL accounts portal url endpoint for your respective Portal.
+/// @param query custom params to be passed.
+/// @param tokenBlock handler block.
++(void)enhanceScopesForPortalID:(NSString *)portalID
+        havingAccountsPortalURL:(NSString *)accountsPortalURL
+             havingCustomParams:( NSDictionary<NSString*,NSString*>* )query
+                   tokenHandler:(ZohoPortalAuthAccessTokenHandler)tokenBlock;
 
 /// Method to use new Sign in page which supports OTP Sign in.
 /// @param shouldUseNewSignIn preferred bool value.
@@ -203,5 +218,22 @@ ZohoPortalAuth is a hollistic SDK which provides easy to use methods. Using thes
 /// @param accountsPortalURL accounts portal url endpoint for your respective Portal.
 /// @param userinfoBlock handler block.
 +(void)fetchUserInfoForPortalID:(NSString *)portalID havingAccountsPortalURL:(NSString *)accountsPortalURL revokeHandler:(ZohoPortalAuthUserInfoHandler)userinfoBlock;
+
+///  Call this method everytime when your server gives you the invalid token error to check if it is a valid error case and to determine if you should logout the  respective user and take them to your onboarding screen.
++(void)checkAndLogout:(ZohoPortalAuthRevokeAccessTokenHandler)completion;
+
+/// Method to set Network Delegate for On-Premise
+/// @param delegate NSURLSessionDataDelegate
++(void)setNetworkDelegate:(id<NSURLSessionDataDelegate> _Nonnull )delegate;
+
+
+/**
+ ASWebAuthenticationSession will be used to present sign in page.
+ 
+ @param shouldUseASWebAuth preferred bool value.
+ */
++(void)shoulduseASWebAuthenticationSession:(BOOL)shouldUseASWebAuth;
+
++(void)shoulduseWKWebView:(BOOL)shoulduseWebView;
 
 @end

@@ -195,6 +195,17 @@ public extension Error
         }
     }
 }
+extension Dictionary{
+    
+    var queryString: String {
+        var output: String = ""
+        for (key,value) in self {
+            output +=  "\(key)=\(value),"
+        }
+        output = String(output.dropLast())
+        return output
+    }
+}
 
 func typeCastToZCatalystError( _ error : Error ) -> ZCatalystError {
     if let typecastedError = error as? ZCatalystError
@@ -229,7 +240,7 @@ extension URLRequest
             headers[ "Authorization" ] = "## ***** ##"
             return "\( self.url?.absoluteString ?? "nil" ) \n HEADERS : \( headers.description )"
         }
-        return "\( self.url?.absoluteString ?? "nil" ) \n HEADERS : \( self.allHTTPHeaderFields?.description )"
+        return "\( self.url?.absoluteString ?? "nil" ) \n HEADERS : \( String(describing: self.allHTTPHeaderFields?.description) )"
     }
 }
 

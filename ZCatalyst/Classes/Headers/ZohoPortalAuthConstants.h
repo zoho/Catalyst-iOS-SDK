@@ -101,4 +101,9 @@ static const int k_ZohoPortalAuthEnhanceScopeServerError = 603;
  */
 static const int k_ZohoPortalAuthEnhanceScopeNothingReceived = 604;
 
+/**
+ * OAuth Scope Enhancement is already done and not required
+ */
+static const int k_ZohoPortalAuthScopeEnhancementAlreadyDone = 605;
+
 #endif /* ZohoPortalAuthConstants_h */
